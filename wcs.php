@@ -31,6 +31,13 @@ require_once( 'wcs_functions.php' );
 require_once( 'wcs_table.php' );
 require_once( 'wcs_schedule.php' );
 
+// Load jQuery
+function load_cdn_jquery() {
+    wp_deregister_script( 'jquery' );
+    wp_register_script( 'jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js');
+    wp_enqueue_script( 'jquery' );
+}
+
 // Load scripts and styles for the entire website
 function load_wcs_scripts_and_style() {
 	wp_register_style( 'wcs_admin', WCS_PLUGIN_URL . '/css/wcs_admin.css' );
