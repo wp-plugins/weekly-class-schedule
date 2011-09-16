@@ -38,6 +38,8 @@ function load_cdn_jquery() {
     wp_enqueue_script( 'jquery' );
 }
 
+add_action('wp_enqueue_scripts', 'load_cdn_jquery');
+
 // Load scripts and styles for the entire website
 function load_wcs_scripts_and_style() {
 	wp_register_style( 'wcs_admin', WCS_PLUGIN_URL . '/css/wcs_admin.css' );
