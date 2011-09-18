@@ -1,0 +1,25 @@
+.widefat .wcs-name-column {
+	width: 150px;
+}
+.wcs-label-column {
+	width: 150px
+}
+html .narrowfat {
+	width: 640px;
+}
+.entry-table {
+	width: 450px;
+}
+html .narrowfat td {
+	vertical-align: middle;
+}
+html .narrowfat tbody th.check-column {
+	padding-top: 14px;
+	padding-bottom: 15px;
+} 
+.button-column {
+	width: 150px;
+}
+.edit-button-column {
+	width: 40px;
+}
