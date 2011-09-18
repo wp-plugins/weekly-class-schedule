@@ -44,5 +44,8 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
 
 == Changelog ==
 
+= 1.1.1 = 
+* Tagging issue fixed
+
 = 1.1 = 
 * Added 24 hrs support
