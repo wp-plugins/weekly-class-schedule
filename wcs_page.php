@@ -13,6 +13,7 @@ $start_hours_array = array_unique( $wpdb->get_col( $sql ) );
 <?php
 	$sql = "SELECT * FROM " . $table_name;
 	$results = $wpdb->get_results( $sql );
+	$enable_24h = get_option( 'enable_24h' );
 ?>
 <table id="wcs-schedule-table">
 	<tr>
@@ -25,7 +26,11 @@ $start_hours_array = array_unique( $wpdb->get_col( $sql ) );
 	</tr>
 	<?php
 		foreach ( $start_hours_array as $start_hour ) {
-			echo "<tr><td class='hour-label'>" . convert_to_am_pm( $start_hour ) . "</td>";
+			if ( $enable_24h == "on" ) {
+				echo "<tr><td class='hour-label'>" . clean_time_format( $start_hour ) . "</td>";
+			} else {
+				echo "<tr><td class='hour-label'>" . convert_to_am_pm( $start_hour ) . "</td>";
+			}
 			
 			foreach ( $week_days_array as $weekday ) {
 				echo "<td class='" . strtolower( $weekday ) . "-column weekday-column'>";
@@ -39,7 +44,6 @@ $start_hours_array = array_unique( $wpdb->get_col( $sql ) );
 						$class = esc_html( stripslashes( $entry->class ) );
 						$inst = esc_html( stripslashes ( $entry->instructor ) );
 						
-						$enable_24h = get_option( 'enable_24h' );
 						if ( $enable_24h == "on" ) {
 							$class_start = clean_time_format( $entry->start_hour );
 							$class_end = clean_time_format( $entry->end_hour );
