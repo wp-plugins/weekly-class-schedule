@@ -16,12 +16,22 @@ if ( ! empty( $_POST ) ) { // verify a submission occured
 
 <div class='wrap'>
 	<h1>Options</h1>
-	<p>
-		<strong>WARNING: </strong>Make sure you know what you're doing before using the options on this page.
-	</p>
+	
+	<form method="post" action="options.php">
+		<?php settings_fields('wcs_options'); ?>
+		<?php do_settings_sections('wcs_options_page'); ?>
+    <p class="submit">
+   		<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
+    </p>
+	</form>
+	
+	<hr />
 	
 	<form action="" method="post" id="options_page_form">
-	<h2>Uninstall Class Schedule</h2>
+	<h3>Uninstall Class Schedule</h3>
+	<p>
+		<strong>WARNING: </strong>Make sure you know what you're doing before using this option.
+	</p>
 		<table class="wp-list-table widefat narrowfat fixed">
 			<tr>
 				<td class="button-column">

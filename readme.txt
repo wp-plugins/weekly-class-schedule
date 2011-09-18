@@ -41,3 +41,8 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
   ** NOTE **
   You must have instructors and classes in the 
   database in order to add entries to the schedule
+
+== Changelog ==
+
+= 1.1 = 
+* Added 24 hrs support

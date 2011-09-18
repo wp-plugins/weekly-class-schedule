@@ -38,8 +38,16 @@ $start_hours_array = array_unique( $wpdb->get_col( $sql ) );
 						
 						$class = esc_html( stripslashes( $entry->class ) );
 						$inst = esc_html( stripslashes ( $entry->instructor ) );
-						$class_start = convert_to_am_pm( $entry->start_hour );
-						$class_end = convert_to_am_pm( $entry->end_hour );
+						
+						$enable_24h = get_option( 'enable_24h' );
+						if ( $enable_24h == "on" ) {
+							$class_start = clean_time_format( $entry->start_hour );
+							$class_end = clean_time_format( $entry->end_hour );
+						} else {
+							$class_start = convert_to_am_pm( $entry->start_hour );
+							$class_end = convert_to_am_pm( $entry->end_hour );
+						}
+						
 						$notes = ( strlen( $entry->notes ) > 14 ) ? substr( $entry->notes, 0 , 12 ) . "..." : $entry->notes;
 						
 						$output = "<!--[if IE 7]><div class='ie-container'><![endif]-->";

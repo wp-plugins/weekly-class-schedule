@@ -151,6 +151,29 @@ function wcs_admin_page_callback() {
 }
 add_action( 'admin_menu', 'wcs_admin_page_callback' );
 
+// Register options page
+function register_wcs_settings() { // whitelist options
+ 	register_setting( 'wcs_options', 'enable_24h' );
+	add_settings_section('wcs_main', 'WCS Main Settings', 'wcs_main_section_text', 'wcs_options_page');
+	add_settings_field('wcs_enable_24h', 'Enable 24h Mode', 'wcs_main_setting_fields', 'wcs_options_page', 'wcs_main');
+}
+
+add_action( 'admin_init', 'register_wcs_settings' );
+
+function wcs_main_section_text() {
+	echo '';
+}
+function wcs_main_setting_fields() {
+	$options = get_option( 'enable_24h' );
+	$output = "<input id='enable_24h' name='enable_24h' type='checkbox'";
+	if ( $options == "on" ) {
+		$output .= " checked='yes' value='off' />";
+	} else {
+		$output .= " value='on' />";
+	}
+	echo $output;
+}
+
 // Add shortcode
 function wcs_shortcode_callback( $atts ) {
 	include_once( 'wcs_page.php' );

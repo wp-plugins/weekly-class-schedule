@@ -62,10 +62,20 @@ class WcsSchedule {
 	public function manage_db_actions() {
 		global $wpdb;
 		global $db_updated;
+		$enable_24h = get_option( 'enable_24h' );
 		// Add item to the database
 		if ( isset( $_POST['submit'] ) ) {
 			verify_wcs_nonces( $this->name );
-			$fields = array(
+			if ( $enable_24h == "on" ) {
+				$fields = array(
+						$_POST['weekday_select'],
+						$_POST['start_hour_hours'],
+						$_POST['start_hour_minutes'],
+						$_POST['end_hour_hours'],
+						$_POST['end_hour_minutes'],
+						);
+			} else {
+				$fields = array(
 						$_POST['weekday_select'],
 						$_POST['start_hour_hours'],
 						$_POST['start_hour_minutes'],
@@ -74,6 +84,7 @@ class WcsSchedule {
 						$_POST['end_hour_minutes'],
 						$_POST['end_hour_am_pm'],
 						);
+			}
 			foreach ( $this->assoc_tables_array as $value ) {
 				$fields[] = $_POST["{$value}_select"];
 			}
@@ -81,8 +92,13 @@ class WcsSchedule {
 				
 				if ( verify_selection_is_in_db( $this->assoc_tables_array ) ) {
 						
-					$start_hour = esc_js( convert_from_am_pm( $_POST['start_hour_hours'], $_POST['start_hour_minutes'], $_POST['start_hour_am_pm'] ) );
-					$end_hour = esc_js( convert_from_am_pm( $_POST['end_hour_hours'], $_POST['end_hour_minutes'], $_POST['end_hour_am_pm'] ) );
+					if ( $enable_24h == "on" ) {
+						$start_hour = esc_js( convert_to_24h( $_POST['start_hour_hours'], $_POST['start_hour_minutes'] ) );
+						$end_hour = esc_js( convert_to_24h( $_POST['end_hour_hours'], $_POST['end_hour_minutes'] ) );
+					} else {
+						$start_hour = esc_js( convert_from_am_pm( $_POST['start_hour_hours'], $_POST['start_hour_minutes'], $_POST['start_hour_am_pm'] ) );
+						$end_hour = esc_js( convert_from_am_pm( $_POST['end_hour_hours'], $_POST['end_hour_minutes'], $_POST['end_hour_am_pm'] ) );
+					}
 					
 					if ( $this->validate_time_logic( $start_hour, $end_hour, $_POST['weekday_select'] ) ) {
 						$insert_array = array(
@@ -182,6 +198,7 @@ class WcsSchedule {
 	
 	public function print_wcs_admin() {
 		global $wpdb;
+		$enable_24h = get_option( 'enable_24h' );
 		$result_set = $wpdb->get_results( "SELECT * FROM " . $this->table_name ); ?>
 		<div class='wrap'>
 			<h1><?php echo ucwords($this->name); ?> Schedule Setup</h1>
@@ -230,8 +247,14 @@ class WcsSchedule {
 								foreach ( $this->assoc_tables_array as $second_value ) {
 									$output .= "<td>" . $value->$second_value . "</td>";
 								}
-								$output .= "<td>" . convert_to_am_pm( $value->start_hour ) . "</td>";
-								$output .= "<td>" . convert_to_am_pm( $value->end_hour ) . "</td>";
+								
+								if ( $enable_24h == "on" ) {
+									$output .= "<td>" . clean_time_format( $value->start_hour ) . "</td>";
+									$output .= "<td>" . clean_time_format( $value->end_hour ) . "</td>";
+								} else {
+									$output .= "<td>" . convert_to_am_pm( $value->start_hour ) . "</td>";
+									$output .= "<td>" . convert_to_am_pm( $value->end_hour ) . "</td>";
+								}
 								$output .= "<td>" . $notes . "</td>";
 								$output .= "<td class='edit-button-column'><a href='" . $edit_url . "'>Edit</a></td>";
 								
@@ -282,9 +305,16 @@ class WcsSchedule {
 						<td>
 							<select name="start_hour_hours">
 							<?php 
-								$hours = range(1, 12);
-								foreach( $hours as $value ) {
-									echo "<option value ='" . $value . "'>" . $value . "</option>";
+								if ( $enable_24h == "on" ) {
+									$hours = range(0, 23);
+									foreach( $hours as $value ) {
+										echo "<option value ='" . $value . "'>" . $value . "</option>";
+									}
+								} else {
+									$hours = range(1, 12);
+									foreach( $hours as $value ) {
+										echo "<option value ='" . $value . "'>" . $value . "</option>";
+									}
 								}
 							?>
 							</select>
@@ -296,10 +326,12 @@ class WcsSchedule {
 								}
 							?>
 							</select>
+							<?php if ( $enable_24h != "on" ) : ?>
 							<select name="start_hour_am_pm">
 								<option value="AM">AM</option>
 								<option value="PM">PM</option>
 							</select>
+							<?php endif; ?>
 						</td>
 					</tr>	
 					<tr>
@@ -307,9 +339,16 @@ class WcsSchedule {
 						<td> 
 							<select name="end_hour_hours">
 							<?php 
-								$hours = range(1, 12);
-								foreach( $hours as $value ) {
-									echo "<option value ='" . $value . "'>" . $value . "</option>";
+								if ( $enable_24h == "on" ) {
+									$hours = range(0, 23);
+									foreach( $hours as $value ) {
+										echo "<option value ='" . $value . "'>" . $value . "</option>";
+									}
+								} else {
+									$hours = range(1, 12);
+									foreach( $hours as $value ) {
+										echo "<option value ='" . $value . "'>" . $value . "</option>";
+									}
 								}
 							?>
 							</select>
@@ -321,10 +360,12 @@ class WcsSchedule {
 								}
 							?>
 							</select>
+							<?php if ( $enable_24h != "on" ) : ?>
 							<select name="end_hour_am_pm">
 								<option value="AM">AM</option>
 								<option value="PM">PM</option>
 							</select>
+							<?php endif; ?>
 						</td>
 						<tr>
 							<td>Notes:</td>

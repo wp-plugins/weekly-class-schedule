@@ -82,3 +82,15 @@ function convert_from_am_pm( $hours, $minutes, $am_pm ) {
 	$output = sprintf( "%02d:%02d:00", $hours, $minutes );
 	return $output;
 }
+
+function clean_time_format( $time ) {
+	$time = ltrim( substr( $time, 0, 5 ), 0 );
+	return $time;
+}
+function convert_to_24h( $hours, $minutes ) {
+	$output = sprintf( "%02d:%02d:00", $hours, $minutes );
+	return $output;
+}
+
+
+
