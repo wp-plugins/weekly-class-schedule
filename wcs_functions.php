@@ -53,6 +53,15 @@ function verify_selection_is_in_db( $options = array() ) {
 	}
 }
 
+function convert_24h_to_array( $time ) {
+	$time_array = explode( ":", $time );
+	foreach( $time_array as $value ) {
+		$value = ltrim( $value, "0" );
+	} 
+	$output = array( 'hours' => $time_array[0], 'minutes' => $time_array[1] );
+	return $output;
+}
+
 function convert_to_am_pm( $time, $format = "string" ) {
 	$time_array = explode( ":", $time );
 	$hours = $time_array[0];

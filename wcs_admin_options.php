@@ -16,7 +16,7 @@ if ( ! empty( $_POST ) ) { // verify a submission occured
 
 <div class='wrap'>
 	<h1>Options</h1>
-	
+	<div id="wcs-upper-options-section">
 	<form method="post" action="options.php">
 		<?php settings_fields('wcs_options'); ?>
 		<?php do_settings_sections('wcs_options_page'); ?>
@@ -24,7 +24,7 @@ if ( ! empty( $_POST ) ) { // verify a submission occured
    		<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
     </p>
 	</form>
-	
+	</div> <!-- end of wcs-upper-options-section -->
 	<hr />
 	
 	<form action="" method="post" id="options_page_form">

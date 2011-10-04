@@ -110,12 +110,17 @@ function wcs_uninstall() {
 	remove_wcs_object_table( $classes_obj );
 	remove_wcs_object_table( $instructors_obj );
 	remove_wcs_object_table( $schedule_obj );
+	
+	// Uninstall timezones table (if exists)
+	$wpdb->query( "DROP TABLE IF EXISTS " . $wpdb->prefix . "wcs_timezones" );
 }
 
 // Generate WCS admin area menus
 function wcs_admin_page() {
 	global $schedule_obj;
 	$schedule_obj->manage_db_actions();
+	$schedule_obj->add_timezone_column();
+	$schedule_obj->add_visibility_column();
 	if ( isset( $_GET['edit'] ) ) {
 		$schedule_obj->print_wcs_admin_edit();
 	} else {
@@ -152,10 +157,16 @@ function wcs_admin_page_callback() {
 add_action( 'admin_menu', 'wcs_admin_page_callback' );
 
 // Register options page
-function register_wcs_settings() { // whitelist options
+function register_wcs_settings() {
+ 	add_settings_section('wcs_main', 'WCS Main Settings', 'wcs_main_section_text', 'wcs_options_page');
+ 	
+ 	// 24h support 
  	register_setting( 'wcs_options', 'enable_24h' );
-	add_settings_section('wcs_main', 'WCS Main Settings', 'wcs_main_section_text', 'wcs_options_page');
-	add_settings_field('wcs_enable_24h', 'Enable 24h Mode', 'wcs_main_setting_fields', 'wcs_options_page', 'wcs_main');
+	add_settings_field( 'wcs_enable_24h', 'Enable 24h Mode', 'wcs_enable_24h_setting_fields', 'wcs_options_page', 'wcs_main' );
+	
+	// Timezones support
+	register_setting( 'wcs_options', 'enable_timezones' );
+	add_settings_field( 'wcs_enable_timezones', 'Enable Timezones', 'wcs_enable_timezones_setting_fields', 'wcs_options_page', 'wcs_main' );
 }
 
 add_action( 'admin_init', 'register_wcs_settings' );
@@ -163,16 +174,42 @@ add_action( 'admin_init', 'register_wcs_settings' );
 function wcs_main_section_text() {
 	echo '';
 }
-function wcs_main_setting_fields() {
+
+// 24h field output
+function wcs_enable_24h_setting_fields() {
 	$options = get_option( 'enable_24h' );
-	$output = "<input id='enable_24h' name='enable_24h' type='checkbox'";
+	$output = "<input id='enable_24h' name='enable_24h' type='checkbox' value='on'";
 	if ( $options == "on" ) {
-		$output .= " checked='yes' value='off' />";
+		$output .= " checked='yes' />";
 	} else {
-		$output .= " value='on' />";
+		$output .= " />";
 	}
 	echo $output;
 }
+
+// Timezones field output
+function wcs_enable_timezones_setting_fields() {
+	$options = get_option( 'enable_timezones' );
+	$output = "<input id='enable_timezones' name='enable_timezones' type='checkbox' value='on'";
+	if ( $options == "on" ) {
+		$output .= " checked='yes' />";
+	} else {
+		$output .= " />";
+	}
+	echo $output;
+}
+
+function add_timezones_table() {
+	global $wpdb;
+	$enable_timezones = get_option( 'enable_timezones' );
+	if ( $enable_timezones == "on" ) {
+		require_once( 'timezones.php' );
+		dbDelta( $create_timezones_table );
+		$wpdb->query( $insert_timezones_values );
+	}
+}
+
+add_action( 'admin_init', 'add_timezones_table' );
 
 // Add shortcode
 function wcs_shortcode_callback( $atts ) {

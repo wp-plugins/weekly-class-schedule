@@ -44,11 +44,14 @@ class WcsTable {
 								'item_description' => $new_item_description,
 								);
 								
-				$wpdb->insert( $this->table_name, $insert_array );
-		
-				$message = $new_item_name . " has been added to the database.";
-				show_wp_message( $message, 'updated' );
-				$db_updated = true;
+				$db_insert = $wpdb->insert( $this->table_name, $insert_array );
+				if ( $db_insert ) {
+					$message = $new_item_name . " has been added to the database.";
+					show_wp_message( $message, 'updated' );
+					$db_updated = true;
+				} else {
+					show_wp_message( "Operation failed", 'error' );
+				}
 			}
 		}
 		
@@ -101,6 +104,8 @@ class WcsTable {
 					$db_updated = true;
 					
 					$wpdb->update( $this->assoc_schedule_name, array( $this->name => $updated_item_name ), array( $this->name . '_id' => $updated_item_id ) ); 
+				} else {
+					show_wp_message( "Operation failed", 'error' );
 				}
 			}
 		}

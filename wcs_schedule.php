@@ -32,6 +32,19 @@ class WcsSchedule {
 	dbDelta( $sql );
 	}
 	
+	public function add_timezone_column() {
+		global $wpdb;
+		$enable_timezones = get_option( 'enable_timezones' );
+		if ( $enable_timezones == "on" ) {
+			$wpdb->query( "ALTER TABLE " . $this->table_name . " ADD timezone VARCHAR(120) NOT NULL" );
+		} 
+	}
+	
+	public function add_visibility_column() {
+		global $wpdb;
+		$wpdb->query( "ALTER TABLE " . $this->table_name . " ADD visible TINYINT NOT NULL DEFAULT '1' AFTER id" );
+	}
+	
 	private function validate_time_logic( $start_hour, $end_hour, $week_day ) {
 		global $wpdb;
 		$collision = array();
@@ -63,28 +76,26 @@ class WcsSchedule {
 		global $wpdb;
 		global $db_updated;
 		$enable_24h = get_option( 'enable_24h' );
+		$enable_timezones = get_option( 'enable_timezones' );
 		// Add item to the database
 		if ( isset( $_POST['submit'] ) ) {
 			verify_wcs_nonces( $this->name );
-			if ( $enable_24h == "on" ) {
-				$fields = array(
+			$fields = array(
 						$_POST['weekday_select'],
 						$_POST['start_hour_hours'],
 						$_POST['start_hour_minutes'],
 						$_POST['end_hour_hours'],
 						$_POST['end_hour_minutes'],
+						$_POST['visibility'],
 						);
-			} else {
-				$fields = array(
-						$_POST['weekday_select'],
-						$_POST['start_hour_hours'],
-						$_POST['start_hour_minutes'],
-						$_POST['start_hour_am_pm'],
-						$_POST['end_hour_hours'],
-						$_POST['end_hour_minutes'],
-						$_POST['end_hour_am_pm'],
-						);
+			if ( $enable_24h != "on" ) {
+				$fields[] = $_POST['start_hour_am_pm'];
+				$fields[] = $_POST['end_hour_am_pm'];
 			}
+			if ( $enable_timezones == "on" ) {
+				$fields[] = $_POST['timezone'];
+			}
+			
 			foreach ( $this->assoc_tables_array as $value ) {
 				$fields[] = $_POST["{$value}_select"];
 			}
@@ -99,14 +110,17 @@ class WcsSchedule {
 						$start_hour = esc_js( convert_from_am_pm( $_POST['start_hour_hours'], $_POST['start_hour_minutes'], $_POST['start_hour_am_pm'] ) );
 						$end_hour = esc_js( convert_from_am_pm( $_POST['end_hour_hours'], $_POST['end_hour_minutes'], $_POST['end_hour_am_pm'] ) );
 					}
-					
 					if ( $this->validate_time_logic( $start_hour, $end_hour, $_POST['weekday_select'] ) ) {
 						$insert_array = array(
 								'week_day' => $_POST['weekday_select'],
 								'start_hour' => $start_hour,
 								'end_hour' => $end_hour,
 								'notes' => $_POST['new_entry_notes'],
+								'visible' => $_POST['visibility'],
 								);
+						if ( $enable_timezones == "on" ) {
+							$insert_array['timezone'] = $_POST['timezone'];
+						}
 					
 						foreach ( $this->assoc_tables_array as $value ) {
 							$sql = "SELECT id FROM " . $wpdb->prefix . "wcs_" . $value;
@@ -116,11 +130,15 @@ class WcsSchedule {
 							$insert_array = array_merge( $insert_array, $new_array );
 						}
 					
-						$wpdb->insert( $this->table_name, $insert_array );
-		
-						$message = "The entry has been added to the database.";
-						show_wp_message( $message, 'updated' );
-						$db_updated = true;
+						$db_insert = $wpdb->insert( $this->table_name, $insert_array );
+						if ( $db_insert ) {
+							$message = "The entry has been added to the database.";
+							show_wp_message( $message, 'updated' );
+							$db_updated = true;
+						} else {
+							show_wp_message( "Operation failed", 'error' );
+						}
+						
 					} else {
 						$message = "Something doesn't make sense. Please check your entries and try again.";
 						show_wp_message( $message, 'error' );
@@ -153,11 +171,17 @@ class WcsSchedule {
 						$_POST['weekday_select'],
 						$_POST['start_hour_hours'],
 						$_POST['start_hour_minutes'],
-						$_POST['start_hour_am_pm'],
 						$_POST['end_hour_hours'],
 						$_POST['end_hour_minutes'],
-						$_POST['end_hour_am_pm'],
+						$_POST['visibility'],
 						);
+			if ( $enable_24h != "on" ) {
+				$fields[] = $_POST['start_hour_am_pm'];
+				$fields[] = $_POST['end_hour_am_pm'];
+			}
+			if ( $enable_timezones == "on" ) {
+				$fields[] = $_POST['timezone'];
+			}
 			foreach ( $this->assoc_tables_array as $value ) {
 				$fields[] = $_POST["{$value}_select"];
 			}
@@ -175,8 +199,11 @@ class WcsSchedule {
 							'start_hour' => $start_hour,
 							'end_hour' => $end_hour,
 							'notes' => $_POST['new_entry_notes'],
+							'visible' => $_POST['visibility'],
 							);
-					
+				if ( $enable_timezones == "on" ) {
+					$update_array['timezone'] = $_POST['timezone'];
+				}	
 				foreach ( $this->assoc_tables_array as $value ) {
 					$sql = "SELECT id FROM " . $wpdb->prefix . "wcs_" . $value;
 					$sql .= " WHERE item_name = '" . esc_js( $_POST["{$value}_select"] ) . "'";
@@ -191,6 +218,8 @@ class WcsSchedule {
 					$message = $updated_item_name . "Entry has been updated succesfully.";
 					show_wp_message( $message, 'updated' );
 					$db_updated = true;
+				} else {
+					show_wp_message( "Operation failed", 'error' );
 				}
 			}
 		}
@@ -199,6 +228,7 @@ class WcsSchedule {
 	public function print_wcs_admin() {
 		global $wpdb;
 		$enable_24h = get_option( 'enable_24h' );
+		$enable_timezones = get_option( 'enable_timezones' );
 		$result_set = $wpdb->get_results( "SELECT * FROM " . $this->table_name ); ?>
 		<div class='wrap'>
 			<h1><?php echo ucwords($this->name); ?> Schedule Setup</h1>
@@ -232,6 +262,10 @@ class WcsSchedule {
 									?>
 									<th>From</th>
 									<th>To</th>
+									<th>Status</th>
+									<?php if ( $enable_timezones == "on" ) : ?>
+									<th>Timezone</th>
+									<?php endif; ?>
 									<th>Notes</th>
 									<th class='edit-button-column'></th>
 								</tr>
@@ -241,6 +275,7 @@ class WcsSchedule {
 									
 								$edit_url = "?" . key($_GET) . "=" . $_GET['page'] . "&edit=" . $value->id;
 								$notes = ( strlen( $value->notes ) > 14 ) ? substr( $value->notes, 0 , 12 ) . "..." : $value->notes;
+								$status = ( $value->visible == 1 ) ? "Visible" : "Hidden";
 								
 								$output = "<tr>";
 								$output .= "<th class='check-column'><input type='checkbox' name='" . $value->id . "' /></th>";
@@ -254,6 +289,11 @@ class WcsSchedule {
 								} else {
 									$output .= "<td>" . convert_to_am_pm( $value->start_hour ) . "</td>";
 									$output .= "<td>" . convert_to_am_pm( $value->end_hour ) . "</td>";
+								}
+								$output .= "<td>" . $status . "</td>";
+								if ( $enable_timezones == "on" ) {
+									$end_pos = strpos( $value->timezone, ")" );
+									$output .= "<td>" . substr( $value->timezone, 0, $end_pos + 1 ) . "</td>";
 								}
 								$output .= "<td>" . $notes . "</td>";
 								$output .= "<td class='edit-button-column'><a href='" . $edit_url . "'>Edit</a></td>";
@@ -367,12 +407,37 @@ class WcsSchedule {
 							</select>
 							<?php endif; ?>
 						</td>
-						<tr>
-							<td>Notes:</td>
-							<td>
+					</tr>
+					<tr>
+						<td>Visibility:</td>
+						<td>
+							<select name="visibility">
+								<option value="1">Visible</option>
+								<option value="0">Hidden</option>
+							</select>
+						</td>
+					</tr>
+					<?php if ( $enable_timezones == "on" ) : ?>
+					<tr>
+						<td>Timezone:</td>
+						<td>
+							<select name="timezone">
+								<?php
+									$sql = "SELECT GMT, name FROM " . $wpdb->prefix . "wcs_timezones";
+									$timezones = $wpdb->get_results( $sql, ARRAY_A );
+									foreach( $timezones as $value ) {
+										echo "<option value='" . $value['name'] . "'>" . $value['name'] . "</option>";
+									}
+								?>
+							</select>
+						</td>
+					</tr>
+					<?php endif; ?>
+					<tr>
+						<td>Notes:</td>
+						<td>
 							<textarea name="new_entry_notes" class="large-text" placeholder="Add notes" /><?php if ( $db_updated ) { echo ""; } else { stripslashes( $_POST['new_entry_notes'] ); } ?></textarea>
 						</td>
-						</tr>
 					</tr>
 				</table>
 				<p>
@@ -391,10 +456,18 @@ class WcsSchedule {
 	public function print_wcs_admin_edit() {
 		global $wpdb;
 		global $db_updated;
+		$enable_24h = get_option( 'enable_24h' );
+		$enable_timezones = get_option( 'enable_timezones' );
+		
 		$item_id = $wpdb->escape( $_GET['edit'] );
 		$result_set = $wpdb->get_row( "SELECT * FROM " . $this->table_name . " WHERE id = '" . $item_id . "'", ARRAY_A );
-		$start_time_array = convert_to_am_pm( $result_set['start_hour'], 'array' );
-		$end_time_array = convert_to_am_pm( $result_set['end_hour'], 'array' ); 
+		if ( $enable_24h == "on" ) {
+			$start_time_array = convert_24h_to_array( $result_set['start_hour'] );
+			$end_time_array = convert_24h_to_array( $result_set['end_hour'] ); 
+		} else {
+			$start_time_array = convert_to_am_pm( $result_set['start_hour'], 'array' );
+			$end_time_array = convert_to_am_pm( $result_set['end_hour'], 'array' ); 
+		}
 		?>
 		<div class="wrap">
 			<div id="<?php echo $this->name; ?>-schedule-admin-container">
@@ -440,7 +513,12 @@ class WcsSchedule {
 							<td>
 								<select name="start_hour_hours">
 								<?php 
-									$hours = range(1, 12);
+									if ( $enable_24h == "on" ) {
+										$hours = range(0, 23);
+									} else {
+										$hours = range(1, 12);
+									}
+									
 									foreach( $hours as $value ) {
 										if ( $start_time_array['hours'] == $value ) {
 											echo "<option selected='selected' value ='" . $value . "'>" . $value . "</option>";
@@ -462,10 +540,12 @@ class WcsSchedule {
 									}
 								?>
 								</select>
+								<?php if ( $enable_24h != "on" ) : ?>
 								<select name="start_hour_am_pm">
 									<option <?php if ( $start_time_array['am_pm'] == 'AM' ) echo "selected='selected'"; ?> value="AM">AM</option>
 									<option <?php if ( $start_time_array['am_pm'] == 'PM' ) echo "selected='selected'"; ?> value="PM">PM</option>
 								</select>
+								<?php endif; ?>
 							</td>
 						</tr>	
 						<tr>
@@ -473,7 +553,11 @@ class WcsSchedule {
 							<td> 
 								<select name="end_hour_hours">
 								<?php 
-									$hours = range(1, 12);
+									if ( $enable_24h == "on" ) {
+										$hours = range(0, 23);
+									} else {
+										$hours = range(1, 12);
+									}
 									foreach( $hours as $value ) {
 										if ( $end_time_array['hours'] == $value ) {
 											echo "<option selected='selected' value ='" . $value . "'>" . $value . "</option>";
@@ -495,12 +579,44 @@ class WcsSchedule {
 									}
 								?>
 								</select>
+								<?php if ( $enable_24h != "on" ) : ?>
 								<select name="end_hour_am_pm">
 									<option <?php if ( $end_time_array['am_pm'] == 'AM' ) echo "selected='selected'"; ?> value="AM">AM</option>
 									<option <?php if ( $end_time_array['am_pm'] == 'PM' ) echo "selected='selected'"; ?> value="PM">PM</option>
 								</select>
+								<?php endif; ?>
 							</td>
 						</tr>
+						<tr>
+							<td>Visibility:</td>
+							<td>
+								<select name="visibility">
+									<option <?php if ( $result_set['visible'] == "1" ) echo "selected='selected'"; ?> value="1">Visible</option>
+									<option <?php if ( $result_set['visible'] == "0" ) echo "selected='selected'"; ?>value="0">Hidden</option>
+								</select>
+							</td>
+						</tr>
+						<?php if ( $enable_timezones == "on" ) : ?>
+						<tr>
+							<td>Timezone</td>
+							<td>
+								<select name="timezone">
+								<?php
+									$sql = "SELECT GMT, name FROM " . $wpdb->prefix . "wcs_timezones";
+									$timezones = $wpdb->get_results( $sql, ARRAY_A );
+									foreach( $timezones as $value ) {
+										if ( $result_set['timezone'] == $value['name'] ) {
+											echo "<option selected='selected' value='" . $value['name'] . "'>" . $value['name'] . "</option>";
+										} else {
+											echo "<option value='" . $value['name'] . "'>" . $value['name'] . "</option>";
+										}
+										
+									}
+								?>
+								</select>
+							</td>
+						</tr>
+						<?php endif; ?>
 						<tr>
 							<td>Notes:</td>
 							<td>
