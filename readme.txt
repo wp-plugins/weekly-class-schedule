@@ -43,6 +43,10 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
   database in order to add entries to the schedule
 
 == Changelog ==
+= 1.2 =
+* Fixed issue with 24h mode when updating schedule entries
+* Added timezones support 
+* Added visibility support (hide or display classes without deleting entries from the database)
 
 = 1.1.1 = 
 * Tagging issue fixed

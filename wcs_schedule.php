@@ -38,10 +38,7 @@ class WcsSchedule {
 	
 	public function add_timezone_column() {
 		global $wpdb;
-		$enable_timezones = get_option( 'enable_timezones' );
-		if ( $enable_timezones == "on" ) {
-			$wpdb->query( "ALTER TABLE " . $this->table_name . " ADD timezone VARCHAR(120) NOT NULL" );
-		} 
+		$wpdb->query( "ALTER TABLE " . $this->table_name . " ADD timezone VARCHAR(120) NOT NULL" );
 	}
 	
 	public function add_visibility_column() {
@@ -51,14 +48,11 @@ class WcsSchedule {
 	
 	public function add_classrooms_columns() {
 		global $wpdb;
-		$enable_classrooms = get_option( 'enable_classrooms' );
-		if ( $enable_classrooms == "on" ) {
-			$wpdb->query( "ALTER TABLE " . $this->table_name . " ADD classroom_id int(11) NOT NULL AFTER visible" );
-			$wpdb->query( "ALTER TABLE " . $this->table_name . " ADD classroom VARCHAR(120) NOT NULL AFTER classroom_id" );
-		} 
+		$wpdb->query( "ALTER TABLE " . $this->table_name . " ADD classroom_id int(11) NOT NULL AFTER visible" );
+		$wpdb->query( "ALTER TABLE " . $this->table_name . " ADD classroom VARCHAR(120) NOT NULL AFTER classroom_id" );
 	}
 	
-	public function add_default_value_to_entries( $source ) {
+	public function add_default_classrooms_to_entries( $source ) {
 		global $wpdb;
 		$results = $wpdb->get_results( "SELECT * FROM " . $this->table_name . " WHERE classroom = ''" );
 		$default_value = $wpdb->get_results( "SELECT * FROM " . $wpdb->prefix . "wcs_" . $source );
@@ -291,7 +285,6 @@ class WcsSchedule {
 		$enable_24h = get_option( 'enable_24h' );
 		$enable_timezones = get_option( 'enable_timezones' );
 		$result_set = $wpdb->get_results( "SELECT * FROM " . $this->table_name );
-		$enable_classrooms = get_option( 'enable_classrooms' );
 		?>
 		<div class='wrap'>
 			<h1><?php echo ucwords($this->name); ?> Schedule Setup</h1>
@@ -379,7 +372,7 @@ class WcsSchedule {
 						<?php 
 						} 
 					}
-				if ( count( $classrooms ) > 0 ) : ?>
+				if ( count( $classrooms ) > 1 || ( $result_set ) ) : ?>
 				<div class="custom-hr">&nbsp;</div>
 				<?php endif;
 				endforeach;
