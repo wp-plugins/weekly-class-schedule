@@ -1,16 +1,16 @@
-#wcs-schedule-table {
+.wcs-schedule-table {
 	font-size: 12px;
 }
-#wcs-schedule-table td,
-#wcs-schedule-table th {
+.wcs-schedule-table td,
+.wcs-schedule-table th {
 	width: 12.5%;
 	padding: 0;
 	border-right: 1px solid #ddd;
 }
-#wcs-schedule-table th.weekday-label {
+.wcs-schedule-table th.weekday-label {
 	padding-left: 10px;
 }
-#wcs-schedule-table tr:nth-child(even) {
+.wcs-schedule-table tr:nth-child(even) {
 	background: #eee;
 }
 .class-box {

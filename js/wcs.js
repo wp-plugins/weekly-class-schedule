@@ -1,6 +1,6 @@
 jQuery(function() {
 	
-	jQuery("#wcs-schedule-table").parent().css("position", "relative");
+	jQuery(".wcs-schedule-table").parent().css("position", "relative");
 	
 	jQuery("td.weekday-column").each(function() {
 		if( jQuery(this).children().size() > 0 ) {

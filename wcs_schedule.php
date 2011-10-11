@@ -13,6 +13,10 @@ class WcsSchedule {
 		$this->table_name = $wpdb->prefix . "wcs_" . $this->name . "_schedule";
 		$this->assoc_tables_array = $assoc_tables;
 	}
+	
+	public function update_assoc_tables_array( $assoc_tables = array() ) {
+		$this->assoc_tables_array = $assoc_tables;
+	}
 		
 	public function create_wcs_schedule_table() {
 		$output;	
@@ -45,26 +49,76 @@ class WcsSchedule {
 		$wpdb->query( "ALTER TABLE " . $this->table_name . " ADD visible TINYINT NOT NULL DEFAULT '1' AFTER id" );
 	}
 	
-	private function validate_time_logic( $start_hour, $end_hour, $week_day ) {
+	public function add_classrooms_columns() {
+		global $wpdb;
+		$enable_classrooms = get_option( 'enable_classrooms' );
+		if ( $enable_classrooms == "on" ) {
+			$wpdb->query( "ALTER TABLE " . $this->table_name . " ADD classroom_id int(11) NOT NULL AFTER visible" );
+			$wpdb->query( "ALTER TABLE " . $this->table_name . " ADD classroom VARCHAR(120) NOT NULL AFTER classroom_id" );
+		} 
+	}
+	
+	public function add_default_value_to_entries( $source ) {
+		global $wpdb;
+		$results = $wpdb->get_results( "SELECT * FROM " . $this->table_name . " WHERE classroom = ''" );
+		$default_value = $wpdb->get_results( "SELECT * FROM " . $wpdb->prefix . "wcs_" . $source );
+		foreach( $results as $value ) {
+			$db_update = $wpdb->update(
+				$this->table_name,
+				array(
+					$source . "_id" => $default_value[0]->id,
+					$source => $default_value[0]->item_name,
+				),
+				array(
+					'id' => $value->id,
+				)
+			);
+		}
+	}
+	
+	private function validate_time_logic( $start_hour, $end_hour, $week_day, $classroom ) {
 		global $wpdb;
 		$collision = array();
-		$sql = $wpdb->prepare( "SELECT start_hour, end_hour FROM " . $this->table_name . " WHERE week_day = '%s'", $week_day );
+		$sql = $wpdb->prepare( "SELECT start_hour, end_hour, classroom FROM " . $this->table_name . " WHERE week_day = '%s'", $week_day );
 		$results = $wpdb->get_results( $sql, ARRAY_A );
-		foreach ( $results as $value ) {
-			if ( $start_hour <= $value['start_hour'] ) {
-				$collision[] = ( $end_hour > $value['start_hour'] ? true : false );
+		$enable_classrooms = get_option( 'enable_classrooms' );
+		if ( $enable_classrooms == "on" ) {
+			foreach ( $results as $value ) {
+				if ( $classroom == $value['classroom'] ) {
+					if ( $start_hour <= $value['start_hour'] ) {
+						$collision[] = ( $end_hour > $value['start_hour'] ? true : false );
+					}
+					if ( $end_hour >= $value['end_hour'] ) {
+						$collision[] = ( $start_hour < $value['end_hour'] ? true : false );
+					}
+					if ( $start_hour >= $value['start_hour'] ) {
+						$collision[] = ( $start_hour < $value['end_hour'] ? true : false );
+					}
+					if ( $end_hour <= $value['end_hour'] ) {
+						$collision[] = ( $end_hour > $value['start_hour'] ? true : false );
+					}
+					$collision[] = ( $end_hour <= $start_hour ? true : false );
+				}
+			}	
+		} else {
+			foreach ( $results as $value ) {
+				if ( $start_hour <= $value['start_hour'] ) {
+					$collision[] = ( $end_hour > $value['start_hour'] ? true : false );
+				}
+				if ( $end_hour >= $value['end_hour'] ) {
+					$collision[] = ( $start_hour < $value['end_hour'] ? true : false );
+				}
+				if ( $start_hour >= $value['start_hour'] ) {
+					$collision[] = ( $start_hour < $value['end_hour'] ? true : false );
+				}
+				if ( $end_hour <= $value['end_hour'] ) {
+					$collision[] = ( $end_hour > $value['start_hour'] ? true : false );
+				}
+				$collision[] = ( $end_hour <= $start_hour ? true : false );
 			}
-			if ( $end_hour >= $value['end_hour'] ) {
-				$collision[] = ( $start_hour < $value['end_hour'] ? true : false );
-			}
-			if ( $start_hour >= $value['start_hour'] ) {
-				$collision[] = ( $start_hour < $value['end_hour'] ? true : false );
-			}
-			if ( $end_hour <= $value['end_hour'] ) {
-				$collision[] = ( $end_hour > $value['start_hour'] ? true : false );
-			}
-		}
-		$collision[] = ( $end_hour <= $start_hour ? true : false );
+		} 
+		
+		
 		if ( in_array( true, $collision ) ) {
 			return false;
 		} else {
@@ -77,6 +131,8 @@ class WcsSchedule {
 		global $db_updated;
 		$enable_24h = get_option( 'enable_24h' );
 		$enable_timezones = get_option( 'enable_timezones' );
+		$enable_classrooms = get_option( 'enable_classrooms' );
+		
 		// Add item to the database
 		if ( isset( $_POST['submit'] ) ) {
 			verify_wcs_nonces( $this->name );
@@ -110,7 +166,12 @@ class WcsSchedule {
 						$start_hour = esc_js( convert_from_am_pm( $_POST['start_hour_hours'], $_POST['start_hour_minutes'], $_POST['start_hour_am_pm'] ) );
 						$end_hour = esc_js( convert_from_am_pm( $_POST['end_hour_hours'], $_POST['end_hour_minutes'], $_POST['end_hour_am_pm'] ) );
 					}
-					if ( $this->validate_time_logic( $start_hour, $end_hour, $_POST['weekday_select'] ) ) {
+					if ( $enable_classrooms == "on" ) {
+						$classroom = $_POST['classroom_select'];
+					} else {
+						$classroom = '';
+					}
+					if ( $this->validate_time_logic( $start_hour, $end_hour, $_POST['weekday_select'], $classroom ) ) {
 						$insert_array = array(
 								'week_day' => $_POST['weekday_select'],
 								'start_hour' => $start_hour,
@@ -229,7 +290,9 @@ class WcsSchedule {
 		global $wpdb;
 		$enable_24h = get_option( 'enable_24h' );
 		$enable_timezones = get_option( 'enable_timezones' );
-		$result_set = $wpdb->get_results( "SELECT * FROM " . $this->table_name ); ?>
+		$result_set = $wpdb->get_results( "SELECT * FROM " . $this->table_name );
+		$enable_classrooms = get_option( 'enable_classrooms' );
+		?>
 		<div class='wrap'>
 			<h1><?php echo ucwords($this->name); ?> Schedule Setup</h1>
 			<p>
@@ -237,15 +300,26 @@ class WcsSchedule {
 			</p>
 
 			<div id="<?php echo $this->name; ?>-schedule-admin-container">
-				<h2>Schedule</h2>
-		
 				<?php if ( ! $result_set ) show_wp_message( "There are no classes in the database.", "updated"); ?>
 	
 				<form action="" method="post" id="wcs-add-schedule-entry-form">
-				<?php
+				<?php 
+					if ( $enable_classrooms == "on" ) { 
+						$classrooms = array_unique( $wpdb->get_col( "SELECT classroom FROM " . $this->table_name . " WHERE visible = '1'") ); 
+					} else {
+						$classrooms = array('');
+					}
+					foreach ( $classrooms as $classroom) :
+						echo "<h2>" . $classroom . " Schedule</h2>";
 					foreach ( $this->week_days_array as $value ) {
-						$sql = "SELECT * FROM " . $this->table_name . " WHERE week_day='";
-						$sql .= $value . "' ORDER BY start_hour ASC";
+						if ( $enable_classrooms == "on" ) {
+							$sql = "SELECT * FROM " . $this->table_name . " WHERE week_day='";
+							$sql .= $value . "' AND classroom = '" . $classroom . "' ORDER BY start_hour ASC";
+						} else {
+							$sql = "SELECT * FROM " . $this->table_name . " WHERE week_day='";
+							$sql .= $value . "' ORDER BY start_hour ASC";
+						}
+						
 						$entries = $wpdb->get_results( $sql ); 
 			
 						// Only printing the days which have classes.
@@ -305,8 +379,12 @@ class WcsSchedule {
 						<?php 
 						} 
 					}
+				if ( count( $classrooms ) > 0 ) : ?>
+				<div class="custom-hr">&nbsp;</div>
+				<?php endif;
+				endforeach;
 				?>
-	
+				
 				<br />
 				<h2>Add Schedule Entry</h2>
 				<table class="wp-list-table widefat entry-table fixed">
@@ -446,7 +524,6 @@ class WcsSchedule {
 				</p>
 				
 				<?php wp_nonce_field( $this->name ); ?>
-	
 				</form>
 			</div> <!-- end of schedule-container -->
 		</div> <!-- end of wrap -->

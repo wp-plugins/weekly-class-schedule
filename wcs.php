@@ -83,32 +83,39 @@ add_action('init', 'load_wcs_website_scripts_and_styles');
 // Create WcsTable objects
 global $classes_obj;
 global $instructors_obj;
+global $classroom_obj;
 $classes_obj = new WcsTable( 'class', 'studio' );
 $instructors_obj = new WcsTable( 'instructor', 'studio' );
+$classroom_obj = new WcsTable( 'classroom', 'studio' );
 
 global $schedule_obj;
-$assoc_tables_array = array( 'class', 'instructor' );
+$assoc_tables_array = array( 'class', 'instructor', 'classroom' );
 $schedule_obj = new WcsSchedule( 'studio', $assoc_tables_array );
 
 // Create plugin tables on plugin activation
 function create_wcs_table_objects() {
 	global $classes_obj;
 	global $instructors_obj;
+	global $classroom_obj;
 	global $schedule_obj;
 	$classes_obj->create_wcs_table();
 	$instructors_obj->create_wcs_table();
+	$classroom_obj->create_wcs_table();
 	$schedule_obj->create_wcs_schedule_table();
 }
 register_activation_hook( __FILE__, 'create_wcs_table_objects' );
 
 // Un-install (remove) WCS tables
 function wcs_uninstall() {
+	global $wpdb;
 	global $classes_obj;
 	global $instructors_obj;
 	global $schedule_obj;
+	global $classroom_obj;
 	
 	remove_wcs_object_table( $classes_obj );
 	remove_wcs_object_table( $instructors_obj );
+	remove_wcs_object_table( $classroom_obj );
 	remove_wcs_object_table( $schedule_obj );
 	
 	// Uninstall timezones table (if exists)
@@ -119,14 +126,36 @@ function wcs_uninstall() {
 function wcs_admin_page() {
 	global $schedule_obj;
 	$schedule_obj->manage_db_actions();
-	$schedule_obj->add_timezone_column();
-	$schedule_obj->add_visibility_column();
+		
 	if ( isset( $_GET['edit'] ) ) {
 		$schedule_obj->print_wcs_admin_edit();
 	} else {
 		$schedule_obj->print_wcs_admin();
 	}
 }
+function run_update_procedures() {
+	// If updating from previous versions then register_activation_hook won't run.
+	// We have to force update procedures.
+	global $schedule_obj;
+	global $classroom_obj;
+	$schedule_obj->add_timezone_column();
+	$schedule_obj->add_visibility_column();
+	$schedule_obj->add_classrooms_columns();
+	
+	$enable_classrooms = get_option( 'enable_classrooms' );
+	if ( $enable_classrooms == "on" ) {
+		$assoc_tables_array = array( 'class', 'instructor', 'classroom' );
+	} else {
+		$assoc_tables_array = array( 'class', 'instructor' );
+	}
+	
+	$schedule_obj->update_assoc_tables_array( $assoc_tables_array );
+	$classroom_obj->create_wcs_table();
+	$classroom_obj->add_default_value( 'Classroom A', 'This is the default value' );
+	$schedule_obj->add_default_value_to_entries( 'classroom' );
+}
+add_action( 'admin_init', 'run_update_procedures' );
+
 function wcs_classes_admin_page() {
 	global $classes_obj;
 	$classes_obj->manage_db_actions();
@@ -145,13 +174,27 @@ function wcs_instructors_admin_page() {
 		$instructors_obj->print_wcs_admin();
 	}
 }
+function wcs_classrooms_admin_page() {
+	global $classroom_obj;
+	$classroom_obj->manage_db_actions();
+	if ( isset( $_GET['edit'] ) ) {
+		$classroom_obj->print_wcs_admin_edit();
+	} else {
+		$classroom_obj->print_wcs_admin();
+	}
+}
 function wcs_admin_options_page() {
 	include_once( 'wcs_admin_options.php');
 }
 function wcs_admin_page_callback() {
+	$enable_classrooms = get_option( 'enable_classrooms' );
+	
 	add_menu_page( 'WC Schedule', 'WC Schedule', 'manage_categories', 'wcs_admin_page', 'wcs_admin_page', 'http://pulsarwebdesign.com/sites/default/files/favicon.ico' );
 	add_submenu_page( 'wcs_admin_page', 'Classes', 'Classes', 'manage_categories', 'wcs_classes_admin_menu', 'wcs_classes_admin_page' );
 	add_submenu_page( 'wcs_admin_page', 'Instructors', 'Instructors', 'manage_categories', 'wcs_instructors_admin_menu', 'wcs_instructors_admin_page' );
+	if ( $enable_classrooms == "on" ) {
+	add_submenu_page( 'wcs_admin_page', 'Classrooms', 'Classrooms', 'manage_categories', 'wcs_classrooms_admin_menu', 'wcs_classrooms_admin_page' );
+	}
 	add_submenu_page( 'wcs_admin_page', 'Options', 'Options', 'manage_categories', 'wcs_options_admin_menu', 'wcs_admin_options_page' );
 }
 add_action( 'admin_menu', 'wcs_admin_page_callback' );
@@ -167,6 +210,10 @@ function register_wcs_settings() {
 	// Timezones support
 	register_setting( 'wcs_options', 'enable_timezones' );
 	add_settings_field( 'wcs_enable_timezones', 'Enable Timezones', 'wcs_enable_timezones_setting_fields', 'wcs_options_page', 'wcs_main' );
+
+	// Timezones support
+	register_setting( 'wcs_options', 'enable_classrooms' );
+	add_settings_field( 'wcs_enable_classrooms', 'Enable Classrooms', 'wcs_enable_classrooms_setting_fields', 'wcs_options_page', 'wcs_main' );
 }
 
 add_action( 'admin_init', 'register_wcs_settings' );
@@ -191,6 +238,18 @@ function wcs_enable_24h_setting_fields() {
 function wcs_enable_timezones_setting_fields() {
 	$options = get_option( 'enable_timezones' );
 	$output = "<input id='enable_timezones' name='enable_timezones' type='checkbox' value='on'";
+	if ( $options == "on" ) {
+		$output .= " checked='yes' />";
+	} else {
+		$output .= " />";
+	}
+	echo $output;
+}
+
+// Timezones field output
+function wcs_enable_classrooms_setting_fields() {
+	$options = get_option( 'enable_classrooms' );
+	$output = "<input id='enable_classrooms' name='enable_classrooms' type='checkbox' value='on'";
 	if ( $options == "on" ) {
 		$output .= " checked='yes' />";
 	} else {

@@ -6,8 +6,7 @@ global $instructors_obj;
 global $schedule_obj;
 $table_name = $schedule_obj->table_name;
 $week_days_array = array ( 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'	);
-$sql = "SELECT start_hour FROM " . $table_name . " WHERE visible = '1' ORDER BY start_hour ASC ";
-$start_hours_array = array_unique( $wpdb->get_col( $sql ) );
+$enable_classrooms = get_option( 'enable_classrooms' );
 
 // Print Schedule in table format ?>
 <?php
@@ -15,8 +14,37 @@ $start_hours_array = array_unique( $wpdb->get_col( $sql ) );
 	$results = $wpdb->get_results( $sql );
 	$enable_24h = get_option( 'enable_24h' );
 	$enable_timezones = get_option( 'enable_timezones' );
+	 
+if ( $enable_classrooms == "on" ) {
+	if ( empty( $atts ) ) {
+		$classroom_message = "<h2>Classroom attribute is not defined</h2>";
+		$classroom_message .= "<p>If you are using this plugin in 'Classroom' mode, your shortcode needs to have the classroom attribute ";
+		$classroom_message .= "and look something like that: <pre>[wcs \"Classroom A\"]</pre></p>";
+		$classroom_message .= "<p>Check documentation for more information.</p>";
+		echo $classroom_message;
+	}
+}
+
+if ( $enable_classrooms == "on" ) {
+	$schedules_array = array();
+	if ( !empty( $atts ) ) {
+		foreach ( $atts as $key => $value ) {
+			$sql = "SELECT start_hour FROM " . $table_name . " WHERE visible = '1' AND classroom = '" . $atts[$key] . "' ORDER BY start_hour ASC ";
+			$schedules_array[] = array_unique( $wpdb->get_col( $sql ) );
+		}
+	}
+} else {
+	$sql = "SELECT start_hour FROM " . $table_name . " WHERE visible = '1' ORDER BY start_hour ASC ";
+	$atts = array("");
+	$schedules_array[] = array_unique( $wpdb->get_col( $sql ) );
+}
+
+foreach ( $schedules_array as $key => $value ) :
+	if ( !empty( $schedules_array[$key] ) ) : 
+		echo "<br/><h2>" . ucwords( $atts[$key] ) . "</h2>"; 
 ?>
-<table id="wcs-schedule-table">
+
+<table class="wcs-schedule-table">
 	<tr>
 		<th>&nbsp;</th>
 		<?php
@@ -26,7 +54,7 @@ $start_hours_array = array_unique( $wpdb->get_col( $sql ) );
 		?>
 	</tr>
 	<?php
-		foreach ( $start_hours_array as $start_hour ) {
+		foreach ( $schedules_array[$key] as $start_hour ) {
 			if ( $enable_24h == "on" ) {
 				echo "<tr><td class='hour-label'>" . clean_time_format( $start_hour ) . "</td>";
 			} else {
@@ -79,6 +107,10 @@ $start_hours_array = array_unique( $wpdb->get_col( $sql ) );
 		}
 	?>
 </table>
+<?php 
+endif; 
+endforeach;
+?>
 </div>
 
 

@@ -13,7 +13,7 @@ class WcsTable {
 		$this->table_name = $wpdb->prefix . "wcs_" . $this->name;
 		$this->assoc_schedule_name = $wpdb->prefix . "wcs_" . $assoc_schedule . "_schedule";
 	}
-		
+	
 	public function create_wcs_table() {
 		$sql = "CREATE TABLE " . $this->table_name . " (
   	 			id int(11) NOT NULL AUTO_INCREMENT,
@@ -23,6 +23,18 @@ class WcsTable {
   				);";
 		
 		dbDelta( $sql );
+	}
+	
+	public function add_default_value( $default_name, $default_description ) {
+		global $wpdb;
+		$results = $wpdb->get_results( "SELECT * FROM " . $this->table_name );
+		if ( !$results ) {
+			$wpdb->insert( 
+				$this->table_name, 
+				array( 'item_name' => $default_name, 'item_description' => $default_description ), 
+				array( '%s', '%s' ) 
+			);
+		}
 	}
 	
 	public function manage_db_actions() {
