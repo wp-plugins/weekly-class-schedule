@@ -113,7 +113,6 @@ function create_wcs_table_objects() {
 	$schedule_obj->add_timezone_column();
 	$schedule_obj->add_visibility_column();
 	$schedule_obj->add_classrooms_columns();
-	$schedule_obj->add_default_classrooms_to_entries( 'classroom' );
 	
 	$update_obj->update_version_number_in_database( '1.2' );
 }
@@ -129,7 +128,6 @@ function run_update_procedures() {
 		$schedule_obj->add_classrooms_columns();
 		$classroom_obj->create_wcs_table();
 		$classroom_obj->add_default_value( 'Classroom A', 'This is the default value' );
-		$schedule_obj->add_default_classrooms_to_entries( 'classroom' );
 		
 		$update_obj->update_version_number_in_database( '1.2' );
 	}
@@ -163,14 +161,14 @@ register_deactivation_hook( __FILE__, 'clean_up_options_table' );
 // Generate WCS admin area menus
 function wcs_admin_page() {
 	global $schedule_obj;
-	$schedule_obj->manage_db_actions();
 	$enable_classrooms = get_option( 'enable_classrooms' );
 	if ( $enable_classrooms == "on") {
-		$assoc_tables_array = array( 'class', 'instructor', 'classroom' );
+		$schedule_obj->assoc_tables_array = array( 'class', 'instructor', 'classroom' );
+		$schedule_obj->add_default_classrooms_to_entries( 'classroom' );
 	} else {
-		$assoc_tables_array = array( 'class', 'instructor' );
+		$schedule_obj->assoc_tables_array = array( 'class', 'instructor' );
 	}
-	$schedule_obj->update_assoc_tables_array( $assoc_tables_array );	
+	$schedule_obj->manage_db_actions();
 	if ( isset( $_GET['edit'] ) ) {
 		$schedule_obj->print_wcs_admin_edit();
 	} else {
