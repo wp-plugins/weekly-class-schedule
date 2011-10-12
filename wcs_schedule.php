@@ -126,6 +126,9 @@ class WcsSchedule {
 		// Add item to the database
 		if ( isset( $_POST['submit'] ) ) {
 			verify_wcs_nonces( $this->name );
+			if ( isset( $fields ) ) {
+				unset( $fields );
+			}
 			$fields = array(
 						$_POST['weekday_select'],
 						$_POST['start_hour_hours'],
