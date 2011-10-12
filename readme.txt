@@ -3,7 +3,7 @@ Contributors: ty_pwd
 Tags: schedule, weekly, class schedule
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 1.1.1
+Stable tag: 1.2
 License: GPLv2 or later
 
 Generate a weekly schedule of classes.
@@ -43,6 +43,11 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
   database in order to add entries to the schedule
 
 == Changelog ==
+= 1.2 =
+* Added multiple classrooms/schedules support
+* Fixed issue with 24h mode when updating schedule entries
+* Added timezones support 
+* Added visibility support (hide or display classes without deleting entries from the database)
 
 = 1.1.1 = 
 * Tagging issue fixed

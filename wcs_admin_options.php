@@ -20,6 +20,11 @@ if ( ! empty( $_POST ) ) { // verify a submission occured
 	<form method="post" action="options.php">
 		<?php settings_fields('wcs_options'); ?>
 		<?php do_settings_sections('wcs_options_page'); ?>
+		<div class="widefat help-box">
+			<p><strong>NOTE:</strong> If you are using this plugin in "Classroom" mode, your shortcode needs to have the classroom attribute
+			and look something like that: <pre>[wcs "Classroom A"]</pre></p>
+			<p>"Classroom A" being the exact name (case-sensitive) of the classroom as defined in the classroom database.</p>
+		</div>
     <p class="submit">
    		<input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
     </p>

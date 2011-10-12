@@ -4,7 +4,7 @@ class WcsSchedule {
 		
 	public $name;
 	public $table_name;
-	private $assoc_tables_array;
+	public $assoc_tables_array;
 	private $week_days_array = array ( 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'	);
 	
 	function __construct( $instant_name, $assoc_tables = array() ) {
@@ -13,11 +13,7 @@ class WcsSchedule {
 		$this->table_name = $wpdb->prefix . "wcs_" . $this->name . "_schedule";
 		$this->assoc_tables_array = $assoc_tables;
 	}
-	
-	public function update_assoc_tables_array( $assoc_tables = array() ) {
-		$this->assoc_tables_array = $assoc_tables;
-	}
-		
+			
 	public function create_wcs_schedule_table() {
 		$output;	
 		foreach( $this->assoc_tables_array as $key => $value ) {
@@ -284,6 +280,7 @@ class WcsSchedule {
 		global $wpdb;
 		$enable_24h = get_option( 'enable_24h' );
 		$enable_timezones = get_option( 'enable_timezones' );
+		$enable_classrooms = get_option( 'enable_classrooms' );
 		$result_set = $wpdb->get_results( "SELECT * FROM " . $this->table_name );
 		?>
 		<div class='wrap'>
@@ -298,7 +295,7 @@ class WcsSchedule {
 				<form action="" method="post" id="wcs-add-schedule-entry-form">
 				<?php 
 					if ( $enable_classrooms == "on" ) { 
-						$classrooms = array_unique( $wpdb->get_col( "SELECT classroom FROM " . $this->table_name . " WHERE visible = '1'") ); 
+						$classrooms = array_unique( $wpdb->get_col( "SELECT classroom FROM " . $this->table_name . " WHERE visible = '1'") );
 					} else {
 						$classrooms = array('');
 					}

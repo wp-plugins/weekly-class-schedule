@@ -7,25 +7,28 @@ global $schedule_obj;
 $table_name = $schedule_obj->table_name;
 $week_days_array = array ( 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'	);
 $enable_24h = get_option( 'enable_24h' );
+$enable_timezones = get_option( 'enable_timezones' );
 $enable_classrooms = get_option( 'enable_classrooms' );
 $schedule_tables_array = array( '' );
+$verify = true;
 
 if ( $enable_classrooms == "on" ) {
 	if ( empty( $atts ) ) {
 		$classroom_message = "<h2>Classroom attribute is not defined</h2>";
-		$classroom_message .= "<p>If you are using this plugin in 'Classroom' mode, your shortcode needs to have the classroom attribute ";
-		$classroom_message .= "and look something like that: <pre>[wcs \"Classroom A\"]</pre></p>";
 		$classroom_message .= "<p>Check documentation for more information.</p>";
 		echo $classroom_message;
+		$verify = false;
 	} else {
 		foreach ( $atts as $classroom ) {
 			$schedule_tables_array[] = $classroom;
 		}
 		array_shift( $schedule_tables_array );
+		$verify = true;
 	}
 }
 // Print Schedule in table format ?>
 <?php
+if ( $verify ) :
 	$sql = "SELECT * FROM " . $table_name;
 	$results = $wpdb->get_results( $sql );
 
@@ -80,7 +83,9 @@ if ( $enable_classrooms == "on" ) {
 							$class_start = convert_to_am_pm( $entry->start_hour );
 							$class_end = convert_to_am_pm( $entry->end_hour );
 						}
-						
+						if ( $enable_timezones == "on" ) {
+							$timezone = $entry->timezone;
+						}
 						$notes = ( strlen( $entry->notes ) > 14 ) ? substr( $entry->notes, 0 , 12 ) . "..." : $entry->notes;
 						
 						$output = "<!--[if IE 7]><div class='ie-container'><![endif]-->";
@@ -89,7 +94,10 @@ if ( $enable_classrooms == "on" ) {
 						$output .= " with ";
 						$output .= "<a class='qtip-target' title='" . $inst_desc . "'>" . $inst . "</a><br/>";
 						$output .= $class_start . " to " . $class_end;
-						$output .= "<br/><div class='notes-container'>" . $entry->notes . "</div>"; 
+						if ( $enable_timezones == "on" ) {
+							$output .= "<div class'timezone-container'>" . $timezone . "</div>";
+						}
+						$output .= "<div class='notes-container'>" . $entry->notes . "</div>"; 
 						$output .= "</div></div>";
 						$output .= "<!--[if IE 7]></div><![endif]-->";
 						echo $output;
@@ -103,6 +111,7 @@ if ( $enable_classrooms == "on" ) {
 	?>
 </table>
 <?php endforeach; ?>
+<?php endif; ?>
 </div>
 
 
