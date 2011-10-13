@@ -43,6 +43,7 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
   database in order to add entries to the schedule
 
 == Changelog ==
+
 = 1.2 =
 * Added multiple classrooms/schedules support
 * Fixed issue with 24h mode when updating schedule entries
