@@ -1,4 +1,5 @@
 === Weekly Class Schedule ===
+Version: 1.2
 Contributors: ty_pwd
 Tags: schedule, weekly, class schedule
 Requires at least: 3.0
