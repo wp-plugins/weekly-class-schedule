@@ -1,10 +1,10 @@
 === Weekly Class Schedule ===
-Version: 1.2.4
+Version: 1.2
 Contributors: ty_pwd
 Tags: schedule, weekly, class schedule
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 1.2.4
+Stable tag: 1.2
 License: GPLv2 or later
 
 Generate a weekly schedule of classes.
@@ -44,8 +44,6 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
   database in order to add entries to the schedule
 
 == Changelog ==
-= 1.2.4 =
-* Same as version 1.2
 
 = 1.2 =
 * Added multiple classrooms/schedules support
