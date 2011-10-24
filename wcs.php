@@ -3,7 +3,7 @@
 Plugin Name: Weekly Class Schedule
 Plugin URI: http://pulsarwebdesign.com/weekly-class-schedule
 Description: Weekly Class Schedule generates a weekly schedule of classes. It provides you with an easy way to manage and update the schedule as well as the classes and instructors database.
-Version: 1.2
+Version: 1.2.1
 Author: Pulsar Web Design
 Author URI: http://pulsarwebdesign.com
 License: GPL2
@@ -134,6 +134,32 @@ function run_update_procedures() {
 }
 
 add_action( 'admin_init', 'run_update_procedures' );
+
+// Multi-site installtion
+function create_tables_for_slave_sites() {
+	global $update_obj;
+	$table_exists = $update_obj->check_wcs_tables( 'studio_schedule' );
+	
+	if ( !$table_exists ) {
+		global $classes_obj;
+		global $instructors_obj;
+		global $classroom_obj;
+		global $schedule_obj;
+		
+		$classes_obj->create_wcs_table();
+		$instructors_obj->create_wcs_table();
+		$classroom_obj->create_wcs_table();
+		$classroom_obj->add_default_value( 'Classroom A', 'This is the default value' );
+		$schedule_obj->create_wcs_schedule_table();
+		$schedule_obj->add_timezone_column();
+		$schedule_obj->add_visibility_column();
+		$schedule_obj->add_classrooms_columns();
+	
+		$update_obj->update_version_number_in_database( '1.2' );
+	} 
+}
+
+add_action( 'admin_init', 'create_tables_for_slave_sites' );
 
 // Un-install (remove) WCS tables
 function wcs_uninstall() {
