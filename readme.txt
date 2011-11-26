@@ -44,7 +44,10 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
 
 == Changelog ==
 = 1.2.2 =
-* same as 1.2
+* Added "Today's Classes" widget
+
+= 1.2.1 =
+* Added support for multi-site setup
 
 = 1.2 =
 * Added multiple classrooms/schedules support

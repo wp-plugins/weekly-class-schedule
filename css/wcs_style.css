@@ -39,6 +39,7 @@
 .class-box:hover {
 	cursor: help;
 }
+.widget_wcs_day_widget a,
 .class-info a {
 	cursor: pointer;
 } 

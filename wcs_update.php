@@ -38,6 +38,11 @@ class WcsUpdate {
 		}
 	}
 	
-	
+	public function check_wcs_tables( $table_name ) {
+		global $wpdb;
+		$sql = "SHOW TABLES LIKE '" . $wpdb->prefix . "wcs_" . $table_name . "'";
+		$results = $wpdb->get_var( $sql );
+		return $results;
+	}
 	
 }
