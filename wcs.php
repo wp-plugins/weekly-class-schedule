@@ -3,7 +3,7 @@
 Plugin Name: Weekly Class Schedule
 Plugin URI: http://pulsarwebdesign.com/weekly-class-schedule
 Description: Weekly Class Schedule generates a weekly schedule of classes. It provides you with an easy way to manage and update the schedule as well as the classes and instructors database.
-Version: 1.2.2
+Version: 1.2.3
 Author: Pulsar Web Design
 Author URI: http://pulsarwebdesign.com
 License: GPL2
@@ -49,7 +49,7 @@ function load_wcs_scripts_and_style() {
 	wp_enqueue_script( 'jquery' );
 }
 
-add_action('init', 'load_wcs_scripts_and_style'); 
+add_action('init', 'load_wcs_scripts_and_style');
 
 // Load scripts and styles for admin area
 function load_wcs_admin_scripts_and_styles() {
@@ -114,13 +114,13 @@ function create_wcs_table_objects() {
 	$schedule_obj->add_timezone_column();
 	$schedule_obj->add_visibility_column();
 	$schedule_obj->add_classrooms_columns();
-	
-	$update_obj->update_version_number_in_database( '1.2.2' );
+
+	$update_obj->update_version_number_in_database( '1.2.3' );
 }
 register_activation_hook( __FILE__, 'create_wcs_table_objects' );
 
 function run_update_procedures() {
-	if ( WCS_VERSION != '1.2.2' || WCS_VERSION == NULL ) {
+	if ( WCS_VERSION != '1.2.3' || WCS_VERSION == NULL ) {
 		global $schedule_obj;
 		global $classroom_obj;
 		global $update_obj;
@@ -129,8 +129,8 @@ function run_update_procedures() {
 		$schedule_obj->add_classrooms_columns();
 		$classroom_obj->create_wcs_table();
 		$classroom_obj->add_default_value( 'Classroom A', 'This is the default value' );
-		
-		$update_obj->update_version_number_in_database( '1.2.2' );
+
+		$update_obj->update_version_number_in_database( '1.2.3' );
 	}
 }
 
@@ -140,13 +140,13 @@ add_action( 'admin_init', 'run_update_procedures' );
 function create_tables_for_slave_sites() {
 	global $update_obj;
 	$table_exists = $update_obj->check_wcs_tables( 'studio_schedule' );
-	
+
 	if ( !$table_exists ) {
 		global $classes_obj;
 		global $instructors_obj;
 		global $classroom_obj;
 		global $schedule_obj;
-		
+
 		$classes_obj->create_wcs_table();
 		$instructors_obj->create_wcs_table();
 		$classroom_obj->create_wcs_table();
@@ -155,9 +155,9 @@ function create_tables_for_slave_sites() {
 		$schedule_obj->add_timezone_column();
 		$schedule_obj->add_visibility_column();
 		$schedule_obj->add_classrooms_columns();
-	
-		$update_obj->update_version_number_in_database( '1.2.2' );
-	} 
+
+		$update_obj->update_version_number_in_database( '1.2.3' );
+	}
 }
 
 add_action( 'admin_init', 'create_tables_for_slave_sites' );
@@ -169,12 +169,12 @@ function wcs_uninstall() {
 	global $instructors_obj;
 	global $schedule_obj;
 	global $classroom_obj;
-	
+
 	remove_wcs_object_table( $classes_obj );
 	remove_wcs_object_table( $instructors_obj );
 	remove_wcs_object_table( $classroom_obj );
 	remove_wcs_object_table( $schedule_obj );
-	
+
 	// Uninstall timezones table (if exists)
 	$wpdb->query( "DROP TABLE IF EXISTS " . $wpdb->prefix . "wcs_timezones" );
 }
@@ -235,7 +235,7 @@ function wcs_admin_options_page() {
 }
 function wcs_admin_page_callback() {
 	$enable_classrooms = get_option( 'enable_classrooms' );
-	
+
 	add_menu_page( 'WC Schedule', 'WC Schedule', 'manage_categories', 'wcs_admin_page', 'wcs_admin_page', 'http://pulsarwebdesign.com/sites/default/files/favicon.ico' );
 	add_submenu_page( 'wcs_admin_page', 'Classes', 'Classes', 'manage_categories', 'wcs_classes_admin_menu', 'wcs_classes_admin_page' );
 	add_submenu_page( 'wcs_admin_page', 'Instructors', 'Instructors', 'manage_categories', 'wcs_instructors_admin_menu', 'wcs_instructors_admin_page' );
@@ -249,11 +249,11 @@ add_action( 'admin_menu', 'wcs_admin_page_callback' );
 // Register options page
 function register_wcs_settings() {
  	add_settings_section('wcs_main', 'WCS Main Settings', 'wcs_main_section_text', 'wcs_options_page');
- 	
- 	// 24h support 
+
+ 	// 24h support
  	register_setting( 'wcs_options', 'enable_24h' );
 	add_settings_field( 'wcs_enable_24h', 'Enable 24h Mode', 'wcs_enable_24h_setting_fields', 'wcs_options_page', 'wcs_main' );
-	
+
 	// Timezones support
 	register_setting( 'wcs_options', 'enable_timezones' );
 	add_settings_field( 'wcs_enable_timezones', 'Enable Timezones', 'wcs_enable_timezones_setting_fields', 'wcs_options_page', 'wcs_main' );
@@ -320,5 +320,6 @@ add_action( 'admin_init', 'add_timezones_table' );
 // Add shortcode
 function wcs_shortcode_callback( $atts ) {
 	include_once( 'wcs_page.php' );
+	return print_page_output( $atts );
 }
 add_shortcode( 'wcs', 'wcs_shortcode_callback' );
