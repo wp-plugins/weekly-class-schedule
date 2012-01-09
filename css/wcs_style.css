@@ -1,24 +1,24 @@
-.wcs-schedule-table {
+#content .wcs-schedule-table {
 	font-size: 12px;
 }
-.wcs-schedule-table td,
-.wcs-schedule-table th {
+#content .wcs-schedule-table td,
+#content .wcs-schedule-table th {
 	width: 12.5%;
 	padding: 0;
 	border-right: 1px solid #ddd;
 }
-.wcs-schedule-table th.weekday-label {
+#content .wcs-schedule-table th.weekday-label {
 	padding-left: 10px;
 }
-.wcs-schedule-table tr:nth-child(even) {
+#content .wcs-schedule-table tr:nth-child(even) {
 	background: #eee;
 }
-.class-box {
-	height: 40px;
+#content .class-box {
+	min-height: 40px;
 	overflow: hidden;
 	padding: 6px 10px;
 }
-.class-info {
+#content .class-info {
 	display: none;
 	z-index: 500;
 	position: absolute;
@@ -28,19 +28,23 @@
 	margin: -1px 0 0 -1px;
 	width: 200px;
 }
-.active-box-container {
+#content .active-box-container {
 	position: relative;
 } 
 .friday-column .active-box-container .class-info,
 .saturday-column .active-box-container .class-info {
 	right: 0;
 	margin: -1px -1px 0 0;
+	padding: 0;
 }
-.class-box:hover {
+#content .class-box:hover {
 	cursor: help;
 }
-.class-info a {
+.widget_wcs_day_widget a,
+#content .class-info a {
 	cursor: pointer;
+	color: #1982D1;
+	text-decoration: none;
 } 
 td.hour-label {
 	vertical-align: middle;
@@ -48,7 +52,7 @@ td.hour-label {
 .hour-label {
 	text-align: center;
 }
-.active-box {
+#content .active-box {
 	background: #dfd;
 }
 .notes {

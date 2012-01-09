@@ -1,5 +1,4 @@
 === Weekly Class Schedule ===
-Version: 1.2.4
 Contributors: ty_pwd
 Tags: schedule, weekly, class schedule
 Requires at least: 3.0
@@ -45,7 +44,18 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
 
 == Changelog ==
 = 1.2.4 =
-* Same as version 1.2
+* Fixed and issue with "Today's Classes" widget where classed are not in correct order when using multiple classrooms.
+
+= 1.2.3 =
+* Fixed issue where text would not appear above the schedule.
+* Fixed issue where the schedule appears above the header when using Simple Facebook Connect plugin.
+* NOTICE: This update changes the way the shortcode is being printed and may affect the schedule styling.
+
+= 1.2.2 =
+* Added "Today's Classes" widget
+
+= 1.2.1 =
+* Added support for multi-site setup
 
 = 1.2 =
 * Added multiple classrooms/schedules support
