@@ -3,7 +3,7 @@
 Plugin Name: Weekly Class Schedule
 Plugin URI: http://pulsarwebdesign.com/weekly-class-schedule
 Description: Weekly Class Schedule generates a weekly schedule of classes. It provides you with an easy way to manage and update the schedule as well as the classes and instructors database.
-Version: 1.2.3
+Version: 1.2.4
 Author: Pulsar Web Design
 Author URI: http://pulsarwebdesign.com
 License: GPL2
@@ -115,12 +115,12 @@ function create_wcs_table_objects() {
 	$schedule_obj->add_visibility_column();
 	$schedule_obj->add_classrooms_columns();
 
-	$update_obj->update_version_number_in_database( '1.2.3' );
+	$update_obj->update_version_number_in_database( '1.2.4' );
 }
 register_activation_hook( __FILE__, 'create_wcs_table_objects' );
 
 function run_update_procedures() {
-	if ( WCS_VERSION != '1.2.3' || WCS_VERSION == NULL ) {
+	if ( WCS_VERSION != '1.2.4' || WCS_VERSION == NULL ) {
 		global $schedule_obj;
 		global $classroom_obj;
 		global $update_obj;
@@ -130,7 +130,7 @@ function run_update_procedures() {
 		$classroom_obj->create_wcs_table();
 		$classroom_obj->add_default_value( 'Classroom A', 'This is the default value' );
 
-		$update_obj->update_version_number_in_database( '1.2.3' );
+		$update_obj->update_version_number_in_database( '1.2.4' );
 	}
 }
 
@@ -156,7 +156,7 @@ function create_tables_for_slave_sites() {
 		$schedule_obj->add_visibility_column();
 		$schedule_obj->add_classrooms_columns();
 
-		$update_obj->update_version_number_in_database( '1.2.3' );
+		$update_obj->update_version_number_in_database( '1.2.4' );
 	}
 }
 

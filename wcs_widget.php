@@ -27,7 +27,7 @@ class WCS_Day_Widget extends WP_Widget {
 		$sql = $wpdb->prepare(
 			"SELECT * FROM " 
 			. $wpdb->prefix . 
-			"wcs_studio_schedule WHERE week_day = '" . ucwords(date('l'))  . "'"
+			"wcs_studio_schedule WHERE week_day = '" . ucwords(date('l'))  . "' ORDER BY start_hour"
 		);
 		$results = $wpdb->get_results($sql);
 		
