@@ -44,7 +44,7 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
 
 == Changelog ==
 = 1.2.4 =
-* Fixed and issue with "Today's Classes" widget where classed are not in correct order when using multiple classrooms.
+* Fixed an issue with "Today's Classes" widget where classes are not in the correct order when using multiple classrooms.
 
 = 1.2.3 =
 * Fixed issue where text would not appear above the schedule.
