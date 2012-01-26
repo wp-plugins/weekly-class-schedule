@@ -2,8 +2,8 @@
 Contributors: ty_pwd
 Tags: schedule, weekly, class schedule
 Requires at least: 3.0
-Tested up to: 3.2.1
-Stable tag: 1.2.4
+Tested up to: 3.3.1
+Stable tag: 1.2.5
 License: GPLv2 or later
 
 Generate a weekly schedule of classes.
@@ -43,6 +43,14 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
   database in order to add entries to the schedule
 
 == Changelog ==
+= 1.2.5 =
+* Fixed visibility (visible/hidden status) bug. 
+* Moved "Add Schedule Entry" section to the top of the page.
+* Added option for unescaped notes. This allows for adding anything to the notes field (links, PayPal buttons, etc...). This options has security implications so make sure you know what you're doing.
+
+ ** NOTE **
+ Make sure you delete all the unescaped notes before turning the option off.
+
 = 1.2.4 =
 * Fixed an issue with "Today's Classes" widget where classes are not in the correct order when using multiple classrooms.
 

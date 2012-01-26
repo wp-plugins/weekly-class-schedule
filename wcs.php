@@ -3,7 +3,7 @@
 Plugin Name: Weekly Class Schedule
 Plugin URI: http://pulsarwebdesign.com/weekly-class-schedule
 Description: Weekly Class Schedule generates a weekly schedule of classes. It provides you with an easy way to manage and update the schedule as well as the classes and instructors database.
-Version: 1.2.4
+Version: 1.2.5
 Author: Pulsar Web Design
 Author URI: http://pulsarwebdesign.com
 License: GPL2
@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 define('WCS_PLUGIN_URL', plugin_dir_url( __FILE__ ));
+define('WCS_LATEST_VERSION', '1.2.5');
 
 require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 require_once( 'wcs_functions.php' );
@@ -115,12 +116,12 @@ function create_wcs_table_objects() {
 	$schedule_obj->add_visibility_column();
 	$schedule_obj->add_classrooms_columns();
 
-	$update_obj->update_version_number_in_database( '1.2.4' );
+	$update_obj->update_version_number_in_database( WCS_LATEST_VERSION );
 }
 register_activation_hook( __FILE__, 'create_wcs_table_objects' );
 
 function run_update_procedures() {
-	if ( WCS_VERSION != '1.2.4' || WCS_VERSION == NULL ) {
+	if ( WCS_VERSION != WCS_LATEST_VERSION || WCS_VERSION == NULL ) {
 		global $schedule_obj;
 		global $classroom_obj;
 		global $update_obj;
@@ -130,7 +131,7 @@ function run_update_procedures() {
 		$classroom_obj->create_wcs_table();
 		$classroom_obj->add_default_value( 'Classroom A', 'This is the default value' );
 
-		$update_obj->update_version_number_in_database( '1.2.4' );
+		$update_obj->update_version_number_in_database( WCS_LATEST_VERSION );
 	}
 }
 
@@ -156,7 +157,7 @@ function create_tables_for_slave_sites() {
 		$schedule_obj->add_visibility_column();
 		$schedule_obj->add_classrooms_columns();
 
-		$update_obj->update_version_number_in_database( '1.2.4' );
+		$update_obj->update_version_number_in_database( WCS_LATEST_VERSION );
 	}
 }
 
@@ -261,6 +262,10 @@ function register_wcs_settings() {
 	// Classroom support
 	register_setting( 'wcs_options', 'enable_classrooms' );
 	add_settings_field( 'wcs_enable_classrooms', 'Enable Classrooms', 'wcs_enable_classrooms_setting_fields', 'wcs_options_page', 'wcs_main' );
+	
+	// Unescaped Notes support
+	register_setting( 'wcs_options', 'enable_unescaped_notes' );
+	add_settings_field( 'wcs_enable_unescaped_notes', 'Enable Unescaped Notes', 'wcs_enable_unescaped_notes_setting_fields', 'wcs_options_page', 'wcs_main' );
 }
 
 add_action( 'admin_init', 'register_wcs_settings' );
@@ -303,6 +308,18 @@ function wcs_enable_classrooms_setting_fields() {
 		$output .= " />";
 	}
 	echo $output;
+}
+
+// Unescaped notes field output
+function wcs_enable_unescaped_notes_setting_fields() {
+  $options = get_option( 'enable_unescaped_notes' );
+  $output = "<input id='enable_unescaped_notes' name='enable_unescaped_notes' type='checkbox' value='on'";
+  if ( $options == "on" ) {
+    $output .= " checked='yes' />";
+  } else {
+    $output .= " />";
+  }
+  echo $output;
 }
 
 function add_timezones_table() {

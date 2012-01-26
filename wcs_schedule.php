@@ -6,6 +6,7 @@ class WcsSchedule {
 	public $table_name;
 	public $assoc_tables_array;
 	private $week_days_array = array ( 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'	);
+	private $minutes = array(0, 15, 30, 45);
 	
 	function __construct( $instant_name, $assoc_tables = array() ) {
 		global $wpdb;
@@ -280,7 +281,7 @@ class WcsSchedule {
 	}
 	
 	public function print_wcs_admin() {
-		global $wpdb;
+	  global $wpdb;
 		$enable_24h = get_option( 'enable_24h' );
 		$enable_timezones = get_option( 'enable_timezones' );
 		$enable_classrooms = get_option( 'enable_classrooms' );
@@ -302,6 +303,142 @@ class WcsSchedule {
 					} else {
 						$classrooms = array('');
 					}
+					?>
+					<h2>Add Schedule Entry</h2>
+					<table class="wp-list-table widefat entry-table fixed">
+						<?php 
+							foreach ( $this->assoc_tables_array as $value ) {
+								$output = "<tr><td class='wcs-label-column'>" . ucwords( $value ) . "</td>";
+								$output .= "<td class='wcs-entry-column'>";
+								$sql = "SELECT item_name FROM " . $wpdb->prefix . "wcs_" . $value;
+								$output .= "<select name='" . $value . "_select'>";
+								$results = $wpdb->get_col( $sql );
+								if ( ! $results ) {
+									$output .= "<option value =''>Please add to $value database</option>"; 
+								} else {
+									foreach ( $results as $key => $second_value ) {
+										$output .= "<option value ='" . $second_value . "'>" . $second_value . "</option>"; 
+									}
+								}
+								$output .= "</select></td></tr>";
+								echo $output;
+							}
+						?>
+						<tr>	
+							<td>Day:</td>
+							<td> 
+								<select name="weekday_select">
+								<?php
+									foreach( $this->week_days_array as $value ) {
+										echo "<option value ='" . $value . "'>" . $value . "</option>";
+									}
+								?>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>Start Hour:</td>
+							<td>
+								<select name="start_hour_hours">
+								<?php 
+									if ( $enable_24h == "on" ) {
+										$hours = range(0, 23);
+										foreach( $hours as $value ) {
+											echo "<option value ='" . $value . "'>" . $value . "</option>";
+										}
+									} else {
+										$hours = range(1, 12);
+										foreach( $hours as $value ) {
+											echo "<option value ='" . $value . "'>" . $value . "</option>";
+										}
+									}
+								?>
+								</select>
+								<select name="start_hour_minutes">
+								<?php 
+									foreach( $this->minutes as $value ) {
+										echo "<option value ='" . $value . "'>" . $value . "</option>";
+									}
+								?>
+								</select>
+								<?php if ( $enable_24h != "on" ) : ?>
+								<select name="start_hour_am_pm">
+									<option value="AM">AM</option>
+									<option value="PM">PM</option>
+								</select>
+								<?php endif; ?>
+							</td>
+						</tr>	
+						<tr>
+							<td>End Hour:</td>
+							<td> 
+								<select name="end_hour_hours">
+								<?php 
+									if ( $enable_24h == "on" ) {
+										$hours = range(0, 23);
+										foreach( $hours as $value ) {
+											echo "<option value ='" . $value . "'>" . $value . "</option>";
+										}
+									} else {
+										$hours = range(1, 12);
+										foreach( $hours as $value ) {
+											echo "<option value ='" . $value . "'>" . $value . "</option>";
+										}
+									}
+								?>
+								</select>
+								<select name="end_hour_minutes">
+								<?php 
+									foreach( $this->minutes as $value ) {
+										echo "<option value ='" . $value . "'>" . $value . "</option>";
+									}
+								?>
+								</select>
+								<?php if ( $enable_24h != "on" ) : ?>
+								<select name="end_hour_am_pm">
+									<option value="AM">AM</option>
+									<option value="PM">PM</option>
+								</select>
+								<?php endif; ?>
+							</td>
+						</tr>
+						<tr>
+							<td>Visibility:</td>
+							<td>
+								<select name="visibility">
+									<option value="1">Visible</option>
+									<option value="0">Hidden</option>
+								</select>
+							</td>
+						</tr>
+						<?php if ( $enable_timezones == "on" ) : ?>
+						<tr>
+							<td>Timezone:</td>
+							<td>
+								<select name="timezone">
+									<?php
+										$sql = "SELECT GMT, name FROM " . $wpdb->prefix . "wcs_timezones";
+										$timezones = $wpdb->get_results( $sql, ARRAY_A );
+										foreach( $timezones as $value ) {
+											echo "<option value='" . $value['name'] . "'>" . $value['name'] . "</option>";
+										}
+									?>
+								</select>
+							</td>
+						</tr>
+						<?php endif; ?>
+						<tr>
+							<td>Notes:</td>
+							<td>
+								<textarea name="new_entry_notes" class="large-text" placeholder="Add notes" /><?php if ( $db_updated ) { echo ""; } else { stripslashes( $_POST['new_entry_notes'] ); } ?></textarea>
+							</td>
+						</tr>
+					</table>
+					<p>
+						<input id='submit' type='submit' class='button-primary' value='Add Schedule Entry' name='submit' />
+					</p>
+					
+					<?php
 					foreach ( $classrooms as $classroom) :
 						echo "<h2>" . $classroom . " Schedule</h2>";
 					foreach ( $this->week_days_array as $value ) {
@@ -341,7 +478,8 @@ class WcsSchedule {
 							foreach ( $entries as $value ) {
 									
 								$edit_url = "?" . key($_GET) . "=" . $_GET['page'] . "&edit=" . $value->id;
-								$notes = ( strlen( $value->notes ) > 14 ) ? substr( $value->notes, 0 , 12 ) . "..." : $value->notes;
+								$init_notes = esc_html($value->notes);
+								$notes = ( strlen( $init_notes ) > 14 ) ? substr( $init_notes, 0 , 12 ) . "..." : $init_notes;
 								$status = ( $value->visible == 1 ) ? "Visible" : "Hidden";
 								
 								$output = "<tr>";
@@ -362,6 +500,7 @@ class WcsSchedule {
 									$end_pos = strpos( $value->timezone, ")" );
 									$output .= "<td>" . substr( $value->timezone, 0, $end_pos + 1 ) . "</td>";
 								}
+								
 								$output .= "<td>" . $notes . "</td>";
 								$output .= "<td class='edit-button-column'><a href='" . $edit_url . "'>Edit</a></td>";
 								
@@ -379,140 +518,8 @@ class WcsSchedule {
 				?>
 				
 				<br />
-				<h2>Add Schedule Entry</h2>
-				<table class="wp-list-table widefat entry-table fixed">
-					<?php 
-						foreach ( $this->assoc_tables_array as $value ) {
-							$output = "<tr><td class='wcs-label-column'>" . ucwords( $value ) . "</td>";
-							$output .= "<td class='wcs-entry-column'>";
-							$sql = "SELECT item_name FROM " . $wpdb->prefix . "wcs_" . $value;
-							$output .= "<select name='" . $value . "_select'>";
-							$results = $wpdb->get_col( $sql );
-							if ( ! $results ) {
-								$output .= "<option value =''>Please add to $value database</option>"; 
-							} else {
-								foreach ( $results as $key => $second_value ) {
-									$output .= "<option value ='" . $second_value . "'>" . $second_value . "</option>"; 
-								}
-							}
-							$output .= "</select></td></tr>";
-							echo $output;
-						}
-					?>
-					<tr>	
-						<td>Day:</td>
-						<td> 
-							<select name="weekday_select">
-							<?php
-								foreach( $this->week_days_array as $value ) {
-									echo "<option value ='" . $value . "'>" . $value . "</option>";
-								}
-							?>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>Start Hour:</td>
-						<td>
-							<select name="start_hour_hours">
-							<?php 
-								if ( $enable_24h == "on" ) {
-									$hours = range(0, 23);
-									foreach( $hours as $value ) {
-										echo "<option value ='" . $value . "'>" . $value . "</option>";
-									}
-								} else {
-									$hours = range(1, 12);
-									foreach( $hours as $value ) {
-										echo "<option value ='" . $value . "'>" . $value . "</option>";
-									}
-								}
-							?>
-							</select>
-							<select name="start_hour_minutes">
-							<?php 
-								$minutes = array(0, 15, 30, 45);
-								foreach( $minutes as $value ) {
-									echo "<option value ='" . $value . "'>" . $value . "</option>";
-								}
-							?>
-							</select>
-							<?php if ( $enable_24h != "on" ) : ?>
-							<select name="start_hour_am_pm">
-								<option value="AM">AM</option>
-								<option value="PM">PM</option>
-							</select>
-							<?php endif; ?>
-						</td>
-					</tr>	
-					<tr>
-						<td>End Hour:</td>
-						<td> 
-							<select name="end_hour_hours">
-							<?php 
-								if ( $enable_24h == "on" ) {
-									$hours = range(0, 23);
-									foreach( $hours as $value ) {
-										echo "<option value ='" . $value . "'>" . $value . "</option>";
-									}
-								} else {
-									$hours = range(1, 12);
-									foreach( $hours as $value ) {
-										echo "<option value ='" . $value . "'>" . $value . "</option>";
-									}
-								}
-							?>
-							</select>
-							<select name="end_hour_minutes">
-							<?php 
-								$minutes = array(0, 15, 30, 45);
-								foreach( $minutes as $value ) {
-									echo "<option value ='" . $value . "'>" . $value . "</option>";
-								}
-							?>
-							</select>
-							<?php if ( $enable_24h != "on" ) : ?>
-							<select name="end_hour_am_pm">
-								<option value="AM">AM</option>
-								<option value="PM">PM</option>
-							</select>
-							<?php endif; ?>
-						</td>
-					</tr>
-					<tr>
-						<td>Visibility:</td>
-						<td>
-							<select name="visibility">
-								<option value="1">Visible</option>
-								<option value="0">Hidden</option>
-							</select>
-						</td>
-					</tr>
-					<?php if ( $enable_timezones == "on" ) : ?>
-					<tr>
-						<td>Timezone:</td>
-						<td>
-							<select name="timezone">
-								<?php
-									$sql = "SELECT GMT, name FROM " . $wpdb->prefix . "wcs_timezones";
-									$timezones = $wpdb->get_results( $sql, ARRAY_A );
-									foreach( $timezones as $value ) {
-										echo "<option value='" . $value['name'] . "'>" . $value['name'] . "</option>";
-									}
-								?>
-							</select>
-						</td>
-					</tr>
-					<?php endif; ?>
-					<tr>
-						<td>Notes:</td>
-						<td>
-							<textarea name="new_entry_notes" class="large-text" placeholder="Add notes" /><?php if ( $db_updated ) { echo ""; } else { stripslashes( $_POST['new_entry_notes'] ); } ?></textarea>
-						</td>
-					</tr>
-				</table>
+				
 				<p>
-					<input id='submit' type='submit' class='button-primary' value='Add Schedule Entry' name='submit' />
 					<input id='delete' type='submit' class='button-primary' value='Delete Entry' name='delete' />
 				</p>
 				
@@ -528,6 +535,7 @@ class WcsSchedule {
 		global $db_updated;
 		$enable_24h = get_option( 'enable_24h' );
 		$enable_timezones = get_option( 'enable_timezones' );
+		$enable_unesc_notes = get_option( 'enable_unescaped_notes' );
 		
 		$item_id = $wpdb->escape( $_GET['edit'] );
 		$result_set = $wpdb->get_row( "SELECT * FROM " . $this->table_name . " WHERE id = '" . $item_id . "'", ARRAY_A );
@@ -600,8 +608,7 @@ class WcsSchedule {
 								</select>
 								<select name="start_hour_minutes">
 								<?php 
-									$minutes = array(0, 15, 30, 45);
-									foreach( $minutes as $value ) {
+									foreach( $this->minutes as $value ) {
 										if ( $start_time_array['minutes'] == $value ) {
 											echo "<option selected='selected' value ='" . $value . "'>" . $value . "</option>";
 										} else {
@@ -639,8 +646,7 @@ class WcsSchedule {
 								</select>
 								<select name="end_hour_minutes">
 								<?php 
-									$minutes = array(0, 15, 30, 45);
-									foreach( $minutes as $value ) {
+									foreach( $this->minutes as $value ) {
 										if ( $end_time_array['minutes'] == $value ) {
 											echo "<option selected='selected' value ='" . $value . "'>" . $value . "</option>";
 										} else {
@@ -689,8 +695,14 @@ class WcsSchedule {
 						<?php endif; ?>
 						<tr>
 							<td>Notes:</td>
+							<?php 
+							  $notes = $result_set['notes'];
+							  if ($enable_unesc_notes == 'on') {
+							    $notes = stripslashes($notes);
+							  }
+							?>
 							<td>
-							<textarea name="new_entry_notes" class="large-text" placeholder="Add notes" /><?php echo $result_set['notes']; ?></textarea>
+							<textarea name="new_entry_notes" class="large-text" placeholder="Add notes" /><?php echo $notes; ?></textarea>
 						</td>
 						</tr>
 					</table>
