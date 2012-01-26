@@ -9,6 +9,7 @@ function print_page_output( $atts ) {
 	$enable_24h = get_option( 'enable_24h' );
 	$enable_timezones = get_option( 'enable_timezones' );
 	$enable_classrooms = get_option( 'enable_classrooms' );
+	$enable_unesc_notes = get_option( 'enable_unescaped_notes' );
 	$schedule_tables_array = array( '' );
 	$verify = true;
 
@@ -30,7 +31,7 @@ function print_page_output( $atts ) {
 
 	// Print Schedule in table format
 	if ( $verify ) :
-		$sql = "SELECT * FROM " . $table_name;
+		$sql = "SELECT * FROM " . $table_name . " WHERE visible = '1'";
 		$results = $wpdb->get_results( $sql );
 
 		foreach ( $schedule_tables_array as $key => $schedule ) :
@@ -81,7 +82,7 @@ function print_page_output( $atts ) {
 							if ( $enable_timezones == "on" ) {
 								$timezone = $entry->timezone;
 							}
-							$notes = ( strlen( $entry->notes ) > 14 ) ? substr( $entry->notes, 0 , 12 ) . "..." : $entry->notes;
+							$unescaped_notes = stripslashes($entry->notes);
 
 							$output = "<!--[if IE 7]><div class='ie-container'><![endif]-->";
 							$output .= "<div class='active-box-container'><div class='class-box'>" . $class . "</a></div>";
@@ -92,7 +93,11 @@ function print_page_output( $atts ) {
 							if ( $enable_timezones == "on" ) {
 								$output .= "<div class'timezone-container'>" . $timezone . "</div>";
 							}
-							$output .= "<div class='notes-container'>" . $entry->notes . "</div>";
+							if ($enable_unesc_notes == 'on') {
+							  $output .= "<div class='notes-container'>" . $unescaped_notes . "</div>";
+							} else {
+							  $output .= "<div class='notes-container'>" . esc_html($entry->notes) . "</div>";
+							}
 							$output .= "</div></div>";
 							$output .= "<!--[if IE 7]></div><![endif]-->";
 							$page_output .= $output;
