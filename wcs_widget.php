@@ -43,7 +43,7 @@ class WCS_Day_Widget extends WP_Widget {
 				}
 				$desc_sql = $wpdb->prepare("SELECT item_description FROM " . $wpdb->prefix . "wcs_class WHERE id = '" . $record->class_id . "'"); 
 				$inst_sql = $wpdb->prepare("SELECT item_description FROM " . $wpdb->prefix . "wcs_instructor WHERE id = '" . $record->instructor_id . "'");
-				$classroom_sql = $wpdb->prepare("SELECT item_description FROM " . $wpdb->prefix . "wcs_classroom WHERE id = '" . $record->instructor_id . "'");
+				$classroom_sql = $wpdb->prepare("SELECT item_description FROM " . $wpdb->prefix . "wcs_classroom WHERE id = '" . $record->classroom_id . "'");
 				  
 				$class = $record->class;
 				$inst = $record->instructor;

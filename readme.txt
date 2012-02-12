@@ -3,7 +3,7 @@ Contributors: ty_pwd
 Tags: schedule, weekly, class schedule
 Requires at least: 3.0
 Tested up to: 3.3.1
-Stable tag: 1.2.5
+Stable tag: 1.2.5.2
 License: GPLv2 or later
 
 Generate a weekly schedule of classes.
@@ -43,6 +43,17 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
   database in order to add entries to the schedule
 
 == Changelog ==
+= 1.2.5.2 =
+* Attempts to fix "Layout is Too Wide" issue for themes that are not using the #content div.
+* Fixed a small issue in the "Today's Classes" widget.
+ 
+ ** NOTE **
+ This update adds lines to the wcs_style.css file and may affect the schedule styling. Test on a development machine before updating.
+
+
+= 1.2.5.1 =
+* Fixed issue (double slashes) which prevented from the schedule to get cached.
+
 = 1.2.5 =
 * Fixed visibility (visible/hidden status) bug. 
 * Moved "Add Schedule Entry" section to the top of the page.

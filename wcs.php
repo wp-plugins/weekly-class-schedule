@@ -3,7 +3,7 @@
 Plugin Name: Weekly Class Schedule
 Plugin URI: http://pulsarwebdesign.com/weekly-class-schedule
 Description: Weekly Class Schedule generates a weekly schedule of classes. It provides you with an easy way to manage and update the schedule as well as the classes and instructors database.
-Version: 1.2.5
+Version: 1.2.5.2
 Author: Pulsar Web Design
 Author URI: http://pulsarwebdesign.com
 License: GPL2
@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 define('WCS_PLUGIN_URL', plugin_dir_url( __FILE__ ));
-define('WCS_LATEST_VERSION', '1.2.5');
+define('WCS_LATEST_VERSION', '1.2.5.2');
 
 require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 require_once( 'wcs_functions.php' );
@@ -45,7 +45,7 @@ add_action('wp_enqueue_scripts', 'load_cdn_jquery');
 
 // Load scripts and styles for the entire website
 function load_wcs_scripts_and_style() {
-	wp_register_style( 'wcs_admin', WCS_PLUGIN_URL . '/css/wcs_admin.css' );
+	wp_register_style( 'wcs_admin', WCS_PLUGIN_URL . 'css/wcs_admin.css' );
 	wp_enqueue_style( 'wcs_admin' );
 	wp_enqueue_script( 'jquery' );
 }
@@ -55,7 +55,7 @@ add_action('init', 'load_wcs_scripts_and_style');
 // Load scripts and styles for admin area
 function load_wcs_admin_scripts_and_styles() {
 	if ( is_admin() ) {
-		wp_register_script( 'options_page_script', WCS_PLUGIN_URL . '/js/options_page.min.js');
+		wp_register_script( 'options_page_script', WCS_PLUGIN_URL . 'js/options_page.min.js');
 		wp_enqueue_script( 'options_page_script' );
 	}
 }
@@ -65,17 +65,17 @@ add_action('admin_init', 'load_wcs_admin_scripts_and_styles');
 // Load scripts and styles for website (no admin area support)
 function load_wcs_website_scripts_and_styles() {
 	if ( ! is_admin() ) {
-		wp_register_style( 'wcs_style', WCS_PLUGIN_URL . '/css/wcs_style.css' );
+		wp_register_style( 'wcs_style', WCS_PLUGIN_URL . 'css/wcs_style.css' );
 		wp_enqueue_style( 'wcs_style' );
-		wp_register_script( 'qtip_script', WCS_PLUGIN_URL . '/qtip/jquery.qtip.min.js');
+		wp_register_script( 'qtip_script', WCS_PLUGIN_URL . 'qtip/jquery.qtip.min.js');
 		wp_enqueue_script( 'qtip_script' );
-		wp_register_style( 'qtip_style', WCS_PLUGIN_URL . '/qtip/jquery.qtip.min.css' );
+		wp_register_style( 'qtip_style', WCS_PLUGIN_URL . 'qtip/jquery.qtip.min.css' );
 		wp_enqueue_style( 'qtip_style' );
-		wp_register_script( 'hoverIntent_script', WCS_PLUGIN_URL . '/hoverIntent/jquery.hoverIntent.minified.js');
+		wp_register_script( 'hoverIntent_script', WCS_PLUGIN_URL . 'hoverIntent/jquery.hoverIntent.minified.js');
 		wp_enqueue_script( 'hoverIntent_script' );
-		wp_register_script( 'wcs_script', WCS_PLUGIN_URL . '/js/wcs.min.js');
+		wp_register_script( 'wcs_script', WCS_PLUGIN_URL . 'js/wcs.min.js');
 		wp_enqueue_script( 'wcs_script' );
-		wp_register_script( 'apply_qtip', WCS_PLUGIN_URL . '/qtip/apply.qtip.min.js');
+		wp_register_script( 'apply_qtip', WCS_PLUGIN_URL . 'qtip/apply.qtip.min.js');
 		wp_enqueue_script( 'apply_qtip' );
 	}
 }
