@@ -1,0 +1,343 @@
+# Copyright (C) 2012 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version:  \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/weekly-class-schedule\n"
+"POT-Creation-Date: 2012-06-11 22:39:11+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2012-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: controllers/WcsController.php:39
+msgid "Bad request"
+msgstr ""
+
+#: includes/WcsActiveRecord.php:220
+msgid "%d item was added to the database"
+msgstr ""
+
+#: includes/WcsActiveRecord.php:222
+msgid "Failed to add item to the database"
+msgstr ""
+
+#: includes/WcsActiveRecord.php:228
+msgid "%d item was updated"
+msgstr ""
+
+#: includes/WcsActiveRecord.php:230
+msgid "Failed to update item"
+msgstr ""
+
+#: includes/WcsAdmin.php:30
+msgid "WC Schedule"
+msgstr ""
+
+#: includes/WcsAdmin.php:31
+msgid "Classes"
+msgstr ""
+
+#: includes/WcsAdmin.php:32
+msgid "Instructors"
+msgstr ""
+
+#: includes/WcsAdmin.php:33
+msgid "Classrooms"
+msgstr ""
+
+#: includes/WcsAdmin.php:34
+msgid "Options"
+msgstr ""
+
+#: includes/WcsOptions.php:33
+msgid "Invalid color. Please use a valid hex value."
+msgstr ""
+
+#: includes/WcsOptions.php:45
+msgid "Using the Weekly Class Schedule"
+msgstr ""
+
+#: includes/WcsOptions.php:53
+msgid "General Settings"
+msgstr ""
+
+#: includes/WcsOptions.php:58
+msgid "First day of week"
+msgstr ""
+
+#: includes/WcsOptions.php:59
+msgid "The day the schedule will start in"
+msgstr ""
+
+#: includes/WcsOptions.php:69
+msgid "Number of days to display"
+msgstr ""
+
+#: includes/WcsOptions.php:70
+msgid "The number of days to display including the first day of the week."
+msgstr ""
+
+#: includes/WcsOptions.php:80
+msgid "Enable 24-hour mode"
+msgstr ""
+
+#: includes/WcsOptions.php:81
+msgid ""
+"Enabling this will display all the hours in a 24-hour clock mode as opposed "
+"to 12-hour clock mode (AM/PM)."
+msgstr ""
+
+#: includes/WcsOptions.php:91
+msgid "Time Increments"
+msgstr ""
+
+#: includes/WcsOptions.php:92
+msgid "Only affects the schedule entry form, not the final output."
+msgstr ""
+
+#: includes/WcsOptions.php:102
+msgid "Detect classroom collisions"
+msgstr ""
+
+#: includes/WcsOptions.php:103
+msgid ""
+"Enabling this feature will prevent scheduling of multiple classes at the "
+"same classroom at the same time."
+msgstr ""
+
+#: includes/WcsOptions.php:113
+msgid "Enable Timezones"
+msgstr ""
+
+#: includes/WcsOptions.php:114
+msgid ""
+"Enabling this will add a timezone field to the schedule entry form. The "
+"final time output will be calculated based upon the site/server settings."
+msgstr ""
+
+#: includes/WcsOptions.php:124
+msgid "Use short day names"
+msgstr ""
+
+#: includes/WcsOptions.php:125
+msgid ""
+"Displays the first 3 letters of the weekday on the schedule. For example "
+"'Mon' instead of 'Monday'."
+msgstr ""
+
+#: includes/WcsOptions.php:135
+msgid "Class Details Template"
+msgstr ""
+
+#: includes/WcsOptions.php:136
+msgid ""
+"Use placholders to design the way the class details appear in the schedule"
+msgstr ""
+
+#: includes/WcsOptions.php:137
+msgid "Available placholders"
+msgstr ""
+
+#: includes/WcsOptions.php:166
+msgid "Base class color"
+msgstr ""
+
+#: includes/WcsOptions.php:167
+msgid "The default color for classes in the schedule."
+msgstr ""
+
+#: includes/WcsOptions.php:177
+msgid "Alternate class color"
+msgstr ""
+
+#: includes/WcsOptions.php:178
+msgid ""
+"In case there are more than one class in the same cell, colors will "
+"alternate between this and the base color."
+msgstr ""
+
+#: includes/WcsOptions.php:187
+msgid "Class details box"
+msgstr ""
+
+#: includes/WcsOptions.php:188
+msgid ""
+"Color of the class details box which appears when hovering over a class."
+msgstr ""
+
+#: includes/WcsOptions.php:198
+msgid "Border color"
+msgstr ""
+
+#: includes/WcsOptions.php:199
+msgid "This color is used for all borders in the schedule output"
+msgstr ""
+
+#: includes/WcsOptions.php:209
+msgid "Schedule headings color"
+msgstr ""
+
+#: includes/WcsOptions.php:210
+msgid "Text color of the schedule headings (weekdays, hours)."
+msgstr ""
+
+#: includes/WcsOptions.php:220
+msgid "Schedule headings background"
+msgstr ""
+
+#: includes/WcsOptions.php:221
+msgid "Background color of the schedule headings (weekdays, hours)."
+msgstr ""
+
+#: includes/WcsOptions.php:231
+msgid "Text color"
+msgstr ""
+
+#: includes/WcsOptions.php:232
+msgid "Text color of schedule entries/classes."
+msgstr ""
+
+#: includes/WcsOptions.php:242
+msgid "Background color"
+msgstr ""
+
+#: includes/WcsOptions.php:243
+msgid "Background color for the entire schedule."
+msgstr ""
+
+#: includes/WcsOptions.php:253
+msgid "qTip background color"
+msgstr ""
+
+#: includes/WcsOptions.php:254
+msgid "Background color of the qTip pop-up box."
+msgstr ""
+
+#: includes/WcsOptions.php:264
+msgid "Links color"
+msgstr ""
+
+#: includes/WcsOptions.php:265
+msgid "The color of the links which appear in the class details box"
+msgstr ""
+
+#: includes/WcsOptions.php:291
+msgid ""
+"To display all the classes in a single schedule, simply enter the shortcode "
+"<code>[wcs]</code> inside a page or a post."
+msgstr ""
+
+#: includes/WcsOptions.php:292
+msgid ""
+"The schedule layout is vertical by default but it's easy to switch to "
+"horizontal using the 'layout' attribute like this: <code>[wcs "
+"layout=horizontal]</code>. "
+msgstr ""
+
+#: includes/WcsOptions.php:293
+msgid ""
+"It's also possible to output the schedule as a list using the list layout: "
+"<code>[wcs layout=list]</code>. The list layout is better for mobile devices."
+msgstr ""
+
+#: includes/WcsOptions.php:294
+msgid ""
+"In order to display a single classroom, use the classroom attribute like "
+"this: <code>[wcs classroom=\"Classroom A\"]</code> Where \"Classroom A\" is "
+"the name of the classroom as it appears in the database."
+msgstr ""
+
+#: includes/WcsOptions.php:295
+msgid ""
+"A finalized shortcode may look something like <code>[wcs classroom="
+"\"Classroom A\" layout=list]</code>."
+msgstr ""
+
+#: includes/WcsOptions.php:337
+msgid " Minutes"
+msgstr ""
+
+#: models/WcsItemForm.php:29
+msgid "Name field cannot be empty"
+msgstr ""
+
+#: models/WcsItemForm.php:39 models/WcsItemForm.php:43
+msgid "Item already exists in the database"
+msgstr ""
+
+#: models/WcsItemForm.php:57 models/WcsScheduleForm.php:128
+msgid "Please select an item to delete"
+msgstr ""
+
+#: models/WcsItemForm.php:127 models/WcsScheduleForm.php:206
+msgid "%d item deleted from database"
+msgid_plural "%d items deleted from database"
+msgstr[0] ""
+msgstr[1] ""
+
+#: models/WcsSchedule.php:401
+msgid "A class cannot end before it starts"
+msgstr ""
+
+#: models/WcsSchedule.php:463
+msgid "The %s is not available at this time"
+msgstr ""
+
+#: models/WcsScheduleForm.php:59 models/WcsScheduleForm.php:86
+msgid "Illegal selection"
+msgstr ""
+
+#: models/WcsScheduleForm.php:63
+msgid "Please select a %s"
+msgstr ""
+
+#: models/WcsTodayClassesWidget.php:18
+msgid "WCS Today's Classes"
+msgstr ""
+
+#: models/WcsTodayClassesWidget.php:19
+msgid "Displays a list of today's classes"
+msgstr ""
+
+#: models/WcsTodayClassesWidget.php:69
+msgid "No Classes Today"
+msgstr ""
+
+#: models/WcsTodayClassesWidget.php:107
+msgid "Today's Classes"
+msgstr ""
+
+#: models/WcsTodayClassesWidget.php:129
+msgid "Title:"
+msgstr ""
+
+#: models/WcsTodayClassesWidget.php:134
+msgid "Max Classes:"
+msgstr ""
+
+#: models/WcsTodayClassesWidget.php:136
+msgid "Maximum number of classes to display"
+msgstr ""
+
+#: models/WcsTodayClassesWidget.php:141
+msgid "All"
+msgstr ""
+
+#: views/OptionsView.php:15
+msgid "Save Changes"
+msgstr ""
+
+#: views/WcsItemEditForm.php:28 views/WcsScheduleEditForm.php:66
+msgid "Save Item"
+msgstr ""
+
+#: views/WcsItemForm.php:37 views/WcsScheduleForm.php:67
+msgid "Add Item"
+msgstr ""
+
+#: views/WcsItemForm.php:38 views/WcsScheduleForm.php:111
+msgid "Delete Item"
+msgstr ""
