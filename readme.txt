@@ -2,19 +2,29 @@
 Contributors: ty_pwd
 Tags: schedule, weekly, class schedule
 Requires at least: 3.0
-Tested up to: 3.3.1
-Stable tag: 1.2.5.2
+Tested up to: 3.3.2
+Stable tag: 2.0
 License: GPLv2 or later
 
 Generate a weekly schedule of classes.
 
 == Description ==
 
-Weekly Class Schedule generates a weekly schedule of classes. 
+Weekly Class Schedule generates a weekly schedule of classes using an ultra-simple interface.
 
-It provides you with an easy way to manage and update the schedule as well as the classes and instructors database. 
-
-Weekly Class Schedule uses Craig Thompson's qTip2 and Brian Cherne's hoverIntent to dynamically display additional information and class/instructor description directly on the schedule page.
+= Main Features =
+* Easily manage and update schedule entries (classes).
+* Manage and update the classes and instructors database.
+* Easy customization of schedule appearance and colors.
+* Option to change the first day of the week, number of days to display on the schedule, and schedule time increments.
+* Fully supports both 12-hour and 24-hour clocks.
+* True timezones support.
+* Use simple shortcode attributes to switch between vertical, horizontal, and list layout.
+* Use a simple templating system to customize the class details display.
+* Supports multiple classrooms/schedules.
+* Instructor collision prevention - Prevents the scheduling of an instructor for 2 classes at the same time.
+* Switchable "classroom collision detection" to allow for the scheduling of multiple classes at the same classroom at the same time.
+* Display class and instructor details directly on the schedule using Craig Thompson's qTip2 and Brian Cherne's hoverIntent.
 
 == Installation ==
 
@@ -23,26 +33,22 @@ Weekly Class Schedule uses Craig Thompson's qTip2 and Brian Cherne's hoverIntent
 
 You will find 'WC Schedule' menu in your WordPress admin panel.
 
-For basic usage, you can also have a look at the [plugin homepage](http://pulsarwebdesign.com/weekly-class-schedule).
+For basic usage, check the plugin options page or have a look at the [plugin homepage](http://pulsarwebdesign.com/weekly-class-schedule).
 
 For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwebdesign.com/schedule).
 
 == Screenshots ==
 
-1. screenshot-1.png
-1. screenshot-2.png
-1. screenshot-3.png
-
-== Usage ==
-1. Use the classes page to add classes and class descriptions to the database.
-1. Use the instructors page to add instructors and instructor descriptions to the database.
-1. Use the WC Schedule page to add entries to the schedule.
-
-  ** NOTE **
-  You must have instructors and classes in the 
-  database in order to add entries to the schedule
+1. Schedule Management
+1. Color Customization
+1. Standard (vertical) Layout
 
 == Changelog ==
+= 2.0 =
+* The entire plugin has been re-written using MVC.
+* All reported issues (up to the release date) have been addressed (jQuery version, etc...).
+* See plugin description for a full list of features added in this release.
+
 = 1.2.5.2 =
 * Attempts to fix "Layout is Too Wide" issue for themes that are not using the #content div.
 * Fixed a small issue in the "Today's Classes" widget.

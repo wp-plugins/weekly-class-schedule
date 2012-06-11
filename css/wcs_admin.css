@@ -1,36 +1,104 @@
-.widefat .wcs-name-column {
-	width: 150px;
+@CHARSET "UTF-8";
+
+/* ------------------ General styles ------------------ */
+#wcs-options-form table {
+	margin-bottom: 40px;
+}
+#wcs-options-form tr {
+	border-top: 1px solid #ddd;
+}
+#wcs-options-form tr:first-child {
+	border: none;
+}
+.hour-form-table td {
+	border: none;
+}
+.wp-list-table,
+.wcs-item-table {
+	margin-top: 10px;
+}
+
+/* ------------------ Color pickers ------------------ */
+.colorpicker-preview {
+	display: inline-block;
+  margin-left: 10px;
+	width: 20px;
+	-webkit-border-radius: 5px;
+  border-radius: 5px;
+  border: 1px solid #aaa;
+}
+
+/* ------------------ Schedule Admin View ------------------ */
+/* Entry form */
+#schedule-entry-form {
+	width: 460px;
 }
 .wcs-label-column {
-	width: 150px
+	width: 120px;
 }
-html .narrowfat {
-	width: 760px;
+
+/* Schedule table */
+#schedule-entries-table.timezone {
+	width: 99%
 }
-.entry-table {
-	width: 550px;
+/* With Timezone */
+th.wcs-class-column {
+  width: 15%;
 }
-html .narrowfat td {
-	vertical-align: middle;
+th.wcs-instructor-column {
+  width: 15%;
 }
-html .narrowfat tbody th.check-column {
-	padding-top: 14px;
-	padding-bottom: 15px;
-} 
-.button-column {
-	width: 150px;
+th.wcs-classroom-column {
+  width: 14%;
 }
-.edit-button-column {
-	width: 40px;
+th.wcs-start-hour-column {
+  width: 8%;
 }
-.custom-hr {
-	height: 25px;
-	width: 760px;
-	border-bottom: 3px solid #DFDFDF;
+th.wcs-end-hour-column {
+  width: 7%;
 }
-.help-box {
-	width: 50%;
-	padding-left: 20px;
-	padding-right: 20px;
-	margin-top: 20px;
+th.wcs-timezone-column {
+  width: 16%;
+}
+th.wcs-status-column {
+  width: 5%;
+}
+th.wcs-notes-column {
+  width: 17%;
+}
+th.wcs-edit-column {
+  width: 3%;
+}
+/* Without Timezone */
+.no-timezone th.wcs-class-column {
+  width: 17%;
+}
+.no-timezone th.wcs-instructor-column {
+  width: 17%;
+}
+.no-timezone th.wcs-classroom-column {
+  width: 16%;
+}
+.no-timezone th.wcs-start-hour-column {
+  width: 8%;
+}
+.no-timezone th.wcs-end-hour-column {
+  width: 7%;
+}
+.no-timezone th.wcs-status-column {
+  width: 5%;
+}
+.no-timezone th.wcs-notes-column {
+  width: 27%;
+}
+.no-timezone th.wcs-edit-column {
+  width: 3%;
+}
+
+/* ------------------ Item Admin View ------------------ */
+.wcs-item-table {
+	width: 99%;
+}
+.wcs-name-column {
+	width: 20%
 }
