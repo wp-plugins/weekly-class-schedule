@@ -126,11 +126,13 @@ class WcsActiveRecord
 	 *
 	 * @param array $attributes
 	 * 	An array structured with 'column' => 'value'.
+	 * @param array $order_by
+	 * 	Array with keys 'col' (column to sort by) and 'order' (ASC or DESC) 
 	 * 
 	 * @return array $active_records
 	 * 	Array of AR objects
 	 */
-	public function getByAttributes( array $attributes )
+	public function getByAttributes( array $attributes, $order_by = array() )
 	{
 	  global $wpdb;
 	  $table_name = $this->_tableName;
@@ -150,7 +152,14 @@ class WcsActiveRecord
 	    }
 	  }
 
-	  $sql = $wpdb->prepare( "SELECT * FROM $table_name WHERE $where_statement" );
+	  if ( empty( $order_by ) )
+	    $sql = $wpdb->prepare( "SELECT * FROM $table_name WHERE $where_statement" );
+	  else {
+	    $col = $order_by['col'];
+	    $order = $order_by['order'];
+	    $sql = $wpdb->prepare( "SELECT * FROM $table_name WHERE $where_statement ORDER BY $col $order" );
+	  }
+	  
 	  $results = $wpdb->get_results( $sql );
 
 	  if ( ! empty( $results ) ) {
