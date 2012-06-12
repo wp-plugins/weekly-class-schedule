@@ -45,10 +45,10 @@ class WcsTodayClassesWidget extends WP_Widget {
 		/* Content */
 		if ( isset( $classroom ) && $classroom != 'all' ) {
 		  $classroom = WcsClassroom::model()->getByAttribute( 'classroom_name', $classroom );
-		  $classes = WcsSchedule::model()->getByAttributes( array( 'weekday' => $today, 'classroom_id' => $classroom->id ) );
+		  $classes = WcsSchedule::model()->getByAttributes( array( 'weekday' => $today, 'classroom_id' => $classroom->id ), array( 'col' => 'start_hour', 'order' => 'ASC' ) );
 		}
 		else {
-		  $classes = WcsSchedule::model()->getByAttributes( array( 'weekday' => $today ) );
+		  $classes = WcsSchedule::model()->getByAttributes( array( 'weekday' => $today ), array( 'col' => 'start_hour', 'order' => 'ASC' ) );
 		}
 		
 		if ( isset( $max_classes ) && is_numeric( $max_classes ) && $classes != NULL )
