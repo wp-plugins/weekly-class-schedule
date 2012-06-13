@@ -194,8 +194,9 @@ class WcsScheduleForm extends WcsForm implements IWcsForm
 
       foreach ( $_POST as $key => $value ) {
         if ( preg_match( "/^delete_[0-9]+$/", $key ) == 1 ) {
-          $instance = new $class();
           $class = $this->_class_name;
+          $instance = new $class();
+          
           $record = $instance->getById( $value );
           if ( $record->delete() > 0 )
             $count++;
