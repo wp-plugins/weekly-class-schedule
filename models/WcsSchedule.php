@@ -402,11 +402,13 @@ class WcsSchedule extends WcsActiveRecord
 	    return $errors;
 	  }
 
-	  /* Make sure instructor is available at this time anywhere */
-	  $instructor_collisions = WcsSchedule::model()->checkItemCollision( 'instructor', $instructor, $start_hour, $end_hour, $weekday );
-	  if ( $instructor_collisions != NULL && is_array( $instructor_collisions ) )
-	    $errors = array_merge( $errors, $instructor_collisions);
-
+	  /* Make sure instructor is available at this time if instructor collisions detection enabled */
+	  if ( get_option( 'wcs_detect_instructor_collisions', 'yes' ) == 'yes' ) {
+  	  $instructor_collisions = WcsSchedule::model()->checkItemCollision( 'instructor', $instructor, $start_hour, $end_hour, $weekday );
+  	  if ( $instructor_collisions != NULL && is_array( $instructor_collisions ) )
+  	    $errors = array_merge( $errors, $instructor_collisions);
+	  }
+  	  
 	  /* If we already have errors, lets return to save a few CPU cycles */
 	  if ( ! empty( $errors ) )
 	    return $errors;
