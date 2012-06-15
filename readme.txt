@@ -3,7 +3,7 @@ Contributors: ty_pwd
 Tags: schedule, weekly, class schedule
 Requires at least: 3.0
 Tested up to: 3.3.2
-Stable tag: 2.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 
 Generate a weekly schedule of classes.
@@ -44,6 +44,11 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
 1. Standard (vertical) Layout
 
 == Changelog ==
+= 2.0.1 =
+* Fixed issue with class order in Today's Classes widget.
+* Fixed bug where schedule entries cannot be deleted.
+* Added switchable "instructor collision detection".
+
 = 2.0 =
 * The entire plugin has been re-written using MVC.
 * All reported issues (up to the release date) have been addressed (jQuery version, etc...).

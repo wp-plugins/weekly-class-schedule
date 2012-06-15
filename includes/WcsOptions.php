@@ -105,7 +105,18 @@ abstract class WcsOptions
     add_settings_field(
       'wcs_detect_classroom_collisions',
       "$title:<br/><span class='description'>$desc</span>",
-      array('WcsOptions', 'detect_classroom_collisions' ),
+      array('WcsOptions', 'detect_classroom_collisions_field' ),
+      'wcs-options',
+      'wcs_general_settings'
+    );
+    
+    $title = __( 'Detect instructor collisions' );
+    $desc = __( 'Enabling this feature will prevent the scheduling of an instructor for multiple classes at the same.' );
+    
+    add_settings_field(
+      'wcs_detect_instructor_collisions',
+      "$title:<br/><span class='description'>$desc</span>",
+      array('WcsOptions', 'detect_instructor_collisions_field' ),
       'wcs-options',
       'wcs_general_settings'
     );
@@ -151,6 +162,7 @@ abstract class WcsOptions
     register_setting( 'wcs_options', 'wcs_24_hour_mode' );
     register_setting( 'wcs_options', 'wcs_time_increments' );
     register_setting( 'wcs_options', 'wcs_detect_classroom_collisions' );
+    register_setting( 'wcs_options', 'wcs_detect_instructor_collisions' );
     register_setting( 'wcs_options', 'wcs_use_timezones' );
     register_setting( 'wcs_options', 'wcs_short_day_names' );
     register_setting( 'wcs_options', 'wcs_class_template' );
@@ -302,6 +314,7 @@ abstract class WcsOptions
     /* Set default values */
     add_option( 'wcs_24_hour_mode', 'no' );
     add_option( 'wcs_detect_classroom_collisions', 'yes' );
+    add_option( 'wcs_detect_instructor_collisions', 'yes' );
     add_option( 'wcs_use_timezones', 'yes' );
     add_option( 'wcs_short_day_names', 'no' );
     
@@ -338,10 +351,17 @@ abstract class WcsOptions
   }
 
   /* Render detect classroom collisions field */
-  public static function detect_classroom_collisions()
+  public static function detect_classroom_collisions_field()
   {
     $checked = ( get_option( 'wcs_detect_classroom_collisions', 'yes' ) == 'yes' ) ? 'checked="checked"' : '';
     echo "<input type='checkbox' $checked name='wcs_detect_classroom_collisions' value='yes' /> Yes";
+  }
+  
+  /* Render detect instructor collisions field */
+  public static function detect_instructor_collisions_field()
+  {
+    $checked = ( get_option( 'wcs_detect_instructor_collisions', 'yes' ) == 'yes' ) ? 'checked="checked"' : '';
+    echo "<input type='checkbox' $checked name='wcs_detect_instructor_collisions' value='yes' /> Yes";
   }
 
   public static function use_timezones_field()
