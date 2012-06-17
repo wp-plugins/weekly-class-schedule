@@ -113,7 +113,7 @@ class WcsInit
     wp_enqueue_script( 'jquery' );
   
     /* Load WCS script */
-    wp_register_script( 'wcs', WCS_PLUGIN_URL . '/js/wcs.js' );
+    wp_register_script( 'wcs', WCS_PLUGIN_URL . '/js/wcs.js', array('jquery') );
     wp_enqueue_script( 'wcs' );
   
     /* Load hover intent */
