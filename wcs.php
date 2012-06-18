@@ -3,7 +3,7 @@
 Plugin Name: Weekly Class Schedule
 Plugin URI: http://pulsarwebdesign.com/weekly-class-schedule
 Description: Weekly Class Schedule generates a weekly schedule of classes. It provides you with an easy way to manage and update the schedule as well as the classes and instructors database.
-Version: 2.0.1
+Version: 2.0.2
 Author: Pulsar Web Design
 Author URI: http://pulsarwebdesign.com
 License: GPL2
@@ -24,10 +24,12 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+/* This version does not use late static binding and can work on PHP 5.2 and higher */
+
 /*
  * Define constants
  */
-define('WCS_VERSION', '2.0.1');
+define('WCS_VERSION', '2.0.2');
 
 if ( ! defined( 'WCS_PLUGIN_BASENAME' ) )
 	define( 'WCS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
