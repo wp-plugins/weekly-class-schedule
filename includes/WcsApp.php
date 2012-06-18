@@ -28,7 +28,7 @@ abstract class WcsApp
     if ( is_admin() )
       WcsAdmin::init();
     else
-      WcsInit::queueStylesAndScripts();
+      add_action('wp_enqueue_scripts', array( 'WcsApp', 'enqueue_front_end_scripts' ) );
     
     /* Add shortcode */
     WcsInit::addShortcode();
@@ -38,6 +38,11 @@ abstract class WcsApp
     
     /* Register widgets */
     add_action( 'widgets_init', create_function( '', 'register_widget( "WcsTodayClassesWidget" );' ) );
+  }
+  
+  public static function enqueue_front_end_scripts()
+  {
+    WcsInit::queueStylesAndScripts();
   }
   
   /**

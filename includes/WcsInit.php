@@ -113,15 +113,15 @@ class WcsInit
     wp_enqueue_script( 'jquery' );
   
     /* Load WCS script */
-    wp_register_script( 'wcs', WCS_PLUGIN_URL . '/js/wcs.js' );
+    wp_register_script( 'wcs', WCS_PLUGIN_URL . '/js/wcs.js', array('jquery') );
     wp_enqueue_script( 'wcs' );
   
     /* Load hover intent */
-    wp_register_script( 'wcs_hoverintent', WCS_PLUGIN_URL . '/plugins/hoverintent/jquery.hoverIntent.minified.js' );
+    wp_register_script( 'wcs_hoverintent', WCS_PLUGIN_URL . '/plugins/hoverintent/jquery.hoverIntent.minified.js', array('jquery') );
     wp_enqueue_script( 'wcs_hoverintent' );
     
     /* Load qTip */
-    wp_register_script( 'wcs_qtip', WCS_PLUGIN_URL . '/plugins/qtip/jquery.qtip-1.0.0-rc3.min.js' );
+    wp_register_script( 'wcs_qtip', WCS_PLUGIN_URL . '/plugins/qtip/jquery.qtip-1.0.0-rc3.min.js', array('jquery') );
     wp_enqueue_script( 'wcs_qtip' );
   }
 }
