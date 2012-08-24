@@ -33,8 +33,16 @@ abstract class WcsHtml
     }
     else {
       foreach ( $items as $key => $value ) {
-        if ( $is_assoc == FALSE ) {
-          $key = $value;
+        if ( !is_array( $value ) ) {
+          if ( $is_assoc == FALSE ) {
+            $key = $value;
+            $value = stripslashes( $value );
+          }
+        }
+        else {
+          $key = $value[key( $value )];
+          next( $value );
+          $value = stripslashes( $value[key( $value )] );
         }
         if ( $key == $default || $value == $default )
           $output .= "<option selected='selected' value='$key'>$value</option>";

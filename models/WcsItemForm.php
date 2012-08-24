@@ -11,6 +11,9 @@ class WcsItemForm extends WcsForm implements IWcsForm
   public function begin( $op, $id )
   {
     $this->validate( $op, $id );
+    
+    // TODO: Remove this
+    WcsIOS::updateItemJson( $this->_base_name );
   }
 
   /**
@@ -128,5 +131,6 @@ class WcsItemForm extends WcsForm implements IWcsForm
         WcsHtml::show_wp_message( $message, 'updated' );
       }
     }
+    WcsIOS::updateItemJson( $this->_base_name );
   }
 }

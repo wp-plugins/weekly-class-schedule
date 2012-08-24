@@ -3,7 +3,7 @@ Contributors: ty_pwd
 Tags: schedule, weekly, class schedule
 Requires at least: 3.0
 Tested up to: 3.4
-Stable tag: 2.0.2
+Stable tag: 2.0.3
 License: GPLv2 or later
 
 Generate a weekly schedule of classes.
@@ -44,6 +44,11 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
 1. Standard (vertical) Layout
 
 == Changelog ==
+= 2.0.3 =
+* Added support for single and double quotes in class, instructor, and classroom name field.
+* Fixed multiple classes at the same time issue (CSS/JS).
+* Added the underlying mechanism for communicating with a Weekly Class Schedule iOS app which might be coming in the near future. Please drop a comment at pulsarwebdesign.com/weekly-class-schedule if you think this is something you might be interested in.
+
 = 2.0.2 =
 * Fixed qTip (hover effect) issue with WordPress 3.4.
 

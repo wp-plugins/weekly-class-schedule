@@ -36,7 +36,7 @@ class WcsActiveRecord
 	 * 	Column names
 	 * @return stdClass $results
 	 */
-	public function getCols( array $attributes )
+	public function getCols( array $attributes, $return_array = FALSE )
 	{
 	  global $wpdb;
 	  
@@ -44,7 +44,11 @@ class WcsActiveRecord
 	  $table_name = $this->_tableName;
 
 	  $sql = $wpdb->prepare( "SELECT $cols FROM $table_name" );
-	  $results = $wpdb->get_results( $sql );
+	  
+	  if ( $return_array == FALSE )
+	    $results = $wpdb->get_results( $sql );
+	  else 
+	    $results = $wpdb->get_results( $sql, ARRAY_A );
 
 	  if ( ! empty( $results ) )
 	    return $results;
@@ -155,9 +159,9 @@ class WcsActiveRecord
 	  if ( empty( $order_by ) )
 	    $sql = $wpdb->prepare( "SELECT * FROM $table_name WHERE $where_statement" );
 	  else {
-	    $col = $order_by['col'];
+	    $order_col = $order_by['col'];
 	    $order = $order_by['order'];
-	    $sql = $wpdb->prepare( "SELECT * FROM $table_name WHERE $where_statement ORDER BY $col $order" );
+	    $sql = $wpdb->prepare( "SELECT * FROM $table_name WHERE $where_statement ORDER BY $order_col $order" );
 	  }
 	  
 	  $results = $wpdb->get_results( $sql );

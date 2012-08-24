@@ -1,19 +1,6 @@
 (function ($) {
   
 	$(document).ready(function() {
-		// Adjust width and height
-		$('.wcs-schedule td').each(function() {
-			var td = $(this);
-			var cont = td.children('.wcs-active-class-container');
-			
-			if (cont.height() > 0) {
-				if (td.height() > cont.height()) {
-					cont.children('div').height(td.height())
-				}
-			}
-			
-		});
-		
 		// Fix IE7 z-index issue
 		if ($('html#ie7').length > 0) {
 			var numberOfTd = ( $('.wcs-schedule td div').length + 10);

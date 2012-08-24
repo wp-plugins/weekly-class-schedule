@@ -89,6 +89,7 @@ class WcsInit
     require_once WCS_PLUGIN_DIR . '/models/WcsClassroom.php';
     require_once WCS_PLUGIN_DIR . '/models/WcsStyle.php';
     require_once WCS_PLUGIN_DIR . '/models/WcsTodayClassesWidget.php';
+    require_once WCS_PLUGIN_DIR . '/models/WcsIOS.php';
     
     /* Load controllers */
     require_once WCS_PLUGIN_DIR . '/controllers/WcsController.php';

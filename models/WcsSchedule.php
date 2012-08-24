@@ -207,7 +207,7 @@ class WcsSchedule extends WcsActiveRecord
 	 * @parram string $classroom
 	 * 	If set, only the entries for the specified classroom will be retrieved.
 	 */
-	public static function getClassesMultiDimArray( $classroom = NULL )
+	public static function getClassesMultiDimArray( $classroom = NULL, $ios = FALSE )
 	{
 	  $default_timezone = WcsTime::getDefaultTimezone();
 	  date_default_timezone_set( $default_timezone );
@@ -215,7 +215,7 @@ class WcsSchedule extends WcsActiveRecord
 	  $multi_array = array();
 
 	  if ( $classroom == NULL )
-	    $classes = self::model()->getByAttributes( array( 'visibility' => 1 ) );
+	    $classes = self::model()->getByAttributes( array( 'visibility' => 1 ), array( 'col' => 'start_hour', 'order' => 'ASC' ) );
 	  else {
 	    $classroom_obj = WcsClassroom::model()->getByAttribute( 'classroom_name', $classroom );
 	    if ( isset( $classroom_obj->id ) )
@@ -223,8 +223,9 @@ class WcsSchedule extends WcsActiveRecord
 	    else
 	      return;
 
-	    if ( $classroom_id )
-	      $classes = self::model()->getByAttributes( array( 'classroom_id' => $classroom_id, 'visibility' => 1 ) );
+	    if ( $classroom_id ) {
+	      $classes = self::model()->getByAttributes( array( 'classroom_id' => $classroom_id, 'visibility' => 1 ), array( 'col' => 'start_hour', 'order' => 'ASC') );
+	    }
 	  }
 
 	  if ( ! $classes )
@@ -237,16 +238,26 @@ class WcsSchedule extends WcsActiveRecord
 	    if ( get_option( 'wcs_use_timezones' ) == 'yes' ) {
   	    /* Recalculate results with timezone considerations */
   	    $time = $weekday_dates[$class->weekday] . ', ' . $class->start_hour . ' ' . $class->timezone;
+  	    $end_time = $weekday_dates[$class->weekday] . ', ' . $class->end_hour . ' ' . $class->timezone;
 	    }
 	    else {
 	      $time = $weekday_dates[$class->weekday] . ', ' . $class->start_hour . ' ' . $default_timezone;
+	      $end_time = $weekday_dates[$class->weekday] . ', ' . $class->end_hour . ' ' . $default_timezone;
 	    }
-	    
 	    $timestamp = strtotime( $time, 0 );
-	    $weekday = date_i18n( 'l', $timestamp );
-	    $start_hour = date( 'H:i', $timestamp ) . ':00';
+	    $end_timestamp = strtotime( $end_time, 0 );
 	    
-	    $multi_array[$weekday][$start_hour][$class->id] = $class;
+	    if ( $ios == TRUE ) {
+	      $weekday = date_i18n( 'w', $timestamp );
+	      $class->start_hour = date( 'H:i', $timestamp ) . ':00';
+	      $class->end_hour = date( 'H:i', $end_timestamp ) . ':00';
+	      $multi_array[$weekday][] = $class;
+	    }
+	    else {
+	      $weekday = date_i18n( 'l', $timestamp );
+	      $start_hour = date( 'H:i', $timestamp ) . ':00';
+	      $multi_array[$weekday][$start_hour][$class->id] = $class;
+	    }
 	  }
 
     if ( ! empty( $multi_array ) )
@@ -257,31 +268,40 @@ class WcsSchedule extends WcsActiveRecord
 	/**
 	 * Returns a class name based on the instance class_id property.
 	 */
-	public function getClassName()
+	public function getClassName( $strip_slashes = FALSE )
 	{
 	  $class = WcsClass::model()->getById( $this->class_id );
 	  $class_name = ( isset( $class->class_name ) ) ? $class->class_name : NULL;
 
+	  if ( $strip_slashes )
+	    return stripslashes( $class_name );
+	  
 	  return $class_name;
 	}
 
 	/**
    * Returns an instructor name based on the instance instructor_id property.
 	 */
-	public function getInstructorName() {
+	public function getInstructorName( $strip_slashes = FALSE ) {
 	  $instructor = WcsInstructor::model()->getById( $this->instructor_id );
 	  $instructor_name = ( isset( $instructor->instructor_name ) ) ? $instructor->instructor_name : NULL;
 
+	  if ( $strip_slashes )
+	    return stripslashes( $instructor_name );
+	  
 	  return $instructor_name;
 	}
 
 	/**
 	 * Returns a classroom name based on the instance classroom_id property.
 	 */
-	public function getClassroomName() {
+	public function getClassroomName( $strip_slashes = FALSE ) {
 	  $classroom = WcsClassroom::model()->getById( $this->classroom_id );
 	  $classroom_name = ( isset( $classroom->classroom_name ) ) ? $classroom->classroom_name : NULL;
 
+	  if ( $strip_slashes )
+	    return stripslashes( $classroom_name );
+	  
 	  return $classroom_name;
 	}
 
@@ -496,18 +516,23 @@ class WcsSchedule extends WcsActiveRecord
 	  $weekday_css = str_replace( ' ', '-', strtolower( $weekday ) );
 	  $weekdays_array = self::getWeekDaysArray();
 
-    $weekdasy_flipped = array_flip( $weekdays_array );
+    $weekdays_flipped = array_flip( $weekdays_array );
+    $weekdays_offset = array();
+    
+    foreach ( $weekdays_flipped as $key => $value ) {
+      $weekdays_offset[] = $key;
+    }
 
 	  /* Generate additional css properties */
 	  $addon_css = '';
 	  
 	  if ( $layout == 'vertical' ) {
   	  $number_of_days = count( $weekdays_array );
-  	  if ( $weekdasy_flipped[$weekday] == 1 )
+  	  if ( $weekdays_offset[0] == $weekday )
   	    $addon_css = 'first-day';
-  	  elseif ( $weekdasy_flipped[$weekday] == $number_of_days )
+  	  elseif ( $weekdays_offset[$number_of_days - 1] == $weekday)
   	    $addon_css = 'last-day';
-  	  elseif ($weekdasy_flipped[$weekday] == ( $number_of_days - 1 ) )
+  	  elseif ($weekdays_offset[$number_of_days - 2] ==  $weekday)
   	    $addon_css = 'before-last-day';
 	  }
 	  elseif ( $layout == 'horizontal' && $start_hours_array != NULL ) {
@@ -530,7 +555,7 @@ class WcsSchedule extends WcsActiveRecord
 	      $addon_css = 'before-last-hour';
 	  }
 	  
-	  $col = ( $layout == 'vertical' ) ? $weekdasy_flipped[$weekday] : $start_hours_array[$start_hour];
+	  $col = ( $layout == 'vertical' ) ? $weekdays_flipped[$weekday] : $start_hours_array[$start_hour];
 	  
 	  /* Generate actual td cell */
 	  if ( isset( $classes[$weekday][$format_hour] ) ) {
@@ -541,10 +566,10 @@ class WcsSchedule extends WcsActiveRecord
 	    foreach ( $classes[$weekday][$format_hour] as $class ) {
 	      $odd_even = ( $i & 1 ) ? 'even' : 'odd';
 
-	      $class_name = $class->getClassName();
+	      $class_name = esc_html( stripslashes( $class->getClassName() ) );
 	      $class_description = esc_html( stripslashes( WcsClass::model()->getById( $class->class_id )->class_description ) );
 
-	      $instructor = $class->getInstructorName();
+	      $instructor = esc_html( stripslashes( $class->getInstructorName() ) );
 	      $instructor_description = esc_html( stripslashes( WcsInstructor::model()->getById( $class->instructor_id )->instructor_description ) );
 
 	      $s_hour = $class->getStartHour();
