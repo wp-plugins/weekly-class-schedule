@@ -17,19 +17,19 @@
 	<tr>
 		<td class="wcs-label-column">Class</td>
 		<td class="wcs-entry-column">
-			<?php echo WcsHtml::generateSelectList($classes, array( 'name' => 'class_select' ), FALSE, $entry->getClassName() ); ?>
+			<?php echo WcsHtml::generateSelectList($classes, array( 'name' => 'class_select' ), FALSE, $entry->class_id ); ?>
 		</td>
 	</tr>
 	<tr>
 		<td class="wcs-label-column">Instructor</td>
 		<td class="wcs-entry-column">
-			<?php echo WcsHtml::generateSelectList($instructors, array( 'name' => 'instructor_select' ), FALSE, $entry->getInstructorName() ); ?>
+			<?php echo WcsHtml::generateSelectList($instructors, array( 'name' => 'instructor_select' ), FALSE, $entry->instructor_id ); ?>
 		</td>
 	</tr>
 	<tr>
 		<td class="wcs-label-column">Classroom</td>
 		<td class="wcs-entry-column">
-			<?php echo WcsHtml::generateSelectList($classrooms, array( 'name' => 'classroom_select' ), FALSE, $entry->getClassroomName() ); ?>
+			<?php echo WcsHtml::generateSelectList($classrooms, array( 'name' => 'classroom_select' ), FALSE, $entry->classroom_id ); ?>
 		</td>
 	</tr>
 	<tr>

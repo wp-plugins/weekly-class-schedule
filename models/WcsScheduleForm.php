@@ -12,6 +12,9 @@ class WcsScheduleForm extends WcsForm implements IWcsForm
   public function begin( $op, $id )
   {
     $this->validate( $op, $id );
+    
+    // TODO: Remove this
+    WcsIOS::updateScheduleJson();
   }
 
   /**
@@ -70,9 +73,9 @@ class WcsScheduleForm extends WcsForm implements IWcsForm
         }
 
         /* Validate legal selections */
-        $options['class_select'] = WcsClass::model()->getCol( 'class_name' );
-        $options['instructor_select'] = WcsInstructor::model()->getCol( 'instructor_name' );
-        $options['classroom_select'] = WcsClassroom::model()->getCol( 'classroom_name' );
+        $options['class_select'] = WcsClass::model()->getCol( 'id' );
+        $options['instructor_select'] = WcsInstructor::model()->getCol( 'id' );
+        $options['classroom_select'] = WcsClassroom::model()->getCol( 'id' );
         $options['weekday_select'] = array_flip( WcsSchedule::model()->generateWeekdays() );
         $options['visibility_select'] = array( 0 => '0', 1 => '1' );
 
@@ -145,9 +148,9 @@ class WcsScheduleForm extends WcsForm implements IWcsForm
   public function process( $op, $id )
   {
     if ( $op != 'delete_items') {
-      $class = WcsClass::model()->getByAttribute( 'class_name', $_POST['class_select'] );
-      $instructor = WcsInstructor::model()->getByAttribute( 'instructor_name', $_POST['instructor_select'] );
-      $classroom = WcsClassroom::model()->getByAttribute( 'classroom_name', $_POST['classroom_select'] );
+      $class = WcsClass::model()->getByAttribute( 'id', $_POST['class_select'] );
+      $instructor = WcsInstructor::model()->getByAttribute( 'id', $_POST['instructor_select'] );
+      $classroom = WcsClassroom::model()->getByAttribute( 'id', $_POST['classroom_select'] );
       $weekday = $_POST['weekday_select'];
 
       if ( isset( $_POST['start_hour_ampm'] ) ) {
@@ -208,5 +211,6 @@ class WcsScheduleForm extends WcsForm implements IWcsForm
         WcsHtml::show_wp_message( $message, 'updated' );
       }
     }
+    WcsIOS::updateScheduleJson();
   }
 }

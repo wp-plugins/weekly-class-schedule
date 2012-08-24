@@ -89,9 +89,9 @@
 				<?php if ( $item->getWeekday() == $key ): ?>
 					<tr>
 						<td><input type="checkbox" name="delete_<?php echo $item->id; ?>" value="<?php echo $item->id; ?>" /></td>
-						<td class="wcs-class-column"><?php echo $item->getClassName(); ?></td>
-						<td class="wcs-instructor-column"><?php echo $item->getInstructorName(); ?></td>
-						<td class="wcs-classroom-column"><?php echo $item->getClassroomName(); ?></td>
+						<td class="wcs-class-column"><?php echo $item->getClassName( TRUE ); ?></td>
+						<td class="wcs-instructor-column"><?php echo $item->getInstructorName( TRUE ); ?></td>
+						<td class="wcs-classroom-column"><?php echo $item->getClassroomName( TRUE ); ?></td>
 						<td class="wcs-start-hour-column"><?php echo $item->getStartHour(); ?></td>
 						<td class="wcs-end-hour-column"><?php echo $item->getEndHour(); ?></td>
 						<?php if ( get_option( 'wcs_use_timezones' ) == 'yes' ): ?>

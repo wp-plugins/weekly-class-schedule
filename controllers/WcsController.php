@@ -150,9 +150,9 @@ class WcsController
     
     /* Create view vars */
     $data['edit_url'] = WcsApp::getBaseUrl()  . '&wcsop=edit';
-    $data['classes'] = WcsClass::model()->getCol( 'class_name' );
-    $data['instructors'] = WcsInstructor::model()->getCol( 'instructor_name' );
-    $data['classrooms'] = WcsClassroom::model()->getCol( 'classroom_name' );
+    $data['classes'] = WcsClass::model()->getCols( array( 'id', 'class_name' ), TRUE );
+    $data['instructors'] = WcsInstructor::model()->getCols( array( 'id', 'instructor_name' ), TRUE );
+    $data['classrooms'] = WcsClassroom::model()->getCols( array( 'id', 'classroom_name' ), TRUE );
     $data['weekdays_array'] = WcsSchedule::model()->getWeekDaysArray( TRUE );
     $data['weekdays'] = ( is_array( WcsSchedule::model()->getDbSortedWeekdays() ) ? WcsSchedule::model()->getDbSortedWeekdays() : array() );
     $data['visibility'] = WcsSchedule::model()->getVisibilityOptions();
@@ -190,9 +190,9 @@ class WcsController
     }
     
     /* Create view vars */
-    $data['classes'] = WcsClass::model()->getCol( 'class_name' );
-    $data['instructors'] = WcsInstructor::model()->getCol( 'instructor_name' );
-    $data['classrooms'] = WcsClassroom::model()->getCol( 'classroom_name' );
+    $data['classes'] = WcsClass::model()->getCols( array( 'id', 'class_name' ), TRUE );
+    $data['instructors'] = WcsInstructor::model()->getCols( array( 'id', 'instructor_name' ), TRUE );
+    $data['classrooms'] = WcsClassroom::model()->getCols( array( 'id', 'classroom_name' ), TRUE );
     $data['weekdays_array'] = WcsSchedule::model()->getWeekDaysArray( TRUE );
     $data['weekdays'] = array_unique( WcsSchedule::model()->getCol( 'weekday' ) );
     $data['visibility'] = WcsSchedule::model()->getVisibilityOptions();
