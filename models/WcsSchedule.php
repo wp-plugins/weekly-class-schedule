@@ -7,12 +7,12 @@
 class WcsSchedule extends WcsActiveRecord
 {
   public $_tableName;
-  
+
   public function __construct()
   {
     $this->_tableName = $this->tableName();
   }
-  
+
   /**
    * Returns an instance of the class.
    */
@@ -20,7 +20,7 @@ class WcsSchedule extends WcsActiveRecord
   {
     return new WcsSchedule();
   }
-  
+
   private function tableName()
 	{
 		global $wpdb;
@@ -42,7 +42,7 @@ class WcsSchedule extends WcsActiveRecord
 	  else {
 	    $weekday_names = self::generateWeekdays();
 	  }
-	  
+
 	  $start_day = get_option( 'wcs_first_day_of_week', 1 );
 
 	  if ( $ignore_number_of_days == TRUE)
@@ -51,7 +51,7 @@ class WcsSchedule extends WcsActiveRecord
 	    $number_of_days = get_option( 'wcs_number_of_days', 7 );
 
 	  $weekday_values = array();
-	  
+
 	  $i = 0;
 	  foreach ( $weekday_names as $name ) {
 	    $weekday_values[$name] = $i;
@@ -81,7 +81,7 @@ class WcsSchedule extends WcsActiveRecord
 	    return;
 
 	  $weekdays = self::generateWeekdays();
-    
+
 	  foreach ( $weekdays as $key => $weekday ) {
 	    if ( ! in_array( $key, $db_weekdays ) )
 	      unset( $weekdays[$key] );
@@ -147,7 +147,7 @@ class WcsSchedule extends WcsActiveRecord
 	  }
 
 	  $start_hours = array_unique( $start_hours );
-	  
+
 	  natsort( $start_hours );
 
 	  if ( ! $is_24_mode ) {
@@ -160,8 +160,8 @@ class WcsSchedule extends WcsActiveRecord
 	}
 
 	/**
-	 * Returns an array of dates beginning in Sunday, Jan 4, 1970. 
-	 * 
+	 * Returns an array of dates beginning in Sunday, Jan 4, 1970.
+	 *
 	 * Used mostly for setting a reference with strtotime().
 	 */
 	private static function generateWeekdaysDates()
@@ -176,7 +176,7 @@ class WcsSchedule extends WcsActiveRecord
 	    'Jan 10, 1970', // Saturday
 	  );
 	}
-	
+
 	/**
 	 * Generates a sort array of weekdays.
 	 */
@@ -185,7 +185,7 @@ class WcsSchedule extends WcsActiveRecord
 	  global $wp_locale;
     return $wp_locale->weekday;
 	}
-	
+
 	public static function generateShortWeekdays()
 	{
 	  global $wp_locale;
@@ -233,7 +233,7 @@ class WcsSchedule extends WcsActiveRecord
 
 	  $weekdays = self::generateWeekdays();
 	  $weekday_dates = self::generateWeekdaysDates();
-	  
+
 	  foreach ( $classes as $class ) {
 	    if ( get_option( 'wcs_use_timezones' ) == 'yes' ) {
   	    /* Recalculate results with timezone considerations */
@@ -246,7 +246,7 @@ class WcsSchedule extends WcsActiveRecord
 	    }
 	    $timestamp = strtotime( $time, 0 );
 	    $end_timestamp = strtotime( $end_time, 0 );
-	    
+
 	    if ( $ios == TRUE ) {
 	      $weekday = date_i18n( 'w', $timestamp );
 	      $class->start_hour = date( 'H:i', $timestamp ) . ':00';
@@ -275,7 +275,7 @@ class WcsSchedule extends WcsActiveRecord
 
 	  if ( $strip_slashes )
 	    return stripslashes( $class_name );
-	  
+
 	  return $class_name;
 	}
 
@@ -288,7 +288,7 @@ class WcsSchedule extends WcsActiveRecord
 
 	  if ( $strip_slashes )
 	    return stripslashes( $instructor_name );
-	  
+
 	  return $instructor_name;
 	}
 
@@ -301,7 +301,7 @@ class WcsSchedule extends WcsActiveRecord
 
 	  if ( $strip_slashes )
 	    return stripslashes( $classroom_name );
-	  
+
 	  return $classroom_name;
 	}
 
@@ -314,7 +314,7 @@ class WcsSchedule extends WcsActiveRecord
 	    $weekdays = self::generateWeekdays();
 	    return $weekdays[$this->weekday];
 	  }
-	    
+
 	  return $this->weekday;
 	}
 
@@ -418,7 +418,7 @@ class WcsSchedule extends WcsActiveRecord
 
 	  /* Make sure a class doesn't end before it starts */
 	  if ( $start_hour >= $end_hour ) {
-	    $errors[] = __( 'A class cannot end before it starts' );
+	    $errors[] = __( 'A class cannot end before it starts', 'weekly-class-schedule' );
 	    return $errors;
 	  }
 
@@ -428,7 +428,7 @@ class WcsSchedule extends WcsActiveRecord
   	  if ( $instructor_collisions != NULL && is_array( $instructor_collisions ) )
   	    $errors = array_merge( $errors, $instructor_collisions);
 	  }
-  	  
+
 	  /* If we already have errors, lets return to save a few CPU cycles */
 	  if ( ! empty( $errors ) )
 	    return $errors;
@@ -457,8 +457,8 @@ class WcsSchedule extends WcsActiveRecord
    * @param string $start_hour
    * @param string $end_hour
    * @param string $weekday
-   * 
-   * @return 
+   *
+   * @return
    * 	Error array if collisions detected, else NULL.
    */
 	private static function checkItemCollision( $item_base_name, $item, $start_hour, $end_hour, $weekday )
@@ -467,7 +467,7 @@ class WcsSchedule extends WcsActiveRecord
 
 	  $class_name = 'Wcs' . ucwords( $item_base_name );
 	  $instance = new $class_name();
-	  
+
 	  $item = $instance->getByAttribute( $item_base_name . '_name', $item );
 	  $item_entries = WcsSchedule::model()->getRowsByAttribute( $item_base_name . '_id', $item->id );
 
@@ -482,7 +482,7 @@ class WcsSchedule extends WcsActiveRecord
 	      /* Collision algorithm */
 	      if ( ! isset( $_GET['wcsid'] ) || $entry->id != $_GET['wcsid'] ) {
   	      if ( $start_hour < $entry_end_hour && $end_hour > $entry_start_hour )
-  	        $errors[] = sprintf( __( 'The %s is not available at this time' ), $item_base_name );
+  	        $errors[] = sprintf( __( 'The %s is not available at this time', 'weekly-class-schedule' ), $item_base_name );
 	      }
 	    }
 	  }
@@ -518,14 +518,14 @@ class WcsSchedule extends WcsActiveRecord
 
     $weekdays_flipped = array_flip( $weekdays_array );
     $weekdays_offset = array();
-    
+
     foreach ( $weekdays_flipped as $key => $value ) {
       $weekdays_offset[] = $key;
     }
 
 	  /* Generate additional css properties */
 	  $addon_css = '';
-	  
+
 	  if ( $layout == 'vertical' ) {
   	  $number_of_days = count( $weekdays_array );
   	  if ( $weekdays_offset[0] == $weekday )
@@ -538,15 +538,15 @@ class WcsSchedule extends WcsActiveRecord
 	  elseif ( $layout == 'horizontal' && $start_hours_array != NULL ) {
 	    $number_of_start_hours = count( $start_hours_array );
 	    $temp = array();
-	    
+
 	    $i = 0;
 	    foreach ( $start_hours_array as $key => $value ) {
 	      $temp[$value] = $i;
 	      $i++;
 	    }
-	    
+
 	    $start_hours_array = $temp;
-	    
+
 	    if ( $start_hours_array[$start_hour] == 0 )
 	      $addon_css = 'first-hour';
 	    elseif ( $start_hours_array[$start_hour] == ( $number_of_start_hours - 1 ) )
@@ -554,9 +554,9 @@ class WcsSchedule extends WcsActiveRecord
 	    elseif ($start_hours_array[$start_hour] == ( $number_of_start_hours - 2 ) )
 	      $addon_css = 'before-last-hour';
 	  }
-	  
+
 	  $col = ( $layout == 'vertical' ) ? $weekdays_flipped[$weekday] : $start_hours_array[$start_hour];
-	  
+
 	  /* Generate actual td cell */
 	  if ( isset( $classes[$weekday][$format_hour] ) ) {
 	    $output .= "<td class='wcs-schedule-cell active $weekday_css col-$col $addon_css'>";
@@ -608,8 +608,8 @@ class WcsSchedule extends WcsActiveRecord
 
 	  return $output;
 	}
-	
-	public static function renderListItem( $classes, $start_hour, $weekday ) 
+
+	public static function renderListItem( $classes, $start_hour, $weekday )
 	{
 	  $output = '';
 	  $format_hour = WcsTime::convertTimeToDbFormat( $start_hour );
@@ -617,7 +617,7 @@ class WcsSchedule extends WcsActiveRecord
 	  // Load default template
 	  $template = "[class] with [instructor]\n[start hour] to [end hour]\n[notes]";
 	  $default = get_option( 'wcs_class_template', $template );
-	  
+
 	  if ( isset( $classes[$weekday][$format_hour] ) ) {
 	    $output .= "<li>";
 
@@ -657,8 +657,8 @@ class WcsSchedule extends WcsActiveRecord
 
 	    $output .= "</li>";
 	  }
-	  
+
 	  return $output;
 	}
-	
+
 }

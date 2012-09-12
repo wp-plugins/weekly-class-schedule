@@ -2,8 +2,8 @@
 Contributors: ty_pwd
 Tags: schedule, weekly, class schedule
 Requires at least: 3.0
-Tested up to: 3.4
-Stable tag: 2.0.3
+Tested up to: 3.4.2
+Stable tag: 2.0.4
 License: GPLv2 or later
 
 Generate a weekly schedule of classes.
@@ -26,6 +26,14 @@ Weekly Class Schedule generates a weekly schedule of classes using an ultra-simp
 * Switchable "classroom collision detection" to allow for the scheduling of multiple classes at the same classroom at the same time.
 * Display class and instructor details directly on the schedule using Craig Thompson's qTip2 and Brian Cherne's hoverIntent.
 
+= Weekly Class Schedule Needs Your Support =
+
+If you enjoy using this plugin and find it useful, please consider [__making a donation__](http://pulsarwebdesign.com/weekly-class-schedule/). Your donation will help encourage and support the plugin's continued development and better user support.
+
+= Translators =
+
+* Spanish (es_ES) - [David Pérez](http://www.closemarketing.es/)
+
 == Installation ==
 
 1. Upload the entire `wcs` folder to the `/wp-content/plugins/` directory.
@@ -44,10 +52,16 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
 1. Standard (vertical) Layout
 
 == Changelog ==
+= 2.0.4 =
+* Added Spanish support.
+* Fixed I18n issue where language files weren't getting picked up by the plugin.
+* Fixed backward compatibility issue (PHP < 5.3)
+* Fixed MySQL 'SHOW TABLES IN...' error.
+* Fixed issue where Today's Classes widget display hidden classes.
+
 = 2.0.3 =
 * Added support for single and double quotes in class, instructor, and classroom name field.
-* Fixed multiple classes at the same time issue (CSS/JS).
-* Added the underlying mechanism for communicating with a Weekly Class Schedule iOS app which might be coming in the near future. Please drop a comment at pulsarwebdesign.com/weekly-class-schedule if you think this is something you might be interested in.
+* Fixed multiple classes at the same time CSS/JS issue.
 
 = 2.0.2 =
 * Fixed qTip (hover effect) issue with WordPress 3.4.

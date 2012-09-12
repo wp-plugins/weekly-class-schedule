@@ -2,249 +2,263 @@
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: WC Schedule\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-09-11 15:46-0700\n"
-"PO-Revision-Date: 2012-09-11 15:47-0700\n"
-"Last-Translator: \n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2012-09-11 23:52+0100\n"
+"Last-Translator: David <david@closemarketing.es>\n"
+"Language-Team: Spanish <david@closemarketing.es>\n"
+"Language: Spanish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-KeywordsList: __;_e;_n;_x;esc_attr_e\n"
-"X-Poedit-Basepath: /Applications/MAMP/htdocs/development/wcs_201/wp-content/"
-"plugins/weekly-class-schedule\n"
-"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: controllers/WcsController.php:39
 msgid "Bad request"
-msgstr ""
+msgstr "Petición incorrecta"
 
 #: includes/WcsActiveRecord.php:233
 #, php-format
 msgid "%d item was added to the database"
-msgstr ""
+msgstr "%d Clase fue añadida a la base de datos"
 
 #: includes/WcsActiveRecord.php:235
 msgid "Failed to add item to the database"
-msgstr ""
+msgstr "Fallo al añadir la clase a la base de datos"
 
 #: includes/WcsActiveRecord.php:241
 #, php-format
 msgid "%d item was updated"
-msgstr ""
+msgstr "%d Clase fue actualizada"
 
 #: includes/WcsActiveRecord.php:243
 msgid "Failed to update item"
-msgstr ""
+msgstr "Fallo al actualizar la clase"
 
 #: includes/WcsAdmin.php:30
 msgid "WC Schedule"
-msgstr ""
+msgstr "WC Schedule"
 
 #: includes/WcsAdmin.php:31
 msgid "Classes"
-msgstr ""
+msgstr "Clases"
 
 #: includes/WcsAdmin.php:32
 msgid "Instructors"
-msgstr ""
+msgstr "Profesores"
 
 #: includes/WcsAdmin.php:33
 msgid "Classrooms"
-msgstr ""
+msgstr "Aulas"
 
 #: includes/WcsAdmin.php:34
 msgid "Options"
-msgstr ""
+msgstr "Opciones"
 
 #: includes/WcsOptions.php:33
 msgid "Invalid color. Please use a valid hex value."
-msgstr ""
+msgstr "Color inválido. Por favor, usa valor hexadecimal"
 
 #: includes/WcsOptions.php:45
 msgid "Using the Weekly Class Schedule"
-msgstr ""
+msgstr "Usando el Planificador de Clases Semanal"
 
 #: includes/WcsOptions.php:53
 msgid "General Settings"
-msgstr ""
+msgstr "Configuración General"
 
 #: includes/WcsOptions.php:58
 msgid "First day of week"
-msgstr ""
+msgstr "Primer día de la semana"
 
 #: includes/WcsOptions.php:59
 msgid "The day the schedule will start in"
-msgstr ""
+msgstr "El día planificado empezará en "
 
 #: includes/WcsOptions.php:69
 msgid "Number of days to display"
-msgstr ""
+msgstr "Número de dias a mostrar"
 
 #: includes/WcsOptions.php:70
 msgid "The number of days to display including the first day of the week."
-msgstr ""
+msgstr "El número de días para mostrar incluyendo el primer día de la semana."
 
 #: includes/WcsOptions.php:80
 msgid "Enable 24-hour mode"
-msgstr ""
+msgstr "Habilitar modo 24-horas"
 
 #: includes/WcsOptions.php:81
 msgid ""
 "Enabling this will display all the hours in a 24-hour clock mode as opposed "
 "to 12-hour clock mode (AM/PM)."
-msgstr ""
+msgstr "Habilitado esta opción mostrará todas las horas en formato 24h."
 
 #: includes/WcsOptions.php:91
 msgid "Time Increments"
-msgstr ""
+msgstr "Incrementos de tiempo"
 
 #: includes/WcsOptions.php:92
 msgid "Only affects the schedule entry form, not the final output."
-msgstr ""
+msgstr "Sólo afectará a la entrada del calendario, no a la salida final."
 
 #: includes/WcsOptions.php:102
 msgid "Detect classroom collisions"
-msgstr ""
+msgstr "Detectar conflictos entre clases"
 
 #: includes/WcsOptions.php:103
 msgid ""
 "Enabling this feature will prevent scheduling of multiple classes at the "
 "same classroom at the same time."
 msgstr ""
+"Habilitando esta opción avisará la planificación de clases en el mismo aula "
+"a la misma hora."
 
 #: includes/WcsOptions.php:113
 msgid "Detect instructor collisions"
-msgstr ""
+msgstr "Detectar conflictos entre profesores"
 
 #: includes/WcsOptions.php:114
 msgid ""
 "Enabling this feature will prevent the scheduling of an instructor for "
 "multiple classes at the same."
 msgstr ""
+"Habilitando esta opción, avisará la prevendrá que un Profesor planifique "
+"varias clase en la misma."
 
 #: includes/WcsOptions.php:124
 msgid "Enable Timezones"
-msgstr ""
+msgstr "Habilitar Zonas horarias"
 
 #: includes/WcsOptions.php:125
 msgid ""
 "Enabling this will add a timezone field to the schedule entry form. The "
 "final time output will be calculated based upon the site/server settings."
 msgstr ""
+"Habilitando esta opción añadirás un campo de zona horaria para la entrada de "
+"la clase. La salida final de la hora será calculada en base a la "
+"configuración del servidor."
 
 #: includes/WcsOptions.php:135
 msgid "Use short day names"
-msgstr ""
+msgstr "Utilizar nombres cortos de los días"
 
 #: includes/WcsOptions.php:136
 msgid ""
 "Displays the first 3 letters of the weekday on the schedule. For example "
 "'Mon' instead of 'Monday'."
-msgstr ""
+msgstr "Muestra las primeras 3 letras del día de la semana en el calendario."
 
 #: includes/WcsOptions.php:146
 msgid "Class Details Template"
-msgstr ""
+msgstr "Plantilla Detalles Clase"
 
 #: includes/WcsOptions.php:147
 msgid ""
 "Use placholders to design the way the class details appear in the schedule"
 msgstr ""
+"Utiliza las localizaciones para diseñar cómo quieres que se muestre los "
+"detalles de clase, que aparece en el calendario."
 
 #: includes/WcsOptions.php:148
 msgid "Available placholders"
-msgstr ""
+msgstr "Localizaciones disponibles"
 
 #: includes/WcsOptions.php:178
 msgid "Base class color"
-msgstr ""
+msgstr "Color base de la clase"
 
 #: includes/WcsOptions.php:179
 msgid "The default color for classes in the schedule."
-msgstr ""
+msgstr "El color por defecto para las clases en el calendario"
 
 #: includes/WcsOptions.php:189
 msgid "Alternate class color"
-msgstr ""
+msgstr "Color alternativo de la clase"
 
 #: includes/WcsOptions.php:190
 msgid ""
 "In case there are more than one class in the same cell, colors will "
 "alternate between this and the base color."
 msgstr ""
+"En el caso de que haya más de una clase en la misma celda, los colores se "
+"alternarán entre estos sobre el color base."
 
 #: includes/WcsOptions.php:199
 msgid "Class details box"
-msgstr ""
+msgstr "Caja detalles de la clase"
 
 #: includes/WcsOptions.php:200
 msgid ""
 "Color of the class details box which appears when hovering over a class."
 msgstr ""
+"Color de la venta detalle de clase que aparece cuando te sitias encima de la "
+"clase."
 
 #: includes/WcsOptions.php:210
 msgid "Border color"
-msgstr ""
+msgstr "Color borde"
 
 #: includes/WcsOptions.php:211
 msgid "This color is used for all borders in the schedule output"
-msgstr ""
+msgstr "Este color es utilizado para todos los bordes del calendario público"
 
 #: includes/WcsOptions.php:221
 msgid "Schedule headings color"
-msgstr ""
+msgstr "Color cabecera calendario"
 
 #: includes/WcsOptions.php:222
 msgid "Text color of the schedule headings (weekdays, hours)."
-msgstr ""
+msgstr "Color texto para cabecera calendario (días semana, horas)."
 
 #: includes/WcsOptions.php:232
 msgid "Schedule headings background"
-msgstr ""
+msgstr "Color fondo cabecera calendario"
 
 #: includes/WcsOptions.php:233
 msgid "Background color of the schedule headings (weekdays, hours)."
-msgstr ""
+msgstr "Color de fondo de la cabecera calendario (días, horas)."
 
 #: includes/WcsOptions.php:243
 msgid "Text color"
-msgstr ""
+msgstr "Color Texto"
 
 #: includes/WcsOptions.php:244
 msgid "Text color of schedule entries/classes."
-msgstr ""
+msgstr "Color del Texto del calendario para entradas/clases."
 
 #: includes/WcsOptions.php:254
 msgid "Background color"
-msgstr ""
+msgstr "Color fondo"
 
 #: includes/WcsOptions.php:255
 msgid "Background color for the entire schedule."
-msgstr ""
+msgstr "Color de fondo para el calendario"
 
 #: includes/WcsOptions.php:265
 msgid "qTip background color"
-msgstr ""
+msgstr "qTip color fondo"
 
 #: includes/WcsOptions.php:266
 msgid "Background color of the qTip pop-up box."
-msgstr ""
+msgstr "Color de fonod para ventana pop-up qTip"
 
 #: includes/WcsOptions.php:276
 msgid "Links color"
-msgstr ""
+msgstr "Color enlaces"
 
 #: includes/WcsOptions.php:277
 msgid "The color of the links which appear in the class details box"
-msgstr ""
+msgstr "El color de los enlaces aparecerá en los detalles de la clase"
 
 #: includes/WcsOptions.php:303
 msgid ""
 "To display all the classes in a single schedule, simply enter the shortcode "
 "<code>[wcs]</code> inside a page or a post."
 msgstr ""
+"Para mostrar todas las clases en un calendario, simplemente introduce el "
+"shortcode <code>[wcs]</code> dentro de una página o entrada."
 
 #: includes/WcsOptions.php:304
 msgid ""
@@ -252,12 +266,18 @@ msgid ""
 "horizontal using the 'layout' attribute like this: <code>[wcs "
 "layout=horizontal]</code>. "
 msgstr ""
+"La vista del calendario es vertical por defecto, pero es fácil  cambiarlo a "
+"horizontal utilizando el atributo de vista como aquí: <code>[wcs "
+"layout=horizontal]</code>. "
 
 #: includes/WcsOptions.php:305
 msgid ""
 "It's also possible to output the schedule as a list using the list layout: "
 "<code>[wcs layout=list]</code>. The list layout is better for mobile devices."
 msgstr ""
+"Es también posible mostrar el calendario como una lista utilizando esta "
+"vista: <code>[wcs layout=list]</code>. Esta vista tipo lista es mejor para "
+"dispositivos móviles."
 
 #: includes/WcsOptions.php:306
 msgid ""
@@ -265,180 +285,187 @@ msgid ""
 "this: <code>[wcs classroom=\"Classroom A\"]</code> Where \"Classroom A\" is "
 "the name of the classroom as it appears in the database."
 msgstr ""
+"Para mortar una clase individual, utilize el attribute del Aula como este: "
+"<code>[wcs classroom=\"Classroom A\"]</code> Donde \"Classroom A\" es el "
+"nombre del Aula que aparece en la base de datos."
 
 #: includes/WcsOptions.php:307
 msgid ""
 "A finalized shortcode may look something like <code>[wcs classroom="
 "\"Classroom A\" layout=list]</code>."
 msgstr ""
+"El shortcode final debería ser así: <code>[wcs classroom=\"Classroom A\" "
+"layout=list]</code>."
 
 #: includes/WcsOptions.php:350
 msgid " Minutes"
-msgstr ""
+msgstr "Minutos"
 
 #: models/WcsItemForm.php:32
 msgid "Name field cannot be empty"
-msgstr ""
+msgstr "Campo nombre no puede estar vacío"
 
 #: models/WcsItemForm.php:42 models/WcsItemForm.php:46
 msgid "Item already exists in the database"
-msgstr ""
+msgstr "Clase existe actualmente en la base de datos"
 
 #: models/WcsItemForm.php:60 models/WcsScheduleForm.php:131
 msgid "Please select an item to delete"
-msgstr ""
+msgstr "Por favor selecciona una clase para borrar"
 
 #: models/WcsItemForm.php:130 models/WcsScheduleForm.php:210
 #, php-format
 msgid "%d item deleted from database"
-msgstr ""
+msgstr "%d clase borrada de la base de datos"
 
 #: models/WcsSchedule.php:421
 msgid "A class cannot end before it starts"
-msgstr ""
+msgstr "Una clase no puede terminar antes del inicio"
 
 #: models/WcsSchedule.php:485
 #, php-format
 msgid "The %s is not available at this time"
-msgstr ""
+msgstr "El %s no está disponible a dicha hora"
 
 #: models/WcsScheduleForm.php:62 models/WcsScheduleForm.php:89
 msgid "Illegal selection"
-msgstr ""
+msgstr "Selección incorrecta"
 
 #: models/WcsScheduleForm.php:66
 #, php-format
 msgid "Please select a %s"
-msgstr ""
+msgstr "Selecciona un %s"
 
 #: models/WcsTodayClassesWidget.php:18
 msgid "WCS Today's Classes"
-msgstr ""
+msgstr "WCS Clases de hoy"
 
 #: models/WcsTodayClassesWidget.php:19
 msgid "Displays a list of today's classes"
-msgstr ""
+msgstr "Mostrar la lista de las clases de hoy"
 
 #: models/WcsTodayClassesWidget.php:69
 msgid "No Classes Today"
-msgstr ""
+msgstr "No hay clases hoy"
 
 #: models/WcsTodayClassesWidget.php:107
 msgid "Today's Classes"
-msgstr ""
+msgstr "Clases de Hoy"
 
 #: models/WcsTodayClassesWidget.php:129
 msgid "Title:"
-msgstr ""
+msgstr "Título:"
 
 #: models/WcsTodayClassesWidget.php:134
 msgid "Max Classes:"
-msgstr ""
+msgstr "Clases máximas:"
 
 #: models/WcsTodayClassesWidget.php:136
 msgid "Maximum number of classes to display"
-msgstr ""
+msgstr "Número máximo de clases a mostrar"
 
 #: models/WcsTodayClassesWidget.php:141
 msgid "All"
-msgstr ""
+msgstr "Todo"
 
 #: views/ClassAdminView.php:11
 msgid "Class Management"
-msgstr ""
+msgstr "Gestor Clases"
 
 #: views/ClassroomAdminView.php:11
 msgid "Classroom Management"
-msgstr ""
+msgstr "Gestor Clases"
 
 #: views/InstructorAdminView.php:11
 msgid "Instructor Management"
-msgstr ""
+msgstr "Gestor Profesores"
 
 #: views/OptionsView.php:9
 msgid "Weekly Class Schedule Options"
-msgstr ""
+msgstr "Opciones Calendario Weekly Class"
 
 #: views/OptionsView.php:14
 msgid "Save Changes"
-msgstr ""
+msgstr "Guardar Cambios"
 
 #: views/ScheduleAdminView.php:11
 msgid "Schedule Management"
-msgstr ""
+msgstr "Gestor Calendario"
 
 #: views/ScheduleAdminView.php:12
 msgid ""
 "Please visit the options page for instructions on how to use this plugin."
 msgstr ""
+"Por favor, visita la página de opciones para las instrucciones de cómo usar "
+"este plugin."
 
 #: views/WcsItemEditForm.php:14 views/WcsItemForm.php:13
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 #: views/WcsItemEditForm.php:15 views/WcsItemForm.php:14
 msgid "Description"
-msgstr ""
+msgstr "Descripción"
 
 #: views/WcsItemEditForm.php:28 views/WcsScheduleEditForm.php:66
 msgid "Save Item"
-msgstr ""
+msgstr "Guardar Clase"
 
 #: views/WcsItemForm.php:24 views/WcsScheduleForm.php:85
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: views/WcsItemForm.php:37 views/WcsScheduleForm.php:67
 msgid "Add Item"
-msgstr ""
+msgstr "Añadir Clase"
 
 #: views/WcsItemForm.php:38 views/WcsScheduleForm.php:111
 msgid "Delete Item"
-msgstr ""
+msgstr "Borrar Clase"
 
 #: views/WcsScheduleEditForm.php:18 views/WcsScheduleForm.php:19
 #: views/WcsScheduleForm.php:75
 msgid "Class"
-msgstr ""
+msgstr "Clases"
 
 #: views/WcsScheduleEditForm.php:24 views/WcsScheduleForm.php:25
 #: views/WcsScheduleForm.php:76
 msgid "Instructor"
-msgstr ""
+msgstr "Profesor"
 
 #: views/WcsScheduleEditForm.php:30 views/WcsScheduleForm.php:31
 #: views/WcsScheduleForm.php:77
 msgid "Classroom"
-msgstr ""
+msgstr "Aulas"
 
 #: views/WcsScheduleEditForm.php:36 views/WcsScheduleForm.php:37
 msgid "Day"
-msgstr ""
+msgstr "Día"
 
 #: views/WcsScheduleEditForm.php:40 views/WcsScheduleForm.php:41
 #: views/WcsScheduleForm.php:78
 msgid "Start Hour"
-msgstr ""
+msgstr "Hora inicio"
 
 #: views/WcsScheduleEditForm.php:44 views/WcsScheduleForm.php:45
 #: views/WcsScheduleForm.php:79
 msgid "End Hour"
-msgstr ""
+msgstr "Hora fin"
 
 #: views/WcsScheduleEditForm.php:49 views/WcsScheduleForm.php:50
 #: views/WcsScheduleForm.php:81
 msgid "Timezone"
-msgstr ""
+msgstr "Zona horaria"
 
 #: views/WcsScheduleEditForm.php:54 views/WcsScheduleForm.php:55
 msgid "Visibility"
-msgstr ""
+msgstr "Visibilidad"
 
 #: views/WcsScheduleEditForm.php:58 views/WcsScheduleForm.php:59
 #: views/WcsScheduleForm.php:84
 msgid "Notes"
-msgstr ""
+msgstr "Notas"
 
 #: views/WcsScheduleForm.php:83
 msgid "Status"
-msgstr ""
+msgstr "Estado"

@@ -64,10 +64,10 @@ th.wcs-status-column {
   width: 5%;
 }
 th.wcs-notes-column {
-  width: 17%;
+  width: 16%;
 }
 th.wcs-edit-column {
-  width: 3%;
+  width: 4%;
 }
 /* Without Timezone */
 .no-timezone th.wcs-class-column {

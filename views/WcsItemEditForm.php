@@ -11,8 +11,8 @@
 <table class="wp-list-table widefat wcs-item-table">
 	<tr>
 		<th class="check-column"></th>
-		<th class="wcs-name-column">Name</th>
-		<th class="wcs-description-column">Description</th>
+		<th class="wcs-name-column"><?php _e('Name', 'weekly-class-schedule'); ?></th>
+		<th class="wcs-description-column"><?php _e('Description', 'weekly-class-schedule'); ?></th>
 		<th class='edit-button-column'></th>
 	</tr>
 
@@ -25,5 +25,5 @@
 </table>
 
 <p>
-	<input id='wcs-submit-item' type='submit' class='button-primary' value='<?php esc_attr_e('Save Item'); ?>' name='save_item' />
+	<input id='wcs-submit-item' type='submit' class='button-primary' value='<?php esc_attr_e('Save Item', 'weekly-class-schedule'); ?>' name='save_item' />
 </p>

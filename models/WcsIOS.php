@@ -32,7 +32,7 @@ class WcsIOS
       }
     }
     
-    $output = json_encode( $multiDimArray, JSON_FORCE_OBJECT );
+    $output = json_encode( $multiDimArra );
     $fp = file_put_contents(WCS_PLUGIN_DIR . '/ios/schedule.json', $output);
     
     if ( $fp > 0 ) {

@@ -36,7 +36,7 @@ class WcsController
           $this->renderScheduleEditForm( $model, $id );
       } 
       else {
-        die( __( 'Bad request' ) );
+        die( __( 'Bad request', 'weekly-class-schedule' ) );
       }
     } 
     else {

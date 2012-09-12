@@ -11,7 +11,7 @@ class WcsItemForm extends WcsForm implements IWcsForm
   public function begin( $op, $id )
   {
     $this->validate( $op, $id );
-    
+
     // TODO: Remove this
     WcsIOS::updateItemJson( $this->_base_name );
   }
@@ -29,7 +29,7 @@ class WcsItemForm extends WcsForm implements IWcsForm
       case 'add_item':
         // Validate name field is not empty
         if ( ! isset( $_POST['new_item_name'] ) || empty( $_POST['new_item_name'] ) )
-          $form_errors[] = __( 'Name field cannot be empty' );
+          $form_errors[] = __( 'Name field cannot be empty', 'weekly-class-schedule' );
 
         // Validate name is not already in the database
         $table = $this->_table_name;
@@ -39,11 +39,11 @@ class WcsItemForm extends WcsForm implements IWcsForm
 
         if ( $op == 'add_item' ) {
           if ( isset( $record ) && ! empty( $record ))
-            $form_errors[] = __( 'Item already exists in the database' );
+            $form_errors[] = __( 'Item already exists in the database', 'weekly-class-schedule' );
         }
         elseif ( $op == 'save_item' ) {
           if ( isset( $record ) && ! empty( $record ) && $record != $id )
-            $form_errors[] = __( 'Item already exists in the database' );
+            $form_errors[] = __( 'Item already exists in the database', 'weekly-class-schedule' );
         }
 
         break;
@@ -57,7 +57,7 @@ class WcsItemForm extends WcsForm implements IWcsForm
         }
 
         if ( empty( $ids )) {
-          $form_errors[] = ( __( 'Please select an item to delete' ) );
+          $form_errors[] = ( __( 'Please select an item to delete', 'weekly-class-schedule' ) );
         }
         break;
     }
@@ -87,7 +87,7 @@ class WcsItemForm extends WcsForm implements IWcsForm
       elseif ( $op == 'save_item' ) {
         $class = $this->_class_name;
         $instance = new $class();
-        
+
         $record = $instance->getById( $id );
       }
 
@@ -110,7 +110,7 @@ class WcsItemForm extends WcsForm implements IWcsForm
         if ( preg_match( "/^delete_[0-9]+$/", $key ) == 1 ) {
           $class = $this->_class_name;
           $instance = new $class();
-          
+
           $record = $instance->getById( $value );
           if ( $record->delete() > 0 )
             $count++;
@@ -127,7 +127,7 @@ class WcsItemForm extends WcsForm implements IWcsForm
       }
 
       if ( $count > 0 ) {
-        $message = sprintf( _n( "%d item deleted from database", "%d items deleted from database", $count), $count );
+        $message = sprintf( _n( "%d item deleted from database", "%d items deleted from database", $count, 'weekly-class-schedule' ), $count );
         WcsHtml::show_wp_message( $message, 'updated' );
       }
     }

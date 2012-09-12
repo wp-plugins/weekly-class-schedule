@@ -12,7 +12,7 @@ class WcsScheduleForm extends WcsForm implements IWcsForm
   public function begin( $op, $id )
   {
     $this->validate( $op, $id );
-    
+
     // TODO: Remove this
     WcsIOS::updateScheduleJson();
   }
@@ -59,11 +59,11 @@ class WcsScheduleForm extends WcsForm implements IWcsForm
         foreach ( $fields as $key => $value ) {
           $field_name = str_replace('select', '', str_replace('_', ' ', $value) );
           if ( ( empty( $_POST[$value] ) || ! $_POST[$value] ) && $_POST[$value] !== '0' ) {
-            $form_errors[] = __( 'Illegal selection' );
+            $form_errors[] = __( 'Illegal selection', 'weekly-class-schedule' );
           }
 
           if ( $_POST[$value] == '_none' )
-            $form_errors[] = sprintf( __( 'Please select a %s'), $field_name );
+            $form_errors[] = sprintf( __( 'Please select a %s', 'weekly-class-schedule' ), $field_name );
         }
 
         /* Filter hour fields */
@@ -86,7 +86,7 @@ class WcsScheduleForm extends WcsForm implements IWcsForm
           if (is_array( $value ) ) {
             $index = array_search( $_POST[$key], $value );
             if ( $index === FALSE )
-              $form_errors[] = __( 'Illegal selection' );
+              $form_errors[] = __( 'Illegal selection', 'weekly-class-schedule' );
           }
         }
 
@@ -128,7 +128,7 @@ class WcsScheduleForm extends WcsForm implements IWcsForm
         }
 
         if ( empty( $ids )) {
-          $form_errors[] = ( __( 'Please select an item to delete' ) );
+          $form_errors[] = ( __( 'Please select an item to delete', 'weekly-class-schedule' ) );
         }
         break;
     }
@@ -199,7 +199,7 @@ class WcsScheduleForm extends WcsForm implements IWcsForm
         if ( preg_match( "/^delete_[0-9]+$/", $key ) == 1 ) {
           $class = $this->_class_name;
           $instance = new $class();
-          
+
           $record = $instance->getById( $value );
           if ( $record->delete() > 0 )
             $count++;
@@ -207,7 +207,7 @@ class WcsScheduleForm extends WcsForm implements IWcsForm
       }
 
       if ( $count > 0 ) {
-        $message = sprintf( _n( "%d item deleted from database", "%d items deleted from database", $count), $count );
+        $message = sprintf( _n( "%d item deleted from database", "%d items deleted from database", $count, 'weekly-class-schedule' ), $count );
         WcsHtml::show_wp_message( $message, 'updated' );
       }
     }

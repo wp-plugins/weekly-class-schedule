@@ -14,14 +14,14 @@ class WcsInit
     global $wpdb;
     $version = get_option( 'wcs_version' );
     
-    $sql = "SHOW TABLES IN " . $wpdb->dbname . " LIKE '" . $wpdb->prefix . "wcs2%'";
+    $sql = "SHOW TABLES IN `" . $wpdb->dbname . "` LIKE '" . $wpdb->prefix . "wcs2%'";
     $tables = $wpdb->query( $sql );
   
     if ( $tables == 0 ) {
       // Pre 2.0
       WcsDb::createWcs2Tables();
       
-      $sql = "SHOW TABLES IN " . $wpdb->dbname . " LIKE '" . $wpdb->prefix . "wcs\_%'";
+      $sql = "SHOW TABLES IN `" . $wpdb->dbname . "` LIKE '" . $wpdb->prefix . "wcs\_%'";
       $tables = $wpdb->query( $sql );
       
       if ( $tables == 0 ) {
@@ -65,7 +65,7 @@ class WcsInit
   
   public static function wcsLoadPluginTextdomain()
   {
-    load_plugin_textdomain( 'wcs', false, WCS_PLUGIN_NAME . '/languages' );
+    load_plugin_textdomain( 'weekly-class-schedule', false, 'weekly-class-schedule/languages' );
   }
   
   public static function loadClasses()
