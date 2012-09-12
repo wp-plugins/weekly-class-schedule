@@ -8,4 +8,4 @@
  */
 ?>
 
-<h1>Instructor Management</h1>
+<h1><?php _e('Instructor Management', 'weekly-class-schedule'); ?></h1>

@@ -7,7 +7,7 @@ class WcsActiveRecord
     $instance = new WcsActiveRecord();
     return $instance;
   }
-  
+
 	/**
 	 * Return a DB row based on an id.
 	 *
@@ -36,15 +36,19 @@ class WcsActiveRecord
 	 * 	Column names
 	 * @return stdClass $results
 	 */
-	public function getCols( array $attributes )
+	public function getCols( array $attributes, $return_array = FALSE )
 	{
 	  global $wpdb;
-	  
+
 	  $cols = implode(", ", $attributes);
 	  $table_name = $this->_tableName;
 
 	  $sql = $wpdb->prepare( "SELECT $cols FROM $table_name" );
-	  $results = $wpdb->get_results( $sql );
+
+	  if ( $return_array == FALSE )
+	    $results = $wpdb->get_results( $sql );
+	  else
+	    $results = $wpdb->get_results( $sql, ARRAY_A );
 
 	  if ( ! empty( $results ) )
 	    return $results;
@@ -60,7 +64,7 @@ class WcsActiveRecord
 	public function getCol( $col )
 	{
 	  global $wpdb;
-	  
+
 	  $table_name = $this->_tableName;
 
 	  $sql = $wpdb->prepare( "SELECT $col FROM $table_name" );
@@ -77,7 +81,7 @@ class WcsActiveRecord
 	 * 	The column name
 	 * @param string $value
 	 * 	The value to search agains ("WHERE $col = $value")
-	 * 
+	 *
 	 * @return WcsActiveRecord
 	 * 	A single WcsActiveRecord object
 	 */
@@ -127,8 +131,8 @@ class WcsActiveRecord
 	 * @param array $attributes
 	 * 	An array structured with 'column' => 'value'.
 	 * @param array $order_by
-	 * 	Array with keys 'col' (column to sort by) and 'order' (ASC or DESC) 
-	 * 
+	 * 	Array with keys 'col' (column to sort by) and 'order' (ASC or DESC)
+	 *
 	 * @return array $active_records
 	 * 	Array of AR objects
 	 */
@@ -155,11 +159,11 @@ class WcsActiveRecord
 	  if ( empty( $order_by ) )
 	    $sql = $wpdb->prepare( "SELECT * FROM $table_name WHERE $where_statement" );
 	  else {
-	    $col = $order_by['col'];
+	    $order_col = $order_by['col'];
 	    $order = $order_by['order'];
-	    $sql = $wpdb->prepare( "SELECT * FROM $table_name WHERE $where_statement ORDER BY $col $order" );
+	    $sql = $wpdb->prepare( "SELECT * FROM $table_name WHERE $where_statement ORDER BY $order_col $order" );
 	  }
-	  
+
 	  $results = $wpdb->get_results( $sql );
 
 	  if ( ! empty( $results ) ) {
@@ -178,7 +182,7 @@ class WcsActiveRecord
    * 	An array with 2 parameters:
    *  - (string) name of column to sort by
    *  - (string) order: ASC or DESC
-   *  
+   *
    *  @return array $results
    *  	Array of AR objects
    */
@@ -216,7 +220,7 @@ class WcsActiveRecord
 	  global $wpdb;
 	  $messages = array();
 	  $errors = array();
-	  
+
 	  // Prepare insert/update array
 	  $cols = (array) $this;
 	  unset( $cols['_tableName']);
@@ -226,17 +230,17 @@ class WcsActiveRecord
 	  if ( $this->isNewRecord() ) {
   	  $num_insert = $wpdb->insert( $this->_tableName, $cols );
   	  if ( $num_insert !== FALSE && $num_insert != 0 ) {
-  	    $messages[] = sprintf( __( '%d item was added to the database', '%d items were added to the database', $num_insert ), $num_insert );
+  	    $messages[] = sprintf( _n( '%d item was added to the database', '%d items were added to the database', $num_insert, 'weekly-class-schedule' ), $num_insert );
   	  } else {
-  	    $errors[] = __( 'Failed to add item to the database' );
+  	    $errors[] = __( 'Failed to add item to the database', 'weekly-class-schedule' );
   	  }
 	  }
 	  else {
   	  $num_updated = $wpdb->update( $this->_tableName, $cols, array( 'id' => $this->id ) );
       if ( $num_updated !== FALSE && $num_updated != 0 ) {
-  	    $messages[] = sprintf( __( '%d item was updated', '%d items were updated', $num_updated ), $num_updated );
+  	    $messages[] = sprintf( _n( '%d item was updated', '%d items were updated', $num_updated, 'weekly-class-schedule' ), $num_updated );
       } else {
-        $errors[] = __( 'Failed to update item');
+        $errors[] = __( 'Failed to update item', 'weekly-class-schedule' );
      }
 	  }
 
@@ -272,7 +276,7 @@ class WcsActiveRecord
 	protected static function mapRowToAR( $row, $class_name )
 	{
 	  $active_record = new $class_name();
-	  
+
 	  foreach ( $row as $key => $value ) {
 	    $active_record->$key = $value;
 	  }

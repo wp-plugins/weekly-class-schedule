@@ -15,8 +15,8 @@ class WcsTodayClassesWidget extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 	 		'wcs_today_classes_widget', // Base ID
-			__( "WCS Today's Classes" ), // Name
-			array( 'description' => __( "Displays a list of today's classes" ) ) // Args
+			__( "WCS Today's Classes", 'weekly-class-schedule' ), // Name
+			array( 'description' => __( "Displays a list of today's classes", 'weekly-class-schedule' ) ) // Args
 		);
 	}
 
@@ -31,8 +31,8 @@ class WcsTodayClassesWidget extends WP_Widget {
 	public function widget( $args, $instance ) {
 	  global $wp_locale;
 	  extract( $args );
-	  
-	  
+
+
 		$title = apply_filters( 'widget_title', $instance['title'] );
 		$max_classes = apply_filters( 'widget_title', $instance['max_classes'] );
 		$classroom = apply_filters( 'widget_title', $instance['classroom'] );
@@ -41,34 +41,34 @@ class WcsTodayClassesWidget extends WP_Widget {
 		echo $before_widget;
 		if ( ! empty( $title ) )
 			echo $before_title . $title . $after_title;
-		
+
 		/* Content */
 		if ( isset( $classroom ) && $classroom != 'all' ) {
 		  $classroom = WcsClassroom::model()->getByAttribute( 'classroom_name', $classroom );
-		  $classes = WcsSchedule::model()->getByAttributes( array( 'weekday' => $today, 'classroom_id' => $classroom->id ), array( 'col' => 'start_hour', 'order' => 'ASC' ) );
+		  $classes = WcsSchedule::model()->getByAttributes( array( 'weekday' => $today, 'classroom_id' => $classroom->id, 'visibility' => '1'  ), array( 'col' => 'start_hour', 'order' => 'ASC' ) );
 		}
 		else {
-		  $classes = WcsSchedule::model()->getByAttributes( array( 'weekday' => $today ), array( 'col' => 'start_hour', 'order' => 'ASC' ) );
+		  $classes = WcsSchedule::model()->getByAttributes( array( 'weekday' => $today, 'visibility' => '1' ), array( 'col' => 'start_hour', 'order' => 'ASC' ) );
 		}
-		
+
 		if ( isset( $max_classes ) && is_numeric( $max_classes ) && $classes != NULL )
 		  $classes = array_slice( $classes, 0, $max_classes );
-		
+
 		if ( ! empty( $classes ) ) {
 		  echo '<ul>';
-		  
+
 		  foreach ( $classes as $class ) {
 		    $class_name = $class->getClassName();
 		    $start_hour = $class->getStartHour();
 		    echo "<li>$start_hour - $class_name</li>";
 		  }
-		  
+
 		  echo '</ul>';
 		}
 		else {
-		  _e( 'No Classes Today' );  
+		  _e( 'No Classes Today', 'weekly-class-schedule' );
 		}
-		
+
 		echo $after_widget;
 	}
 
@@ -104,7 +104,7 @@ class WcsTodayClassesWidget extends WP_Widget {
 			$title = $instance[ 'title' ];
 		}
 		else {
-			$title = __( "Today's Classes" );
+			$title = __( "Today's Classes", 'weekly-class-schedule' );
 		}
 
 		if ( isset( $instance[ 'max_classes'] ) ) {
@@ -126,19 +126,19 @@ class WcsTodayClassesWidget extends WP_Widget {
 		/* Print Form */
 		?>
 		<p>
-		<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
+		<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'weekly-class-schedule' ); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
 		</p>
 
 		<p>
-		<label for="<?php echo $this->get_field_id( 'max_classes' ); ?>"><?php _e( 'Max Classes:' ); ?></label>
+		<label for="<?php echo $this->get_field_id( 'max_classes' ); ?>"><?php _e( 'Max Classes:', 'weekly-class-schedule' ); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id( 'max_classes' ); ?>" name="<?php echo $this->get_field_name( 'max_classes' ); ?>" type="text" value="<?php echo esc_attr( $max_classes ); ?>" />
-		<span class='description'><?php __( 'Maximum number of classes to display' ); ?></span>
+		<span class='description'><?php __( 'Maximum number of classes to display', 'weekly-class-schedule' ); ?></span>
 		</p>
 
 		<p>
 		<select class="widefat" id="<?php echo $this->get_field_id( 'classroom' ); ?>" name="<?php echo $this->get_field_name( 'classroom' ); ?>">
-			<option <?php if ( $classroom == 'all' ) echo "selected='selected' "; ?>value="all"><?php _e( 'All' ); ?></option>
+			<option <?php if ( $classroom == 'all' ) echo "selected='selected' "; ?>value="all"><?php _e( 'All', 'weekly-class-schedule' ); ?></option>
 			<?php foreach ( $classrooms as $value ): ?>
 			<option <?php if ( $classroom == $value->classroom_name ) echo "selected='selected'"; ?>value="<?php echo $value->classroom_name; ?>"><?php echo $value->classroom_name; ?></option>
 			<?php endforeach; ?>

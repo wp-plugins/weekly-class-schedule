@@ -27,11 +27,11 @@ abstract class WcsAdmin
   
   /* Create menu items */
   public static function wcs_admin_callback() {
-    $wc_schedule = __( 'WC Schedule' );
-    $classes = __( 'Classes' );
-    $instructors = __( 'Instructors' );
-    $classrooms = __( 'Classrooms' );
-    $options = __( 'Options' );
+    $wc_schedule = __( 'WC Schedule', 'weekly-class-schedule' );
+    $classes = __( 'Classes', 'weekly-class-schedule' );
+    $instructors = __( 'Instructors', 'weekly-class-schedule' );
+    $classrooms = __( 'Classrooms', 'weekly-class-schedule' );
+    $options = __( 'Options', 'weekly-class-schedule' );
     
     add_menu_page( $wc_schedule, $wc_schedule, 'manage_options', 'wcs-schedule', array( 'WcsAdmin', 'wcs_schedule_admin_page' ), WCS_PLUGIN_URL . '/images/favicon.ico' );
     add_submenu_page( 'wcs-schedule', $classes, $classes, 'manage_options', 'wcs-classes', array( 'WcsAdmin', 'wcs_classes_admin_page' ) );

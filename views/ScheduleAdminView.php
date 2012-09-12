@@ -8,5 +8,5 @@
  */
 ?>
 
-<h1>Schedule Management</h1>
-<p>Please visit the options page for instructions on how to use this plugin.</p>
+<h1><?php _e('Schedule Management', 'weekly-class-schedule'); ?></h1>
+<p><?php _e('Please visit the options page for instructions on how to use this plugin.', 'weekly-class-schedule'); ?></p>
