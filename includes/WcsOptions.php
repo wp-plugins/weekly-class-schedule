@@ -30,7 +30,7 @@ abstract class WcsOptions
    */
   public static function validateHexValue( $value ) {
     if ( preg_match( "/^[0-9a-fA-F]{6}$/", $value ) == 0 ) {
-      add_settings_error( $key, 'wcs_base_color', __( 'Invalid color. Please use a valid hex value.' ), 'error' );
+      add_settings_error( $key, 'wcs_base_color', __( 'Invalid color. Please use a valid hex value.', 'weekly-class-schedule' ), 'error' );
     }
     else {
       return $value;
@@ -42,7 +42,7 @@ abstract class WcsOptions
     /* Add help/instructions section */
     add_settings_section(
       'wcs_instructions',
-      __( 'Using the Weekly Class Schedule' ),
+      __( 'Using the Weekly Class Schedule', 'weekly-class-schedule' ),
       array('WcsOptions', 'instructions_section'),
       'wcs-options'
     );
@@ -50,13 +50,13 @@ abstract class WcsOptions
     /* Add General Settings */
     add_settings_section(
       'wcs_general_settings',
-      __( 'General Settings' ),
+      __( 'General Settings', 'weekly-class-schedule' ),
       array('WcsOptions', 'general_settings_section'),
       'wcs-options'
     );
 
-    $title = __( 'First day of week' );
-    $desc = __( 'The day the schedule will start in' );
+    $title = __( 'First day of week', 'weekly-class-schedule' );
+    $desc = __( 'The day the schedule will start in', 'weekly-class-schedule' );
 
     add_settings_field(
     	'wcs_first_day_of_week',
@@ -66,8 +66,8 @@ abstract class WcsOptions
     	'wcs_general_settings'
     );
 
-    $title = __( 'Number of days to display' );
-    $desc = __( 'The number of days to display including the first day of the week.' );
+    $title = __( 'Number of days to display', 'weekly-class-schedule' );
+    $desc = __( 'The number of days to display including the first day of the week.', 'weekly-class-schedule' );
 
     add_settings_field(
     	'wcs_number_of_days',
@@ -77,8 +77,8 @@ abstract class WcsOptions
     	'wcs_general_settings'
     );
 
-    $title = __( 'Enable 24-hour mode' );
-    $desc = __( 'Enabling this will display all the hours in a 24-hour clock mode as opposed to 12-hour clock mode (AM/PM).' );
+    $title = __( 'Enable 24-hour mode', 'weekly-class-schedule' );
+    $desc = __( 'Enabling this will display all the hours in a 24-hour clock mode as opposed to 12-hour clock mode (AM/PM).', 'weekly-class-schedule' );
 
     add_settings_field(
     	'wcs_24_hour_mode',
@@ -88,8 +88,8 @@ abstract class WcsOptions
       'wcs_general_settings'
     );
 
-    $title = __( 'Time Increments' );
-    $desc = __( 'Only affects the schedule entry form, not the final output.' );
+    $title = __( 'Time Increments', 'weekly-class-schedule' );
+    $desc = __( 'Only affects the schedule entry form, not the final output.', 'weekly-class-schedule' );
 
     add_settings_field(
       'wcs_time_increments',
@@ -99,8 +99,8 @@ abstract class WcsOptions
       'wcs_general_settings'
     );
 
-    $title = __( 'Detect classroom collisions' );
-    $desc = __( 'Enabling this feature will prevent scheduling of multiple classes at the same classroom at the same time.' );
+    $title = __( 'Detect classroom collisions', 'weekly-class-schedule' );
+    $desc = __( 'Enabling this feature will prevent scheduling of multiple classes at the same classroom at the same time.', 'weekly-class-schedule' );
     
     add_settings_field(
       'wcs_detect_classroom_collisions',
@@ -110,8 +110,8 @@ abstract class WcsOptions
       'wcs_general_settings'
     );
     
-    $title = __( 'Detect instructor collisions' );
-    $desc = __( 'Enabling this feature will prevent the scheduling of an instructor for multiple classes at the same.' );
+    $title = __( 'Detect instructor collisions', 'weekly-class-schedule' );
+    $desc = __( 'Enabling this feature will prevent the scheduling of an instructor for multiple classes at the same.', 'weekly-class-schedule' );
     
     add_settings_field(
       'wcs_detect_instructor_collisions',
@@ -121,8 +121,8 @@ abstract class WcsOptions
       'wcs_general_settings'
     );
 
-    $title = __( 'Enable Timezones' );
-    $desc = __( 'Enabling this will add a timezone field to the schedule entry form. The final time output will be calculated based upon the site/server settings.' );
+    $title = __( 'Enable Timezones', 'weekly-class-schedule' );
+    $desc = __( 'Enabling this will add a timezone field to the schedule entry form. The final time output will be calculated based upon the site/server settings.', 'weekly-class-schedule' );
     
     add_settings_field(
       'wcs_use_timezones',
@@ -132,8 +132,8 @@ abstract class WcsOptions
       'wcs_general_settings'
     );
 
-    $title = __( 'Use short day names' );
-    $desc = __( "Displays the first 3 letters of the weekday on the schedule. For example 'Mon' instead of 'Monday'." );
+    $title = __( 'Use short day names', 'weekly-class-schedule' );
+    $desc = __( "Displays the first 3 letters of the weekday on the schedule. For example 'Mon' instead of 'Monday'.", 'weekly-class-schedule' );
     
     add_settings_field(
       'wcs_short_day_names',
@@ -143,9 +143,9 @@ abstract class WcsOptions
         'wcs_general_settings'
     );
     
-    $title = __( 'Class Details Template' );
-    $desc = __( 'Use placholders to design the way the class details appear in the schedule' ) . '<br/><br/>';
-    $desc .= '<strong>' . __( 'Available placholders') . '</strong>';
+    $title = __( 'Class Details Template', 'weekly-class-schedule' );
+    $desc = __( 'Use placholders to design the way the class details appear in the schedule', 'weekly-class-schedule' ) . '<br/><br/>';
+    $desc .= '<strong>' . __( 'Available placholders', 'weekly-class-schedule' ) . '</strong>';
     $desc .= ': [class], [instructor], [start hour], [end hour], [notes].';
 
     add_settings_field(
@@ -175,8 +175,8 @@ abstract class WcsOptions
       'wcs-options'
     );
 
-    $title = __( 'Base class color' );
-    $desc = __( 'The default color for classes in the schedule.' );
+    $title = __( 'Base class color', 'weekly-class-schedule' );
+    $desc = __( 'The default color for classes in the schedule.', 'weekly-class-schedule' );
     
     add_settings_field(
       'wcs_base_class_color',
@@ -186,8 +186,8 @@ abstract class WcsOptions
       'wcs_appearance_settings'
     );
 
-    $title = __( 'Alternate class color' );
-    $desc = __( 'In case there are more than one class in the same cell, colors will alternate between this and the base color.' );
+    $title = __( 'Alternate class color', 'weekly-class-schedule' );
+    $desc = __( 'In case there are more than one class in the same cell, colors will alternate between this and the base color.', 'weekly-class-schedule' );
     add_settings_field(
       'wcs_secondary_class_color',
       "$title:<br/><span class='description'>$desc</span>",
@@ -196,8 +196,8 @@ abstract class WcsOptions
       'wcs_appearance_settings'
     );
 
-    $title = __( 'Class details box' );
-    $desc = __( 'Color of the class details box which appears when hovering over a class.' );
+    $title = __( 'Class details box', 'weekly-class-schedule' );
+    $desc = __( 'Color of the class details box which appears when hovering over a class.', 'weekly-class-schedule' );
     
     add_settings_field(
       'wcs_hover_class_color',
@@ -207,8 +207,8 @@ abstract class WcsOptions
       'wcs_appearance_settings'
     );
 
-    $title = __( 'Border color' );
-    $desc = __( 'This color is used for all borders in the schedule output' );
+    $title = __( 'Border color', 'weekly-class-schedule' );
+    $desc = __( 'This color is used for all borders in the schedule output', 'weekly-class-schedule' );
     
     add_settings_field(
       'wcs_border_color',
@@ -218,8 +218,8 @@ abstract class WcsOptions
       'wcs_appearance_settings'
     );
 
-    $title = __( 'Schedule headings color' );
-    $desc = __( 'Text color of the schedule headings (weekdays, hours).' );
+    $title = __( 'Schedule headings color', 'weekly-class-schedule' );
+    $desc = __( 'Text color of the schedule headings (weekdays, hours).', 'weekly-class-schedule' );
     
     add_settings_field(
       'wcs_headings_color',
@@ -229,8 +229,8 @@ abstract class WcsOptions
       'wcs_appearance_settings'
     );
     
-    $title = __( 'Schedule headings background' );
-    $desc = __( 'Background color of the schedule headings (weekdays, hours).' );
+    $title = __( 'Schedule headings background', 'weekly-class-schedule' );
+    $desc = __( 'Background color of the schedule headings (weekdays, hours).', 'weekly-class-schedule' );
 
     add_settings_field(
       'wcs_headings_background_color',
@@ -240,8 +240,8 @@ abstract class WcsOptions
       'wcs_appearance_settings'
     );
 
-    $title = __( 'Text color' );
-    $desc = __( 'Text color of schedule entries/classes.' );
+    $title = __( 'Text color', 'weekly-class-schedule' );
+    $desc = __( 'Text color of schedule entries/classes.', 'weekly-class-schedule' );
     
     add_settings_field(
       'wcs_text_color',
@@ -251,8 +251,8 @@ abstract class WcsOptions
       'wcs_appearance_settings'
     );
 
-    $title = __( 'Background color' );
-    $desc = __( 'Background color for the entire schedule.' );
+    $title = __( 'Background color', 'weekly-class-schedule' );
+    $desc = __( 'Background color for the entire schedule.', 'weekly-class-schedule' );
     
     add_settings_field(
     	'wcs_background_color',
@@ -262,8 +262,8 @@ abstract class WcsOptions
       'wcs_appearance_settings'
     );
 
-    $title = __( 'qTip background color' );
-    $desc = __( 'Background color of the qTip pop-up box.' );
+    $title = __( 'qTip background color', 'weekly-class-schedule' );
+    $desc = __( 'Background color of the qTip pop-up box.', 'weekly-class-schedule' );
     
     add_settings_field(
     	'wcs_qtip_background',
@@ -273,8 +273,8 @@ abstract class WcsOptions
       'wcs_appearance_settings'
     );
     
-    $title = __( 'Links color' );
-    $desc = __( 'The color of the links which appear in the class details box' );
+    $title = __( 'Links color', 'weekly-class-schedule' );
+    $desc = __( 'The color of the links which appear in the class details box', 'weekly-class-schedule' );
     
     add_settings_field(
     	'wcs_links_color',
@@ -300,11 +300,11 @@ abstract class WcsOptions
   /* Renders the instructions section */
   public static function instructions_section()
   {
-    $help_text = __( 'To display all the classes in a single schedule, simply enter the shortcode <code>[wcs]</code> inside a page or a post.' ) . '<br/>';
-    $help_text .= __( "The schedule layout is vertical by default but it's easy to switch to horizontal using the 'layout' attribute like this: <code>[wcs layout=horizontal]</code>. " );
-    $help_text .= __( "It's also possible to output the schedule as a list using the list layout: <code>[wcs layout=list]</code>. The list layout is better for mobile devices." ) . '<br/>';
-    $help_text .= __( 'In order to display a single classroom, use the classroom attribute like this: <code>[wcs classroom="Classroom A"]</code> Where "Classroom A" is the name of the classroom as it appears in the database.' ) . '<br/>';
-    $help_text .= __( 'A finalized shortcode may look something like <code>[wcs classroom="Classroom A" layout=list]</code>.' );
+    $help_text = __( 'To display all the classes in a single schedule, simply enter the shortcode <code>[wcs]</code> inside a page or a post.', 'weekly-class-schedule' ) . '<br/>';
+    $help_text .= __( "The schedule layout is vertical by default but it's easy to switch to horizontal using the 'layout' attribute like this: <code>[wcs layout=horizontal]</code>. ", 'weekly-class-schedule' );
+    $help_text .= __( "It's also possible to output the schedule as a list using the list layout: <code>[wcs layout=list]</code>. The list layout is better for mobile devices.", 'weekly-class-schedule' ) . '<br/>';
+    $help_text .= __( 'In order to display a single classroom, use the classroom attribute like this: <code>[wcs classroom="Classroom A"]</code> Where "Classroom A" is the name of the classroom as it appears in the database.', 'weekly-class-schedule' ) . '<br/>';
+    $help_text .= __( 'A finalized shortcode may look something like <code>[wcs classroom="Classroom A" layout=list]</code>.', 'weekly-class-schedule' );
     echo $help_text;
   }
   
@@ -347,7 +347,7 @@ abstract class WcsOptions
   public static function time_increments_field()
   {
     $incs = array( 5, 10, 15, 30 );
-    echo WcsHtml::generateSelectList( $incs, array( 'name' => 'wcs_time_increments' ), FALSE, get_option( 'wcs_time_increments', 15 ) ) . __( ' Minutes' );
+    echo WcsHtml::generateSelectList( $incs, array( 'name' => 'wcs_time_increments' ), FALSE, get_option( 'wcs_time_increments', 15 ) ) . __( ' Minutes', 'weekly-class-schedule' );
   }
 
   /* Render detect classroom collisions field */

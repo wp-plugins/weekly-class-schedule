@@ -10,8 +10,8 @@
 <table class="wp-list-table widefat wcs-item-table">
 	<tr>
 		<th class="check-column"></th>
-		<th class="wcs-name-column">Name</th>
-		<th class="wcs-description-column">Description</th>
+		<th class="wcs-name-column"><?php _e('Name', 'weekly-class-schedule'); ?></th>
+		<th class="wcs-description-column"><?php _e('Description', 'weekly-class-schedule'); ?></th>
 		<th class='wcs-edit-column'></th>
 	</tr>
 	<?php if ( isset( $items ) && ! empty( $items ) ): ?>
@@ -21,7 +21,7 @@
 				<?php foreach ( $item as $key => $value ): ?>
 				<?php if ( $key != 'id' ) echo '<td>' . stripslashes( $value ) . '</td>'; ?>
 				<?php endforeach; ?>
-				<td><a href="<?php echo $edit_url; ?>&wcsid=<?php echo $item->id; ?>">Edit</a></td>
+				<td><a href="<?php echo $edit_url; ?>&wcsid=<?php echo $item->id; ?>"><?php _e('Edit', 'weekly-class-schedule'); ?></a></td>
 			</tr>
 		<?php endforeach; ?>
 	<?php endif; ?>
@@ -34,6 +34,6 @@
 </table>
 
 <p>
-	<input id='wcs-submit-item' type='submit' class='button-primary' value="<?php esc_attr_e('Add Item'); ?>" name='add_item' />
-	<input id='wcs-delete-item' type='submit' class='button-primary' value="<?php esc_attr_e('Delete Item'); ?>" name='delete_items' />
+	<input id='wcs-submit-item' type='submit' class='button-primary' value="<?php esc_attr_e('Add Item', 'weekly-class-schedule'); ?>" name='add_item' />
+	<input id='wcs-delete-item' type='submit' class='button-primary' value="<?php esc_attr_e('Delete Item', 'weekly-class-schedule'); ?>" name='delete_items' />
 </p>
