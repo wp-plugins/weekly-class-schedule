@@ -60,7 +60,7 @@ class WcsIOS
     
     $sql = "SELECT DISTINCT a.id, a.$item_name, a.$item_description FROM $table_name a ";
     $sql .= "INNER JOIN $schedule_table b ON a.id = b.$item_id WHERE b.visibility = 1";
-    $sql = $wpdb->prepare( $sql );
+    $sql = $wpdb->prepare( $sql, '' );
     $results = $wpdb->get_results( $sql );
     
     $items = array();

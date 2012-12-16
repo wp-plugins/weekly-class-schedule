@@ -2,8 +2,8 @@
 Contributors: ty_pwd
 Tags: schedule, weekly, class schedule
 Requires at least: 3.0
-Tested up to: 3.4.2
-Stable tag: 2.0.4
+Tested up to: 3.5
+Stable tag: 2.0.5
 License: GPLv2 or later
 
 Generate a weekly schedule of classes.
@@ -52,6 +52,9 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
 1. Standard (vertical) Layout
 
 == Changelog ==
+= 2.0.5 =
+* Fixed compatibility issue with WordPress 3.5.
+
 = 2.0.4 =
 * Added Spanish support.
 * Fixed I18n issue where language files weren't getting picked up by the plugin.

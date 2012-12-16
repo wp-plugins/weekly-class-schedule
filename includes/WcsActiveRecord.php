@@ -43,7 +43,7 @@ class WcsActiveRecord
 	  $cols = implode(", ", $attributes);
 	  $table_name = $this->_tableName;
 
-	  $sql = $wpdb->prepare( "SELECT $cols FROM $table_name" );
+	  $sql = $wpdb->prepare( "SELECT $cols FROM $table_name", '' );
 
 	  if ( $return_array == FALSE )
 	    $results = $wpdb->get_results( $sql );
@@ -67,7 +67,7 @@ class WcsActiveRecord
 
 	  $table_name = $this->_tableName;
 
-	  $sql = $wpdb->prepare( "SELECT $col FROM $table_name" );
+	  $sql = $wpdb->prepare( "SELECT $col FROM $table_name", '' );
 	  $results = $wpdb->get_col( $sql );
 
 	  if ( ! empty( $results ) )
@@ -90,7 +90,7 @@ class WcsActiveRecord
 	  global $wpdb;
 	  $table_name = $this->_tableName;
 
-	  $sql = $wpdb->prepare( "SELECT * FROM $table_name WHERE $column = '$value' LIMIT 1" );
+	  $sql = $wpdb->prepare( "SELECT * FROM $table_name WHERE $column = '$value' LIMIT 1", '' );
 	  $results = $wpdb->get_results( $sql );
 
 	  if ( isset( $results[0] ) && ! empty( $results[0] ) )
@@ -113,7 +113,7 @@ class WcsActiveRecord
 	  global $wpdb;
 	  $table_name = $this->_tableName;
 
-	  $sql = $wpdb->prepare( "SELECT * FROM $table_name WHERE $column = '$value'" );
+	  $sql = $wpdb->prepare( "SELECT * FROM $table_name WHERE $column = '$value'", '' );
 	  $results = $wpdb->get_results( $sql );
 
 	  if ( ! empty( $results ) ) {
@@ -157,11 +157,11 @@ class WcsActiveRecord
 	  }
 
 	  if ( empty( $order_by ) )
-	    $sql = $wpdb->prepare( "SELECT * FROM $table_name WHERE $where_statement" );
+	    $sql = $wpdb->prepare( "SELECT * FROM $table_name WHERE $where_statement", '' );
 	  else {
 	    $order_col = $order_by['col'];
 	    $order = $order_by['order'];
-	    $sql = $wpdb->prepare( "SELECT * FROM $table_name WHERE $where_statement ORDER BY $order_col $order" );
+	    $sql = $wpdb->prepare( "SELECT * FROM $table_name WHERE $where_statement ORDER BY $order_col $order", '' );
 	  }
 
 	  $results = $wpdb->get_results( $sql );
@@ -196,7 +196,7 @@ class WcsActiveRecord
     else
       $sql = "SELECT * FROM $table_name";
 
-    $sql = $wpdb->prepare( $sql );
+    $sql = $wpdb->prepare( $sql, '' );
     $results = $wpdb->get_results( $sql );
 
     if ( $results ) {
@@ -262,7 +262,7 @@ class WcsActiveRecord
 	  global $wpdb;
 	  $table_name = $this->_tableName;
 
-	  $sql = $wpdb->prepare( "DELETE FROM $table_name WHERE id = %d", $this->id );
+	  $sql = $wpdb->prepare( "DELETE FROM $table_name WHERE id = %d", $this->id, '' );
 	  $num_deleted = $wpdb->query( $sql );
 
 	  return $num_deleted;
@@ -292,7 +292,7 @@ class WcsActiveRecord
 	  global $wpdb;
 	  $table = $this->_tableName;
 
-	  $sql = $wpdb->prepare( "SELECT id FROM $table WHERE id = %d", $this->id );
+	  $sql = $wpdb->prepare( "SELECT id FROM $table WHERE id = %d", $this->id, '' );
 	  $record = $wpdb->get_var( $sql );
 
 	  if ( isset( $record ) && ! empty( $record))

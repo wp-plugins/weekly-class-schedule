@@ -74,7 +74,7 @@ abstract class WcsDb
     $sql .= $wpdb->prefix . "wcs_options, ";
     $sql .= $wpdb->prefix . "wcs_timezones, ";
     $sql .= $wpdb->prefix . "wcs_studio_schedule ";
-    $sql = $wpdb->prepare( $sql );
+    $sql = $wpdb->prepare( $sql, '' );
     $wpdb->query( $sql );
   }
 
@@ -87,7 +87,7 @@ abstract class WcsDb
 
     /* Import Classes */
     $class_table = $wpdb->prefix . 'wcs_class';
-    $class_sql = $wpdb->prepare( "SELECT item_name, item_description FROM $class_table" );
+    $class_sql = $wpdb->prepare( "SELECT item_name, item_description FROM $class_table", '' );
     $class_results = $wpdb->get_results( $class_sql );
 
     if ( ! empty( $class_results ) ) {
@@ -103,7 +103,7 @@ abstract class WcsDb
 
     /* Import instructors */
     $instructor_table = $wpdb->prefix . 'wcs_instructor';
-    $instructor_sql = $wpdb->prepare( "SELECT item_name, item_description FROM $instructor_table" );
+    $instructor_sql = $wpdb->prepare( "SELECT item_name, item_description FROM $instructor_table", '' );
     $instructor_results = $wpdb->get_results( $instructor_sql );
 
     if ( ! empty( $instructor_results ) ) {
@@ -119,7 +119,7 @@ abstract class WcsDb
 
     /* Import classrooms */
     $classroom_table = $wpdb->prefix . 'wcs_classroom';
-    $classroom_sql = $wpdb->prepare( "SELECT item_name, item_description FROM $classroom_table" );
+    $classroom_sql = $wpdb->prepare( "SELECT item_name, item_description FROM $classroom_table", '' );
     $classroom_results = $wpdb->get_results( $classroom_sql );
 
     if ( ! empty( $classroom_results ) ) {
@@ -135,7 +135,7 @@ abstract class WcsDb
 
     /* Import schedule */
     $entries_table = $wpdb->prefix . 'wcs_studio_schedule';
-    $entries_sql = $wpdb->prepare( "SELECT * FROM $entries_table" );
+    $entries_sql = $wpdb->prepare( "SELECT * FROM $entries_table", '' );
     $entries_results = $wpdb->get_results( $entries_sql );
 
     if ( ! empty( $entries_results ) ) {
