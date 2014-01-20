@@ -201,7 +201,7 @@ function wcs3_load_plugin() {
     	}
 	}
 }
-add_action( 'admin_init', 'load_plugin' );
+add_action( 'admin_init', 'wcs3_load_plugin' );
 
 /**
  * Installation of schedule db table
