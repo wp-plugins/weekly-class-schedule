@@ -3,7 +3,7 @@ Contributors: ty_pwd
 Tags: schedule, weekly, class schedule
 Requires at least: 3.0
 Tested up to: 3.8
-Stable tag: 3.0
+Stable tag: 3.01
 License: GPLv2 or later
 
 Generate a weekly schedule of classes.
@@ -11,6 +11,8 @@ Generate a weekly schedule of classes.
 == Description ==
 
 Weekly Class Schedule generates a weekly schedule of classes using an ultra-simple interface.
+
+PLEASE NOTE that several things have changed in version 3.0. It is highly recommended to review the changelog before updating.
 
 = Main Features =
 * Easily manage and update schedule entries (classes).
@@ -28,10 +30,6 @@ Weekly Class Schedule generates a weekly schedule of classes using an ultra-simp
 = Weekly Class Schedule Needs Your Support =
 
 If you enjoy using this plugin and find it useful, please consider [__making a donation__](http://pulsarwebdesign.com/weekly-class-schedule/). Your donation will help encourage and support the plugin's continued development and better user support.
-
-= Translators =
-
-* Spanish (es_ES) - [David Pérez](http://www.closemarketing.es/)
 
 == Installation ==
 
@@ -52,6 +50,9 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
 1. List Layout
 
 == Changelog ==
+= 3.01 =
+* Fixed issue where the update procedure wasn't called when updating the plugin from the main repo (for those who have already updated, de-activating and re-activating the plugin should call the update procedure).
+
 = 3.0 =
 * The plugin has been re-written from the ground up and fixes many bugs and other issues.
 * The plugin is now tightly coupled with WordPress' core and offers much better stability.
@@ -61,7 +62,6 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
 * NOTE: The timezone feature has been discontinued. Do not update to this version if you are using this feature.
 * NOTE: The horizontal layout feature has been discontinued.
 
-== Changelog ==
 = 2.0.5 =
 * Fixed compatibility issue with WordPress 3.5.
 

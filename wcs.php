@@ -3,7 +3,7 @@
 Plugin Name: Weekly Class Schedule
 Plugin URI: http://pulsarwebdesign.com/weekly-class-schedule
 Description: Weekly Class Schedule generates a weekly schedule of classes. It provides you with an easy way to manage and update the schedule as well as the classes and instructors database.
-Version: 3.0
+Version: 3.01
 Text Domain: wcs3
 Author: Pulsar Web Design
 Author URI: http://pulsarwebdesign.com
@@ -25,7 +25,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-define( 'WCS3_VERSION', '3.0' );
+define( 'WCS3_VERSION', '3.01' );
 
 define( 'WCS3_REQUIRED_WP_VERSION', '3.0' );
 
@@ -107,35 +107,6 @@ function wcs3_get_table_name() {
 }
 
 /**
- * Installation of schedule db table
- */
-function wcs3_install() {
-    // Create db tables
-    wcs3_create_db_tables();
-    
-    load_plugin_textdomain( 'wcs3' );
-    
-    // Run default settings hook.
-    do_action( 'wcs3_default_settings' );
-    
-    // Update old versions
-    $wcs3_version = get_option( 'wcs3_version' );
-    if ( $wcs3_version === FALSE ) {
-        // New installation, let's try and get data from wcs2
-        $wcs2_static_data = wcs3_get_static_wcs2_data();
-        $new_ids = wcs3_create_new_wcs3_static_data( $wcs2_static_data );
-        $wcs2_schedule = wcs3_get_wcs2_schedule_data( $new_ids );
-        add_option( 'wcs3_version', WCS3_VERSION);
-    }
-    else if ( $wcs3_version < WCS3_VERSION ) {
-        // We've got an update, let's do this thing.
-        // pass
-    }
-    
-}
-register_activation_hook( __FILE__, 'wcs3_install' );
-
-/**
  * Create the class, instructor, and classroom post types.
  */
 add_action( 'init', 'wcs3_create_post_types' );
@@ -199,3 +170,43 @@ function wcs3_register_schedule_management_page() {
 }
 
 add_action( 'admin_menu', 'wcs3_register_schedule_management_page' );
+
+/* Activation procedure */
+function wcs3_load_plugin() {
+
+	if ( is_admin() && get_option( 'wcs3_activated' ) == 'weekly-class-schedule' ) {
+		delete_option( 'wcs3_activated' );
+		
+		/* do stuff once right after activation */
+    	// Create db tables
+    	wcs3_create_db_tables();
+    
+    	load_plugin_textdomain( 'wcs3' );
+    
+    	// Run default settings hook.
+    	do_action( 'wcs3_default_settings' );
+    
+    	// Update old versions
+    	$wcs3_version = get_option( 'wcs3_version' );
+    	if ( $wcs3_version === FALSE ) {
+    		// New installation, let's try and get data from wcs2
+    		$wcs2_static_data = wcs3_get_static_wcs2_data();
+    		$new_ids = wcs3_create_new_wcs3_static_data( $wcs2_static_data );
+    		$wcs2_schedule = wcs3_get_wcs2_schedule_data( $new_ids );
+    		add_option( 'wcs3_version', WCS3_VERSION);
+    	}
+    	else if ( $wcs3_version < WCS3_VERSION ) {
+    		// We've got an update, let's do this thing.
+    		// pass
+    	}
+	}
+}
+add_action( 'admin_init', 'load_plugin' );
+
+/**
+ * Installation of schedule db table
+ */
+function wcs3_install() {
+    add_option( 'wcs3_activated', 'weekly-class-schedule' );
+}
+register_activation_hook( __FILE__, 'wcs3_install' );
