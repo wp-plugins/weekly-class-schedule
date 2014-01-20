@@ -3,7 +3,7 @@
 Plugin Name: Weekly Class Schedule
 Plugin URI: http://pulsarwebdesign.com/weekly-class-schedule
 Description: Weekly Class Schedule generates a weekly schedule of classes. It provides you with an easy way to manage and update the schedule as well as the classes and instructors database.
-Version: 3.03
+Version: 3.04
 Text Domain: wcs3
 Author: Pulsar Web Design
 Author URI: http://pulsarwebdesign.com
@@ -25,7 +25,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-define( 'WCS3_VERSION', '3.03' );
+define( 'WCS3_VERSION', '3.04' );
 
 define( 'WCS3_REQUIRED_WP_VERSION', '3.0' );
 
@@ -173,9 +173,8 @@ add_action( 'admin_menu', 'wcs3_register_schedule_management_page' );
 
 /* Activation procedure */
 function wcs3_load_plugin() {
-
-	if ( is_admin() && get_option( 'wcs3_activate' ) == 'weekly-class-schedule' ) {
-		delete_option( 'wcs3_activate' );
+	if ( is_admin() && get_option( 'wcs3_version' ) != WCS3_VERSION )  {
+		update_option( 'wcs3_version', WCS3_VERSION );
 		
 		/* do stuff once right after activation */
     	// Create db tables
@@ -186,7 +185,8 @@ function wcs3_load_plugin() {
     	// Run default settings hook.
     	do_action( 'wcs3_default_settings' );
     
-    	// New installation, let's try and get data from wcs2
+    	// Update old versions
+		// New installation, let's try and get data from wcs2
 		$wcs2_static_data = wcs3_get_static_wcs2_data();
 		$new_ids = wcs3_create_new_wcs3_static_data( $wcs2_static_data );
 		$wcs2_schedule = wcs3_get_wcs2_schedule_data( $new_ids );
@@ -195,10 +195,3 @@ function wcs3_load_plugin() {
 }
 add_action( 'admin_init', 'wcs3_load_plugin' );
 
-/**
- * Installation of schedule db table
- */
-function wcs3_install() {
-    add_option( 'wcs3_activate', 'weekly-class-schedule' );
-}
-register_activation_hook( __FILE__, 'wcs3_install' );
