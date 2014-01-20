@@ -3,7 +3,7 @@ Contributors: ty_pwd
 Tags: schedule, weekly, class schedule
 Requires at least: 3.0
 Tested up to: 3.8
-Stable tag: 3.02
+Stable tag: 3.03
 License: GPLv2 or later
 
 Generate a weekly schedule of classes.
@@ -50,6 +50,13 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
 1. List Layout
 
 == Changelog ==
+
+= 3.03 =
+* Fixed update procedure.
+
+= 3.02 =
+* Update procedure
+
 = 3.01 =
 * Fixed issue where the update procedure wasn't called when updating the plugin from the main repo (for those who have already updated, de-activating and re-activating the plugin should call the update procedure).
 
