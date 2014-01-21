@@ -10,6 +10,7 @@ function wcs3_delete_plugin() {
     delete_option( 'wcs3_db_version' );
     delete_option( 'wcs3_settings' );
     delete_option( 'wcs3_advanced_settings' );
+    delete_option( 'wcs3_version' );
     
     $post_types = array(
         'wcs3_class',
