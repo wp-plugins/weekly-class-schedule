@@ -345,5 +345,32 @@ function wcs3_get_day_schedule_callback() {
 // Register AJAX handler for get_day_schedule.
 add_action( 'wp_ajax_get_day_schedule', 'wcs3_get_day_schedule_callback' );
 
+/**
+ * Handle import update
+ */
+function wcs3_import_update_callback() {
+	wcs3_verify_nonce();
+	
+	wcs3_delete_everything();
+	
+	update_option( 'wcs3_version', WCS3_VERSION );
+	
+	/* do stuff once right after activation */
+	// Create db tables
+	wcs3_create_db_tables();
+	
+	// Run default settings hook.
+	do_action( 'wcs3_default_settings' );
+	
+	// Update old versions
+	// New installation, let's try and get data from wcs2
+	$wcs2_static_data = wcs3_get_static_wcs2_data();
+	$new_ids = wcs3_create_new_wcs3_static_data( $wcs2_static_data );
+	$wcs2_schedule = wcs3_get_wcs2_schedule_data( $new_ids );
+	add_option( 'wcs3_version', WCS3_VERSION);
+}
+
+// Register AJAX handler for get_day_schedule.
+add_action( 'wp_ajax_import_update_data', 'wcs3_import_update_callback' );
 
 ?>
