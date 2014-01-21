@@ -3,7 +3,7 @@
 Plugin Name: Weekly Class Schedule
 Plugin URI: http://pulsarwebdesign.com/weekly-class-schedule
 Description: Weekly Class Schedule generates a weekly schedule of classes. It provides you with an easy way to manage and update the schedule as well as the classes and instructors database.
-Version: 3.05
+Version: 3.06
 Text Domain: wcs3
 Author: Pulsar Web Design
 Author URI: http://pulsarwebdesign.com
@@ -25,7 +25,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-define( 'WCS3_VERSION', '3.05' );
+define( 'WCS3_VERSION', '3.06' );
 
 define( 'WCS3_REQUIRED_WP_VERSION', '3.0' );
 
@@ -167,6 +167,14 @@ function wcs3_register_schedule_management_page() {
             'manage_options', 
             'wcs3-standard-options', 
             'wcs3_standard_settings_page_callback' );
+    
+    // Standard settings page
+    add_submenu_page( 'wcs3-schedule',
+    		__( 'Import/Update', 'wcs3' ),
+    		__( 'Import/Update', 'wcs3' ),
+    		'manage_options',
+    		'wcs3-import-update',
+    		'wcs3_import_update_page_callback' );
 }
 
 add_action( 'admin_menu', 'wcs3_register_schedule_management_page' );
@@ -176,26 +184,7 @@ function wcs3_load_plugin() {
     $version = get_option( 'wcs3_version' );
     
 	if ( is_admin() && $version == FALSE )  {
-	    // We don't have this var in the database which means version 3 has
-	    // never been activated.
-	    
-		update_option( 'wcs3_version', WCS3_VERSION );
-		
-		/* do stuff once right after activation */
-    	// Create db tables
-    	wcs3_create_db_tables();
-    
     	load_plugin_textdomain( 'wcs3' );
-    
-    	// Run default settings hook.
-    	do_action( 'wcs3_default_settings' );
-    
-    	// Update old versions
-		// New installation, let's try and get data from wcs2
-		$wcs2_static_data = wcs3_get_static_wcs2_data();
-		$new_ids = wcs3_create_new_wcs3_static_data( $wcs2_static_data );
-		$wcs2_schedule = wcs3_get_wcs2_schedule_data( $new_ids );
-		add_option( 'wcs3_version', WCS3_VERSION);
 	}
 	
 	if ( $version < WCS3_VERSION ) {
@@ -203,4 +192,3 @@ function wcs3_load_plugin() {
 	}
 }
 add_action( 'admin_init', 'wcs3_load_plugin' );
-

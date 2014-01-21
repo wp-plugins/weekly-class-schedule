@@ -27,6 +27,7 @@ function wcs3_load_admin_script() {
 	    'cancel_editing' => __( 'Exit edit mode', 'wcs3' ),
 	    'edit_mode' => __( 'Edit Mode' ),
 	    'delete_warning' => __( 'Are you sure you want to delete this entry?' ),
+	    'import_warning' => __( 'Are you sure you want to to this? This will delete all the data added after updating to version 3.0.'),
     	'ajax_url' => admin_url( 'admin-ajax.php' ),
     	'ajax_nonce' => wp_create_nonce( 'wcs3-ajax-nonce' ),
 	) );
@@ -111,6 +112,23 @@ function wcs3_schedule_management_page_callback() {
     </div>
     
     <?php 
+}
+
+/**
+ * Import/Update page callback.
+ */
+function wcs3_import_update_page_callback() { ?>
+    <table class="form-table">
+        <tr>
+            <th>
+                <?php _e( 'Import data from Weekly Class Schedule 2', 'wcs3' ); ?><br/>
+                <div class="wcs3-description"><?php _e( 'This will import all the data from the old Weekly Class Schedule plugin. (This can also be used to fix issues with duplicate entries due to problematic update procedures.)', 'wcs3' ); ?><br/><br/>
+                <strong><?php _e( 'Warning:' ) ?></strong> <?php _e( 'This will delete all the data added after upgrading to version 3.' ); ?></div>
+            </th>
+            <td><button type="button" name="wcs3_import_wcs2_data" id="wcs3_import_wcs2_data">Import/Update data</button></td>
+        </tr>
+    </table>
+    <div id="wcs3-ajax-text-wrapper" class="wcs3-ajax-text"></div> <?php 
 }
 
 /**
