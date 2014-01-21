@@ -14,8 +14,8 @@ Weekly Class Schedule generates a weekly schedule of classes using an ultra-simp
 
 PLEASE NOTE that several things have changed in version 3.0. It is highly recommended to review the changelog before updating.
 
-HOW TO TRANSFER THE DATA FROM VERSION 2:
-Under the "Schedule" tab you will find the "Import/Update" page. Go there and click the button. This should transfer all the data from WCS 2.
+= How to transfer the data from version 2 =
+Under the "Schedule" tab you will find the "Import/Update" page. Go there and click the button.
 
 = Main Features =
 * Easily manage and update schedule entries (classes).
@@ -54,7 +54,7 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
 
 == Changelog ==
 = 3.06 =
-* Added import/update button
+* Added import/update button (under the "Schedule" tab you will find the "Import/Update" page. Go there and click the button.)
 
 = 3.05 =
 * Fixed a potential javascript issue on the front end.
