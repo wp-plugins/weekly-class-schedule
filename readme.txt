@@ -3,7 +3,7 @@ Contributors: ty_pwd
 Tags: schedule, weekly, class schedule
 Requires at least: 3.0
 Tested up to: 3.8
-Stable tag: 3.01
+Stable tag: 3.07
 License: GPLv2 or later
 
 Generate a weekly schedule of classes.
@@ -12,7 +12,8 @@ Generate a weekly schedule of classes.
 
 Weekly Class Schedule generates a weekly schedule of classes using an ultra-simple interface.
 
-PLEASE NOTE that several things have changed in version 3.0. It is highly recommended to review the changelog before updating.
+= How to transfer the data from version 2 =
+Under the "Schedule" tab you will find the "Import/Update" page. Go there and click the button.
 
 = Main Features =
 * Easily manage and update schedule entries (classes).
@@ -50,7 +51,20 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
 1. List Layout
 
 == Changelog ==
-= 3.01 =
+= 3.07 =
+* Fixed admin area Firefox bug.
+* Allow HTML in template and full HTML in notes.
+* Other bug fixes.
+
+= 3.06 =
+* Added import/update button (under the "Schedule" tab you will find the "Import/Update" page. Go there and click the button.)
+
+= 3.05 =
+* Fixed a potential javascript issue on the front end.
+* Fixed uninstallation procedure.
+* Better update procedure.
+
+= 3.04 =
 * Fixed issue where the update procedure wasn't called when updating the plugin from the main repo (for those who have already updated, de-activating and re-activating the plugin should call the update procedure).
 
 = 3.0 =

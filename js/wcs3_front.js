@@ -46,23 +46,25 @@
 					location_slug = data.location_title,
 					wrapper_id;
 				
-				// Create location slug
-				location_slug = location_slug.replace(/[^A-Za-z0-9]/g, '-').toLowerCase();
-				wrapper_id = 'wcs3-location-' + location_slug;
-				
-				item = '#' + wrapper_id + ' td.wcs3-hour-row-' + data.start_hour_css + '.wcs3-day-col-' + data.weekday;
-				item_all = '#wcs3-location-all td.wcs3-hour-row-' + data.start_hour_css + '.wcs3-day-col-' + data.weekday;
-				
-				template = wcs3_construct_template(wcs3_data, data);
-				
-				html += '<div class="wcs3-class-container">';
-				html += '<div class="wcs3-class-name">' + data.class_title + '</div>';
-				html += '<div class="wcs3-details-box-container">' + template + '</div>';
-				html += '</div>';
-				
-				// Insert both to specific location table as well as to global table.
-				$(item).append(html);
-				$(item_all).append(html);
+				if (typeof(location_slug) != 'undefined') {
+					// Create location slug
+					location_slug = location_slug.replace(/[^A-Za-z0-9]/g, '-').toLowerCase();
+					wrapper_id = 'wcs3-location-' + location_slug;
+					
+					item = '#' + wrapper_id + ' td.wcs3-hour-row-' + data.start_hour_css + '.wcs3-day-col-' + data.weekday;
+					item_all = '#wcs3-location-all td.wcs3-hour-row-' + data.start_hour_css + '.wcs3-day-col-' + data.weekday;
+					
+					template = wcs3_construct_template(wcs3_data, data);
+					
+					html += '<div class="wcs3-class-container">';
+					html += '<div class="wcs3-class-name">' + data.class_title + '</div>';
+					html += '<div class="wcs3-details-box-container">' + template + '</div>';
+					html += '</div>';
+					
+					// Insert both to specific location table as well as to global table.
+					$(item).append(html);
+					$(item_all).append(html);
+				}
 			}
 		}
 		

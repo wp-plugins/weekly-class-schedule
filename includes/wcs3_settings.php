@@ -25,7 +25,7 @@ function wcs3_standard_settings_page_callback() {
         	    '24_hour_mode' => 'wcs3_validate_yes_no',
         	    'location_collision' => 'wcs3_validate_yes_no',
         	    'instructor_collision' => 'wcs3_validate_yes_no',
-        	    'details_template' => 'sanitize_text_field',
+        	    'details_template' => 'wcs3_validate_html',
         	    'allow_html_in_notes' => 'wcs3_validate_yes_no',
         	    'color_base' => 'wcs3_validate_color',
         	    'color_details_box' => 'wcs3_validate_color',
@@ -94,7 +94,7 @@ function wcs3_standard_settings_page_callback() {
             <tr>
                 <th>
                     <?php _e( 'Class Details Template', 'wcs3' ); ?>
-                    <div class="wcs3-description"><?php _e( 'Use placholders to design the way the class details appear in the schedule.', 'wcs3' ); ?></div>
+                    <div class="wcs3-description"><?php _e( 'Use placholders to design the way the class details appear in the schedule. Certain HTML tags are allowed (to customize edit $wcs3_allowed_html in wcs.php).', 'wcs3' ); ?></div>
                     <br/>
                     <div class="wcs3-description"><strong><?php _e( 'Available placholders:', 'wcs3'); ?></strong> [class], [instructor], [location], [start hour], [end hour], [notes].</div>
                 </th>
@@ -104,8 +104,8 @@ function wcs3_standard_settings_page_callback() {
             </tr>
             <tr>
                 <th>
-                    <?php _e( 'Allow HTML in notes', 'wcs3' ); ?>
-                    <div class="wcs3-description"><?php _e( 'Allow certain HTML tags in notes field (to customize edit $wcs3_allowed_html in wcs.php).', 'wcs3' ); ?></div>    
+                    <?php _e( 'Allow all HTML in notes', 'wcs3' ); ?>
+                    <div class="wcs3-description"><?php _e( 'Allow all HTML tags in notes field. PLEASE NOTE: Allowing all HTML tags has security implications so use at your own risk.', 'wcs3' ); ?></div>    
                 </th>
                 <td><?php wcs3_bool_checkbox( 'wcs3_allow_html_in_notes', $wcs3_options['allow_html_in_notes'], __('Yes') ); ?></td>
             </tr>
@@ -298,4 +298,16 @@ function wcs3_validate_color( $data ) {
     else {
         return FALSE;
     }
+}
+
+/**
+ * Removes all but allowed HTML tags.
+ * 
+ * @see wcs.php for $wcs3_allowed_html_tags.
+ */
+function wcs3_validate_html( $data ) {
+    global $wcs3_allowed_html;
+    
+    $data = wp_kses( $data, $wcs3_allowed_html );
+    return $data;
 }
