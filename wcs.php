@@ -3,7 +3,7 @@
 Plugin Name: Weekly Class Schedule
 Plugin URI: http://pulsarwebdesign.com/weekly-class-schedule
 Description: Weekly Class Schedule generates a weekly schedule of classes. It provides you with an easy way to manage and update the schedule as well as the classes and instructors database.
-Version: 3.06
+Version: 3.07
 Text Domain: wcs3
 Author: Pulsar Web Design
 Author URI: http://pulsarwebdesign.com
@@ -25,7 +25,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-define( 'WCS3_VERSION', '3.06' );
+define( 'WCS3_VERSION', '3.07' );
 
 define( 'WCS3_REQUIRED_WP_VERSION', '3.0' );
 
@@ -179,16 +179,24 @@ function wcs3_register_schedule_management_page() {
 
 add_action( 'admin_menu', 'wcs3_register_schedule_management_page' );
 
-/* Activation procedure */
-function wcs3_load_plugin() {
-    $version = get_option( 'wcs3_version' );
-    
-	if ( is_admin() && $version == FALSE )  {
-    	load_plugin_textdomain( 'wcs3' );
-	}
-	
-	if ( $version < WCS3_VERSION ) {
+/**
+ * Loads plugin text domain
+ */
+function wcs3_load_textdomain() {
+    load_plugin_textdomain( 'wcs3' );
+}
+
+add_action( 'init', 'wcs3_load_textdomain' );
+
+/**
+ * Updates the version in the options table.
+ */
+function wcs3_update() {
+    $version = get_option( 'wcs3_version' );	
+	if ( is_admin() && $version < WCS3_VERSION ) {
 	    update_option( 'wcs3_version', WCS3_VERSION );
+	    
+	    // Run update procedures.
 	}
 }
-add_action( 'admin_init', 'wcs3_load_plugin' );
+add_action( 'admin_init', 'wcs3_update' );

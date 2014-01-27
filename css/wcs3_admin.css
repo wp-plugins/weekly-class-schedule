@@ -30,15 +30,15 @@ td.wcs3-col-label {
 #wcs3-schedule-events-list-wrapper h3 {
 	margin-top: 0;
 }
-#wcs3-schedule-management-form-wrapper .wcs3-ajax-loader {
+.wcs3-ajax-loader {
    display: none;	
 }
-#wcs3-schedule-management-form-wrapper .wcs3-ajax-loader img {
+.wcs3-ajax-loader img {
 	display: inline;
 	margin-bottom: -7px;
 	margin-left: 10px;
 }
-#wcs3-schedule-management-form-wrapper .wcs3-ajax-text {
+.wcs3-ajax-text {
 	margin-left: 10px;
 }
 .wcs3-admin-schedule-table {

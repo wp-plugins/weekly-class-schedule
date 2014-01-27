@@ -27,7 +27,6 @@ function wcs3_verify_required_fields( array $data ) {
     	if ( !isset( $_POST[$k] ) || $_POST[$k] == '_none' ) {
     		$response = __( "$v field is required");
     		$result = 'error';
-    
     		wcs3_json_response( array( 'response' => $response, 'result' => $result ) );
     		die();
     	}
@@ -86,19 +85,11 @@ function wcs3_add_or_update_schedule_entry_callback() {
     // Check if we need to sanitize the notes or leave as is.
     if ( $_POST['notes'] != NULL) {
         if ( $wcs3_options['allow_html_in_notes'] == 'yes' ) {
-            array(
-                'a' => array(
-                    'href' => array(),
-                    'title' => array()
-                ),
-                'br' => array(),
-                'em' => array(),
-                'strong' => array()
-            );
-            $notes =  wp_kses( $_POST['notes'], $wcs3_allowed_html_tags );
+            $notes = stripslashes_deep($_POST['notes']);
         }
         else {
-            $notes = sanitize_text_field( $_POST['notes'] );
+            global $wcs3_allowed_html;
+            $notes = wp_kses( $_POST['notes'], $wcs3_allowed_html );
         }
     }
       
@@ -367,7 +358,11 @@ function wcs3_import_update_callback() {
 	$wcs2_static_data = wcs3_get_static_wcs2_data();
 	$new_ids = wcs3_create_new_wcs3_static_data( $wcs2_static_data );
 	$wcs2_schedule = wcs3_get_wcs2_schedule_data( $new_ids );
-	add_option( 'wcs3_version', WCS3_VERSION);
+	
+	$response = __( 'Weekly Class Schedule 2.x data imported successfully.', 'wcs3' );
+	$result = 'updated';
+	wcs3_json_response( array( 'response' => $response, 'result' => $result ) );
+	die();
 }
 
 // Register AJAX handler for get_day_schedule.

@@ -17,7 +17,7 @@ add_action( 'admin_enqueue_scripts', 'wcs3_load_admin_style' );
  * Load admin area scripts.
  */
 function wcs3_load_admin_script() { 
-	wp_register_script(wcs3_admin_js, WCS3_PLUGIN_URL . '/js/wcs3_admin.js', array( 'jquery' ), '1.0.0');
+	wp_register_script('wcs3_admin_js', WCS3_PLUGIN_URL . '/js/wcs3_admin.js', array( 'jquery' ), '1.0.0');
 	wp_enqueue_script( 'wcs3_admin_js' );
 
 	wp_localize_script( 'wcs3_admin_js', 'WCS3_AJAX_OBJECT', array(
@@ -25,9 +25,9 @@ function wcs3_load_admin_script() {
 	    'add_item' => __( 'Add Item', 'wcs3' ),
 	    'save_item' => __( 'Save Item', 'wcs3' ),
 	    'cancel_editing' => __( 'Exit edit mode', 'wcs3' ),
-	    'edit_mode' => __( 'Edit Mode' ),
-	    'delete_warning' => __( 'Are you sure you want to delete this entry?' ),
-	    'import_warning' => __( 'Are you sure you want to to this? This will delete all the data added after updating to version 3.0.'),
+	    'edit_mode' => __( 'Edit Mode', 'wcs3' ),
+	    'delete_warning' => __( 'Are you sure you want to delete this entry?', 'wcs3' ),
+	    'import_warning' => __( 'Are you sure you want to to this? This will delete all data added after updating to version 3.', 'wcs3' ),
     	'ajax_url' => admin_url( 'admin-ajax.php' ),
     	'ajax_nonce' => wp_create_nonce( 'wcs3-ajax-nonce' ),
 	) );
@@ -118,17 +118,19 @@ function wcs3_schedule_management_page_callback() {
  * Import/Update page callback.
  */
 function wcs3_import_update_page_callback() { ?>
-    <table class="form-table">
-        <tr>
-            <th>
-                <?php _e( 'Import data from Weekly Class Schedule 2', 'wcs3' ); ?><br/>
-                <div class="wcs3-description"><?php _e( 'This will import all the data from the old Weekly Class Schedule plugin. (This can also be used to fix issues with duplicate entries due to problematic update procedures.)', 'wcs3' ); ?><br/><br/>
-                <strong><?php _e( 'Warning:' ) ?></strong> <?php _e( 'This will delete all the data added after upgrading to version 3.' ); ?></div>
-            </th>
-            <td><button type="button" name="wcs3_import_wcs2_data" id="wcs3_import_wcs2_data">Import/Update data</button></td>
-        </tr>
-    </table>
-    <div id="wcs3-ajax-text-wrapper" class="wcs3-ajax-text"></div> <?php 
+    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">    
+        <div id="wcs3-import-update-wrapper" class="wrap">
+            <h2>Import/Update</h2>
+            
+            <p><?php _e( 'Click the button below to import the data from Weekly Class Schedule 2.x.', 'wcs3' ); ?></p>
+            <p><strong><?php _e( 'WARNING:' ) ?></strong> <?php _e( 'All data added after updating to version 3 will be deleted.' ); ?></p>
+            
+            <input type="submit" name="wcs3_import_wcs2_data" id="wcs3_import_wcs2_data" class="button-primary" value="<?php _e( 'Import/Update', 'wcs3' ); ?>">
+            <span class="wcs3-ajax-loader"><img src="<?php echo WCS3_PLUGIN_URL . '/img/loader.gif'; ?>" alt="Ajax Loader" /></span>
+            <div id="wcs3-ajax-text-wrapper" class="wcs3-ajax-text"></div>
+        </div>
+    </form>
+    <?php 
 }
 
 /**

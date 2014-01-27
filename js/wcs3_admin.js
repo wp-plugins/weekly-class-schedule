@@ -140,8 +140,18 @@
 			
 			// Re-bind new elements
 			$(this).click(function(e) {
-				var row_id = e.srcElement.id.replace('edit-entry-', ''),
+				var src_elem,
+					row_id,
 					entry;
+				
+				if (typeof(e.target) != 'undefined') {
+					src_elem = e.target;
+				}
+				else {
+					src_elem = e.srcElement;
+				}
+				
+				row_id = src_elem.id.replace('edit-entry-', '');
 				
 				entry = {
 					action: 'edit_schedule_entry',
@@ -381,7 +391,11 @@
 		
 
 	var wcs3_bind_import_update = function() {
-		$('#wcs3_import_wcs2_data').click(function() {
+		$('#wcs3_import_wcs2_data').click(function(e) {
+			var confirm;
+			
+			e.preventDefault();
+			
 			entry = {
 					action: 'import_update_data',
 					security: WCS3_AJAX_OBJECT.ajax_nonce,
@@ -393,17 +407,17 @@
 				return;
 			}
 			
+			$('#wcs3-import-update-wrapper .wcs3-ajax-loader').show();
+			
 			jQuery.post(WCS3_AJAX_OBJECT.ajax_url, entry, function(data) {
-				// Pass
-				schedule_item_message( "Import/update succesful", "update");
+				schedule_item_message(data.response, data.result);
 				
 			}).fail(function(err) {
 				// Failed
-				console.error(err);
-				
+				console.error(err);				
 			}).always(function() {	
 				// Re-bind handlers
-				
+				$('#wcs3-import-update-wrapper .wcs3-ajax-loader').hide();
 			});
 		});
 		

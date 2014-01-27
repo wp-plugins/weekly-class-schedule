@@ -3,7 +3,7 @@ Contributors: ty_pwd
 Tags: schedule, weekly, class schedule
 Requires at least: 3.0
 Tested up to: 3.8
-Stable tag: 3.06
+Stable tag: 3.07
 License: GPLv2 or later
 
 Generate a weekly schedule of classes.
@@ -11,8 +11,6 @@ Generate a weekly schedule of classes.
 == Description ==
 
 Weekly Class Schedule generates a weekly schedule of classes using an ultra-simple interface.
-
-PLEASE NOTE that several things have changed in version 3.0. It is highly recommended to review the changelog before updating.
 
 = How to transfer the data from version 2 =
 Under the "Schedule" tab you will find the "Import/Update" page. Go there and click the button.
@@ -53,6 +51,11 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
 1. List Layout
 
 == Changelog ==
+= 3.07 =
+* Fixed admin area Firefox bug.
+* Allow HTML in template and full HTML in notes.
+* Other bug fixes.
+
 = 3.06 =
 * Added import/update button (under the "Schedule" tab you will find the "Import/Update" page. Go there and click the button.)
 
