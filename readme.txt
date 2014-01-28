@@ -3,7 +3,7 @@ Contributors: ty_pwd
 Tags: schedule, weekly, class schedule
 Requires at least: 3.0
 Tested up to: 3.8
-Stable tag: 3.07
+Stable tag: 3.08
 License: GPLv2 or later
 
 Generate a weekly schedule of classes.
@@ -51,6 +51,9 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
 1. List Layout
 
 == Changelog ==
+= 3.08 =
+* Quick FF fix.
+
 = 3.07 =
 * Fixed admin area Firefox bug.
 * Allow HTML in template and full HTML in notes.

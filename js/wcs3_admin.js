@@ -90,9 +90,18 @@
 			
 			// Re-bind new elements
 			$(this).click(function(e) {
-				var row_id = e.srcElement.id.replace('delete-entry-', ''),
+				var row_id,
+					src,
 					entry,
 					confirm = true;
+				
+				if (typeof(e.target) != 'undefined') {
+					src = e.target;
+				}
+				else {
+					src = e.srcElement;
+				}
+				row_id = src.id.replace('delete-entry-', '')
 				
 				// Confirm delete operation.
 				confirm = window.confirm(WCS3_AJAX_OBJECT.delete_warning);
@@ -109,7 +118,16 @@
 				$('#wcs3-schedule-management-form-wrapper .wcs3-ajax-loader').show();
 				
 				jQuery.post(WCS3_AJAX_OBJECT.ajax_url, entry, function(data) {
-					var day = get_day_from_element(e.srcElement);
+					var day,
+						elem;
+					
+					if (typeof(e.target) != 'undefined') {
+						elem = e.target;
+					}
+					else {
+						elem = e.srcElement;
+					}
+					day = get_day_from_element(elem);
 					
 					if (day !== false) {
 						// Let's refresh the day
