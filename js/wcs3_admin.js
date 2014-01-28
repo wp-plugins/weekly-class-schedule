@@ -12,6 +12,8 @@
 		wcs3_bind_schedule_edit_handler();
 		
 		wcs3_bind_colorpickers();
+		
+		wcs3_bind_import_update();
 	});
 	
 	
@@ -88,9 +90,18 @@
 			
 			// Re-bind new elements
 			$(this).click(function(e) {
-				var row_id = e.srcElement.id.replace('delete-entry-', ''),
+				var row_id,
+					src,
 					entry,
 					confirm = true;
+				
+				if (typeof(e.target) != 'undefined') {
+					src = e.target;
+				}
+				else {
+					src = e.srcElement;
+				}
+				row_id = src.id.replace('delete-entry-', '')
 				
 				// Confirm delete operation.
 				confirm = window.confirm(WCS3_AJAX_OBJECT.delete_warning);
@@ -107,7 +118,16 @@
 				$('#wcs3-schedule-management-form-wrapper .wcs3-ajax-loader').show();
 				
 				jQuery.post(WCS3_AJAX_OBJECT.ajax_url, entry, function(data) {
-					var day = get_day_from_element(e.srcElement);
+					var day,
+						elem;
+					
+					if (typeof(e.target) != 'undefined') {
+						elem = e.target;
+					}
+					else {
+						elem = e.srcElement;
+					}
+					day = get_day_from_element(elem);
 					
 					if (day !== false) {
 						// Let's refresh the day
@@ -138,8 +158,18 @@
 			
 			// Re-bind new elements
 			$(this).click(function(e) {
-				var row_id = e.srcElement.id.replace('edit-entry-', ''),
+				var src_elem,
+					row_id,
 					entry;
+				
+				if (typeof(e.target) != 'undefined') {
+					src_elem = e.target;
+				}
+				else {
+					src_elem = e.srcElement;
+				}
+				
+				row_id = src_elem.id.replace('edit-entry-', '');
 				
 				entry = {
 					action: 'edit_schedule_entry',
@@ -306,17 +336,17 @@
 	 * Handles the Ajax UI messaging.
 	 */
 	var schedule_item_message = function(message, status) {
-		$('#wcs3-schedule-management-form-wrapper .wcs3-ajax-text').html('').show();
-		$('#wcs3-schedule-management-form-wrapper .wcs3-ajax-text').removeClass('updated').removeClass('error')
+		$('.wcs3-ajax-text').html('').show();
+		$('.wcs3-ajax-text').removeClass('updated').removeClass('error')
 		if (status == 'updated') {
-			$('#wcs3-schedule-management-form-wrapper .wcs3-ajax-text').addClass('updated');
+			$('.wcs3-ajax-text').addClass('updated');
 		}
 		else if (status == 'error') {
-			$('#wcs3-schedule-management-form-wrapper .wcs3-ajax-text').addClass('error');
+			$('.wcs3-ajax-text').addClass('error');
 		}
-		$('#wcs3-schedule-management-form-wrapper .wcs3-ajax-text').html(message);
+		$('.wcs3-ajax-text').html(message);
 		setTimeout(function() {
-			$('#wcs3-schedule-management-form-wrapper .wcs3-ajax-text').fadeOut('slow');
+			$('.wcs3-ajax-text').fadeOut('slow');
 		}, 2000);
 	}
 	
@@ -377,5 +407,38 @@
 		});
 	}
 		
+
+	var wcs3_bind_import_update = function() {
+		$('#wcs3_import_wcs2_data').click(function(e) {
+			var confirm;
+			
+			e.preventDefault();
+			
+			entry = {
+					action: 'import_update_data',
+					security: WCS3_AJAX_OBJECT.ajax_nonce,
+				};
+			
+			// Confirm delete operation.
+			confirm = window.confirm(WCS3_AJAX_OBJECT.import_warning);
+			if (!confirm) {
+				return;
+			}
+			
+			$('#wcs3-import-update-wrapper .wcs3-ajax-loader').show();
+			
+			jQuery.post(WCS3_AJAX_OBJECT.ajax_url, entry, function(data) {
+				schedule_item_message(data.response, data.result);
+				
+			}).fail(function(err) {
+				// Failed
+				console.error(err);				
+			}).always(function() {	
+				// Re-bind handlers
+				$('#wcs3-import-update-wrapper .wcs3-ajax-loader').hide();
+			});
+		});
+		
+	}
 	
 })(jQuery);

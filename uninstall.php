@@ -9,7 +9,7 @@ function wcs3_delete_plugin() {
     
     delete_option( 'wcs3_db_version' );
     delete_option( 'wcs3_settings' );
-    delete_option( 'wcs3_advanced_settings' );
+    delete_option( 'wcs3_version' );
     
     $post_types = array(
         'wcs3_class',
@@ -20,7 +20,7 @@ function wcs3_delete_plugin() {
     foreach ( $post_types as $type ) {
         $posts = get_posts( array(
             'numberposts' => -1,
-            'post_type' => 'wpcf7_contact_form',
+            'post_type' => $type,
             'post_status' => 'any' ) );
         
         foreach ( $posts as $post )
