@@ -45,6 +45,7 @@
 					style = '',
 					html = '',
 					template,
+					output = '',
 					location_slug = wcs3_data.location_slug,
 					wrapper_id;
 				
@@ -55,7 +56,7 @@
 					
 					item = '#' + wrapper_id + ' td.wcs3-hour-row-' + data.start_hour_css + '.wcs3-day-col-' + data.weekday;
 					
-					template = WCS3_LIB.construct_template(template, data);
+					output = WCS3_LIB.construct_template(template, data);
 					
 					if (data.color != null) {
 						style = ' style="background-color: #' + data.color + '; "';
@@ -63,7 +64,7 @@
 					
 					html += '<div class="wcs3-class-container"' + style + '>';
 					html += '<div class="wcs3-class-name">' + data.class_title + '</div>';
-					html += '<div class="wcs3-details-box-container">' + template + '</div>';
+					html += '<div class="wcs3-details-box-container">' + output + '</div>';
 					html += '</div>';
 					
 					// Insert both to specific location table as well as to global table.
