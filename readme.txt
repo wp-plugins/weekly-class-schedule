@@ -3,7 +3,7 @@ Contributors: ty_pwd
 Tags: schedule, weekly, class schedule
 Requires at least: 3.0
 Tested up to: 3.8
-Stable tag: 3.09
+Stable tag: 3.11
 Donate link: http://pulsarwebdesign.com/weekly-class-schedule/
 License: GPLv2 or later
 
@@ -52,6 +52,12 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
 1. List Layout
 
 == Changelog ==
+= 3.11 =
+* Fixed javascript bug.
+
+= 3.10 =
+* Fixed issue with default settings.
+
 = 3.09 =
 * Column width is now consistent (CSS issue).
 * Fixed installation issues.
