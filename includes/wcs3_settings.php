@@ -25,7 +25,7 @@ function wcs3_standard_settings_page_callback() {
         	    '24_hour_mode' => 'wcs3_validate_yes_no',
         	    'location_collision' => 'wcs3_validate_yes_no',
         	    'instructor_collision' => 'wcs3_validate_yes_no',
-        	    'details_template' => 'sanitize_text_field',
+        	    'details_template' => 'wcs3_validate_html',
         	    'allow_html_in_notes' => 'wcs3_validate_yes_no',
         	    'color_base' => 'wcs3_validate_color',
         	    'color_details_box' => 'wcs3_validate_color',
@@ -94,7 +94,7 @@ function wcs3_standard_settings_page_callback() {
             <tr>
                 <th>
                     <?php _e( 'Class Details Template', 'wcs3' ); ?>
-                    <div class="wcs3-description"><?php _e( 'Use placholders to design the way the class details appear in the schedule.', 'wcs3' ); ?></div>
+                    <div class="wcs3-description"><?php _e( 'Use placholders to design the way the class details appear in the schedule. Certain HTML tags are allowed (to customize edit $wcs3_allowed_html in wcs.php).', 'wcs3' ); ?></div>
                     <br/>
                     <div class="wcs3-description"><strong><?php _e( 'Available placholders:', 'wcs3'); ?></strong> [class], [instructor], [location], [start hour], [end hour], [notes].</div>
                 </th>
@@ -104,8 +104,8 @@ function wcs3_standard_settings_page_callback() {
             </tr>
             <tr>
                 <th>
-                    <?php _e( 'Allow HTML in notes', 'wcs3' ); ?>
-                    <div class="wcs3-description"><?php _e( 'Allow certain HTML tags in notes field (to customize edit $wcs3_allowed_html in wcs.php).', 'wcs3' ); ?></div>    
+                    <?php _e( 'Allow all HTML in notes', 'wcs3' ); ?>
+                    <div class="wcs3-description"><?php _e( 'Allow all HTML tags in notes field. PLEASE NOTE: Allowing all HTML tags has security implications so use at your own risk.', 'wcs3' ); ?></div>    
                 </th>
                 <td><?php wcs3_bool_checkbox( 'wcs3_allow_html_in_notes', $wcs3_options['allow_html_in_notes'], __('Yes') ); ?></td>
             </tr>
@@ -186,41 +186,6 @@ function wcs3_standard_settings_page_callback() {
 }
 
 /**
- * Performs validation and updates the options array.
- * 
- * @param array $fields: field_id => validation callback
- *     Validation callbacks should return a sanitized value on success or 
- *     FALSE on failure.
- * @param array (ref) $options: the options array to update with the sanitized options.
- */
-function wcs3_perform_validation( $fields, $options ) {
-    $new_options = array();
-    foreach ( $fields as $id => $callback ) {
-    	$value = call_user_func( $callback, $_POST['wcs3_' . $id] );
-    	if ( $value !== FALSE ) {
-    		$new_options[$id] = $value;
-    	}
-    }
-    return $new_options;
-}
-
-/**
- * Displays a formatted message after options page submission.
- * 
- * @param string $message: should already be internationlized.
- * @param string $type: error, warning, or updated.
- */
-function wcs3_options_message( $message, $type = 'updated' ) {
-    ?>
-    <div id="wcs3-options-message">
-        <div class="<?php echo $type; ?>">
-            <p><?php echo $message; ?></p>
-        </div>
-    </div>
-    <?php 
-}
-
-/**
  * Gets the standard wcs3 settings from the database and return as an array.
  */
 function wcs3_load_settings() {
@@ -268,34 +233,3 @@ function wcs3_set_default_settings() {
     }
 }
 add_action( 'wcs3_default_settings', 'wcs3_set_default_settings' );
-
-/* ---------------- Validation functions --------------- */
-
-function wcs3_validate_weekday( $data ) {
-	$int = (int) $data;
-	if ( $int < 0 || $int > 6) {
-		return FALSE;
-	}
-	return $int;
-}
-
-function wcs3_validate_yes_no( $data ) {
-	if ( $data === 'yes' || $data === 'no' ) {
-		return $data;
-	}
-	else {
-		return FALSE;
-	}
-}
-
-function wcs3_validate_color( $data ) {
-    $pattern = '/^[a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9]$/';
-    preg_match( $pattern, $data, $matches );
-    
-    if ( !empty( $matches) ) {
-        return sanitize_text_field( $data );
-    }
-    else {
-        return FALSE;
-    }
-}

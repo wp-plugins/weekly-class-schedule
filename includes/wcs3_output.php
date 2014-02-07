@@ -12,12 +12,17 @@
 function wcs3_standard_shortcode( $atts ) {
     global $wcs3_js_data;
     
+    $output = '';
+    $buffer = '';
+    
 	extract( shortcode_atts( array(
 	    'layout' => 'normal',
 	    'location' => 'all',
+	    'style' => 'normal',
 	), $atts ) );
 	
 	$wcs3_options = wcs3_load_settings();
+	
 	$first_day_of_week = $wcs3_options['first_day_of_week'];
 	$mode = ( $wcs3_options['24_hour_mode'] == 'yes' ) ? '24' : '12';
 	
@@ -31,16 +36,18 @@ function wcs3_standard_shortcode( $atts ) {
 	$location_slug = preg_replace( "/[^A-Za-z0-9]/", '-', $location );
 	$location_slug = strtolower( $location_slug );
 	 
-	$wcs3_js_data[] = array(
+	$wcs3_js_data['options'] = $wcs3_options;
+	$wcs3_js_data['locations'][] = array(
     	'unique_start_times' => array_keys( $classes ),
     	'classes' => $classes,
     	'layout' => $layout,
-    	'options' => $wcs3_options,
+	    'location_slug' => $location_slug,
 	);
 	
 	
     // Render schedule.
-	$output = '<div class="wcs3-schedule-wrapper" id="wcs3-location-' . $location_slug . '">';
+    $output = apply_filters( 'wcs3_pre_render', $output, $style );
+	$output .= '<div class="wcs3-schedule-wrapper" id="wcs3-location-' . $location_slug . '">';
 	
 	if ( $layout == 'normal' ) {
 	    // Render normal layout
@@ -50,8 +57,21 @@ function wcs3_standard_shortcode( $atts ) {
 	    // Render list layout
 	    $output .= wcs3_render_list_schedule( $classes, $location, $weekdays );
 	}
+	else {
+	    $buffer = apply_filters( 'wcs3_render_layout', $buffer, $classes, $location, $weekdays, $wcs3_js_data );
+	    if ( empty( $buffer ) ) {
+	        $output .= __( 'Unsupported layout' );
+	    }
+	    else {
+	        $output .= $buffer;
+	    }
+	}
 	
 	$output .= '</div>';
+	$output = apply_filters( 'wcs3_post_render', $output, $style, $classes, $location, $weekdays );
+	
+	// Only load front end scripts and styles if it's our shortcode
+	add_action('wp_footer', 'wcs3_localize_front_end_scripts');
 	
 	return $output;
 }
@@ -67,7 +87,6 @@ function wcs3_localize_front_end_scripts() {
 	// Load JS and localize.
 	wcs3_load_frontend_scripts( $wcs3_js_data );
 }
-add_action('wp_footer', 'wcs3_localize_front_end_scripts');
 
 /**
  * Renders normal layout
@@ -194,11 +213,15 @@ function wcs3_load_frontend_scripts( $js_data = array() ) {
     wp_register_script('wcs3_hoverintent_js', WCS3_PLUGIN_URL . '/plugins/hoverintent/jquery.hoverIntent.minified.js', array( 'jquery' ), '1.0.0');
     wp_enqueue_script( 'wcs3_hoverintent_js' );
     
+    // Load common WCS3 JS
+    wp_register_script('wcs3_common_js', WCS3_PLUGIN_URL . '/js/wcs3_common.js', array( 'jquery' ), '1.0.0');
+    wp_enqueue_script( 'wcs3_common_js' );
+        
     // Load custom scripts
     wp_register_style( 'wcs3_front_css', WCS3_PLUGIN_URL . '/css/wcs3_front.css', false, '1.0.0' );
     wp_enqueue_style( 'wcs3_front_css' );
     
-    wp_register_script(wcs3_front_js, WCS3_PLUGIN_URL . '/js/wcs3_front.js', array( 'jquery' ), '1.0.0');
+    wp_register_script('wcs3_front_js', WCS3_PLUGIN_URL . '/js/wcs3_front.js', array( 'jquery' ), '1.0.0');
     wp_enqueue_script( 'wcs3_front_js' );
     
     // Localize script

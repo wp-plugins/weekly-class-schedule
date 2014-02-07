@@ -4,6 +4,14 @@
  */
 
 /**
+ * Returns the schedule table name including prefix.
+ */
+function wcs3_get_table_name() {
+	global $wpdb;
+	return $wpdb->prefix . 'wcs3_schedule';
+}
+
+/**
  * Returns all post of the specified type.
  *
  * @param string $type: e.g. class, instructor, etc.
@@ -40,6 +48,8 @@ function wcs3_get_weekdays( $abbr = FALSE ) {
     
     $days = array();
     
+    $abbr = apply_filters( 'wcs3_abbr_weekdays', $abbr );
+    
     if ($abbr) {
         $abbr_array = $wp_locale->weekday_abbrev;
         foreach ( $abbr_array as $value ) {
@@ -70,6 +80,8 @@ function wcs3_get_indexed_weekdays( $abbr = FALSE, $first_day_of_week = 0 ) {
     	$weekdays = array_merge( $slice1, $slice2 );
     }
     
+    $weekdays = apply_filters( 'wcs3_filter_indexed_weekdays', $weekdays );
+    
     return $weekdays;
 }
 
@@ -86,7 +98,7 @@ function wcs3_bool_checkbox( $name, $checked = 'yes', $text = '' ) {
     }
 
     echo '<input type="hidden" name="' . $name . '" id="' . $name . '" value="no">';
-    echo '<input type="checkbox" name="' . $name . '" id="' . $name . '" value="yes" ' . $check . '>' . $text;
+    echo '<input type="checkbox" name="' . $name . '" id="' . $name . '" value="yes" ' . $check . '><span class="wcs3-checkbox-text">' . $text . '</span>';
 }
 
 /**
@@ -94,7 +106,7 @@ function wcs3_bool_checkbox( $name, $checked = 'yes', $text = '' ) {
  * 
  * @param array $values: id => value.
  */
-function wcs3_select_list( $values, $name = '', $default = NULL, $id = '' ) {
+function wcs3_select_list( $values, $name = '', $default = NULL ) {
 	$output = ( $name == '' ) ? '<select>' : "<select id='$name' name='$name'>";
 
 	if ( !empty( $values ) ) {
@@ -141,4 +153,83 @@ function wcs3_get_system_timezone()
 function wcs3_set_global_timezone() {
     $timezone = wcs3_get_system_timezone();
     date_default_timezone_set( $timezone );
+}
+
+/**
+ * Displays a formatted message after options page submission.
+ *
+ * @param string $message: should already be internationlized.
+ * @param string $type: error, warning, or updated.
+ */
+function wcs3_options_message( $message, $type = 'updated' ) {
+	?>
+    <div id="wcs3-options-message">
+        <div class="<?php echo $type; ?>">
+            <p><?php echo $message; ?></p>
+        </div>
+    </div>
+    <?php 
+}
+
+
+/* ---------------- Validation functions --------------- */
+
+/**
+ * Performs validation and updates the options array.
+ *
+ * @param array $fields: field_id => validation callback
+ *     Validation callbacks should return a sanitized value on success or
+ *     FALSE on failure.
+ * @param array (ref) $options: the options array to update with the sanitized options.
+ */
+function wcs3_perform_validation( $fields, $options, $prefix = 'wcs3_' ) {
+	$new_options = array();
+	foreach ( $fields as $id => $callback ) {
+		$value = call_user_func( $callback, $_POST[$prefix . $id] );
+		if ( $value !== FALSE ) {
+			$new_options[$id] = $value;
+		}
+	}
+	return $new_options;
+}
+
+function wcs3_validate_weekday( $data ) {
+	$int = (int) $data;
+	if ( $int < 0 || $int > 6) {
+		return FALSE;
+	}
+	return $int;
+}
+
+function wcs3_validate_yes_no( $data ) {
+	if ( $data === 'yes' || $data === 'no' ) {
+		return $data;
+	}
+	else {
+		return FALSE;
+	}
+}
+
+function wcs3_validate_color( $data ) {
+	$pattern = '/^[a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9]$/';
+	preg_match( $pattern, $data, $matches );
+
+	if ( !empty( $matches) ) {
+		return sanitize_text_field( $data );
+	}
+	else {
+		return FALSE;
+	}
+}
+
+/**
+ * Removes all but allowed HTML tags.
+ *
+ * @see wcs.php for $wcs3_allowed_html_tags.
+ */
+function wcs3_validate_html( $data ) {
+	global $wcs3_allowed_html;
+
+	$data = wp_kses( $data, $wcs3_allowed_html );
+	return $data;
 }
