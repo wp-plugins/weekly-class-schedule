@@ -189,6 +189,7 @@ function wcs3_standard_settings_page_callback() {
  * Gets the standard wcs3 settings from the database and return as an array.
  */
 function wcs3_load_settings() {
+    wcs3_set_default_settings();
     $settings = get_option( 'wcs3_settings' );
     return unserialize( $settings );
 }
