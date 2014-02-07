@@ -186,41 +186,6 @@ function wcs3_standard_settings_page_callback() {
 }
 
 /**
- * Performs validation and updates the options array.
- * 
- * @param array $fields: field_id => validation callback
- *     Validation callbacks should return a sanitized value on success or 
- *     FALSE on failure.
- * @param array (ref) $options: the options array to update with the sanitized options.
- */
-function wcs3_perform_validation( $fields, $options ) {
-    $new_options = array();
-    foreach ( $fields as $id => $callback ) {
-    	$value = call_user_func( $callback, $_POST['wcs3_' . $id] );
-    	if ( $value !== FALSE ) {
-    		$new_options[$id] = $value;
-    	}
-    }
-    return $new_options;
-}
-
-/**
- * Displays a formatted message after options page submission.
- * 
- * @param string $message: should already be internationlized.
- * @param string $type: error, warning, or updated.
- */
-function wcs3_options_message( $message, $type = 'updated' ) {
-    ?>
-    <div id="wcs3-options-message">
-        <div class="<?php echo $type; ?>">
-            <p><?php echo $message; ?></p>
-        </div>
-    </div>
-    <?php 
-}
-
-/**
  * Gets the standard wcs3 settings from the database and return as an array.
  */
 function wcs3_load_settings() {
@@ -268,46 +233,3 @@ function wcs3_set_default_settings() {
     }
 }
 add_action( 'wcs3_default_settings', 'wcs3_set_default_settings' );
-
-/* ---------------- Validation functions --------------- */
-
-function wcs3_validate_weekday( $data ) {
-	$int = (int) $data;
-	if ( $int < 0 || $int > 6) {
-		return FALSE;
-	}
-	return $int;
-}
-
-function wcs3_validate_yes_no( $data ) {
-	if ( $data === 'yes' || $data === 'no' ) {
-		return $data;
-	}
-	else {
-		return FALSE;
-	}
-}
-
-function wcs3_validate_color( $data ) {
-    $pattern = '/^[a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9][a-zA-Z0-9]$/';
-    preg_match( $pattern, $data, $matches );
-    
-    if ( !empty( $matches) ) {
-        return sanitize_text_field( $data );
-    }
-    else {
-        return FALSE;
-    }
-}
-
-/**
- * Removes all but allowed HTML tags.
- * 
- * @see wcs.php for $wcs3_allowed_html_tags.
- */
-function wcs3_validate_html( $data ) {
-    global $wcs3_allowed_html;
-    
-    $data = wp_kses( $data, $wcs3_allowed_html );
-    return $data;
-}

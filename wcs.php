@@ -3,7 +3,7 @@
 Plugin Name: Weekly Class Schedule
 Plugin URI: http://pulsarwebdesign.com/weekly-class-schedule
 Description: Weekly Class Schedule generates a weekly schedule of classes. It provides you with an easy way to manage and update the schedule as well as the classes and instructors database.
-Version: 3.08
+Version: 3.09
 Text Domain: wcs3
 Author: Pulsar Web Design
 Author URI: http://pulsarwebdesign.com
@@ -25,7 +25,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-define( 'WCS3_VERSION', '3.08' );
+define( 'WCS3_VERSION', '3.09' );
 
 define( 'WCS3_REQUIRED_WP_VERSION', '3.0' );
 
@@ -97,14 +97,6 @@ $wcs3_js_data = array();
  * Load modules.
  */
 require_once WCS3_PLUGIN_DIR . '/wcs3_modules.php';
-
-/**
- * Returns the schedule table name including prefix.
- */
-function wcs3_get_table_name() {
-	global $wpdb;
-	return $wpdb->prefix . 'wcs3_schedule';
-}
 
 /**
  * Create the class, instructor, and classroom post types.
@@ -200,3 +192,62 @@ function wcs3_update() {
 	}
 }
 add_action( 'admin_init', 'wcs3_update' );
+
+/**
+ * Deletes all the data after wcs3
+ */
+function wcs3_delete_everything() {
+	global $wpdb;
+
+	delete_option( 'wcs3_db_version' );
+	delete_option( 'wcs3_settings' );
+	delete_option( 'wcs3_advanced_settings' );
+	delete_option( 'wcs3_version' );
+
+	$post_types = array(
+    	'wcs3_class',
+    	'wcs3_instructor',
+    	'wcs3_location',
+	);
+
+	foreach ( $post_types as $type ) {
+		$posts = get_posts( array(
+    		'numberposts' => -1,
+    		'post_type' => $type,
+    		'post_status' => 'any' ) );
+
+		foreach ( $posts as $post ) {
+			wp_delete_post( $post->ID, true );
+		}
+	}
+
+	$table_name = $wpdb->prefix . "wcs3_schedule";
+
+	$wpdb->query( "DROP TABLE IF EXISTS $table_name" );
+}
+
+/**
+ * Register activation hook
+ */
+function wcs3_register_activation() {
+	do_action( 'wcs3_activate_action' );
+}
+register_activation_hook( __FILE__, 'wcs3_register_activation' );	
+
+/**
+ * Activation
+ */
+function wcs3_activate() {
+    $version = get_option( 'wcs3_version' );
+    if ( $version == FALSE ) {
+        // This is a new installation. Let's create the necessary
+        // db table.
+        wcs3_create_db_tables();
+        
+        // Update version option
+        add_option( 'wcs3_version', WCS3_VERSION );
+    }
+}
+add_action( 'wcs3_activate_action', 'wcs3_activate' );
+
+

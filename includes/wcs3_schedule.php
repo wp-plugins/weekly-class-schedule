@@ -119,6 +119,7 @@ function wcs3_get_classes( $layout, $location, $mode = '12' ) {
     
     $schedule_table = wcs3_get_table_name();
     $posts_table = $wpdb->prefix . 'posts';
+    $meta_table = $wpdb->prefix . 'postmeta';
     
     $query = "SELECT 
                 c.post_title AS class_title, c.post_content AS class_desc,
@@ -130,6 +131,13 @@ function wcs3_get_classes( $layout, $location, $mode = '12' ) {
               INNER JOIN $posts_table i ON s.instructor_id = i.ID
               INNER JOIN $posts_table l ON s.location_id = l.ID
               WHERE s.visible = 1";
+    
+    $query = apply_filters( 
+            'wcs3_filter_get_classes_query', 
+            $query, 
+            $schedule_table,
+            $posts_table,
+            $meta_table );
     
     if ( $location != 'all' ) {
         $query .= " AND l.post_title = %s";
@@ -146,11 +154,11 @@ function wcs3_get_classes( $layout, $location, $mode = '12' ) {
             // Prep CSS class name
             wcs3_format_class_object( $class, $format );
             
-            if ( $layout == 'normal' ) {
-                $grouped[$class->start_hour_css][] = $class;
+            if ( $layout == 'list' ) {
+            	$grouped[$class->weekday][] = $class;
             }
-            else if ( $layout == 'list' ) {
-                $grouped[$class->weekday][] = $class;
+            else {
+                $grouped[$class->start_hour_css][] = $class;
             }
         }
     }
@@ -164,10 +172,12 @@ function wcs3_get_classes( $layout, $location, $mode = '12' ) {
  * @param object $class: reference to class object.
  * @param string $format: time format (e.g. 'g:i a').
  */
-function wcs3_format_class_object( &$class, $format ) {
+function wcs3_format_class_object( &$class, $format ) {	
     $class->start_hour_css = substr( str_replace( ':', '-', $class->start_hour), 0, 5);
     $class->end_hour_css = substr( str_replace( ':', '-', $class->end_hour), 0, 5);
     
     $class->start_hour = date( $format, strtotime( $class->start_hour ) );
     $class->end_hour = date( $format, strtotime( $class->end_hour ) );
+    
+    $class = apply_filters( 'wcs3_format_class', $class );
 }

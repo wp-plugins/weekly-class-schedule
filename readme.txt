@@ -3,7 +3,8 @@ Contributors: ty_pwd
 Tags: schedule, weekly, class schedule
 Requires at least: 3.0
 Tested up to: 3.8
-Stable tag: 3.08
+Stable tag: 3.09
+Donate link: http://pulsarwebdesign.com/weekly-class-schedule/
 License: GPLv2 or later
 
 Generate a weekly schedule of classes.
@@ -51,6 +52,12 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
 1. List Layout
 
 == Changelog ==
+= 3.09 =
+* Column width is now consistent (CSS issue).
+* Fixed installation issues.
+* Fixed issue where classes appear twice on the regular schedule
+* Minor bug fixes.
+
 = 3.08 =
 * Quick FF fix.
 
