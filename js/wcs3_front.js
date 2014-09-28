@@ -3,13 +3,6 @@
  */
 (function($) {
 	
-	/**
-	 * 	WCS3_DATA object available
-	 */
-		
-	// Globals
-	var g_options = WCS3_DATA.options;
-	
 	$(document).ready(function() {
 		var locations = WCS3_DATA.locations,
 			schedule_data;
@@ -19,7 +12,7 @@
 			schedule_data = locations[i];
 			
 			if (schedule_data.layout == 'normal') {
-				draw_classes(schedule_data);
+				WCS3_STD.draw_classes(schedule_data);
 			}
 		}
 		
@@ -27,13 +20,25 @@
 		WCS3_LIB.apply_qtip();
 	});
 	
+})(jQuery);
+
+
+var WCS3_STD = {
+			
+	/**
+	 * 	WCS3_DATA object available
+	 */
+		
+	// Globals
+	g_options: WCS3_DATA.options,
+	
 	/**
 	 * Populates the normal layout table with classes.
 	 */
-	var draw_classes = function(wcs3_data) {
+	draw_classes: function(wcs3_data) {
 		var classes = wcs3_data.classes,
 			start_times = wcs3_data.unique_start_times,
-			template = g_options.details_template;
+			template = this.g_options.details_template;
 				
 		for (start_hour in classes) {
 			var classes_data = classes[start_hour];
@@ -68,29 +73,29 @@
 					html += '</div>';
 					
 					// Insert both to specific location table as well as to global table.
-					$(item).append(html);
+					jQuery(item).append(html);
 				}
 			}
 		}
 		
-		wcs3_apply_parent_color();
-	}
+		this.wcs3_apply_parent_color();
+	},
 	
 	/**
 	 * Applied the primary color to the container td parent.
 	 */
-	var wcs3_apply_parent_color = function() {
-		$('td.wcs3-cell').each(function() {
-			var childs = $('.wcs3-class-container', this),
+	wcs3_apply_parent_color: function() {
+		jQuery('td.wcs3-cell').each(function() {
+			var childs = jQuery('.wcs3-class-container', this),
 				child_color;
 			
 			if (childs.length > 0) {
 				// Got a child class, let's match color.
-				child_color = $(childs).css('background-color');
-				$(this).css('background-color', child_color);
+				child_color = jQuery(childs).css('background-color');
+				jQuery(this).css('background-color', child_color);
 				
 			}
 		});
-	}
+	},
 	
-})(jQuery)
+};

@@ -132,6 +132,10 @@ function wcs3_colorpicker( $name, $default = 'DDFFDD', $size = 8 ) {
     echo '<span style="background: #' . $default . ';" class="colorpicker-preview ' . $name . '">&nbsp;</span>';
 }
 
+function wcs3_textfield( $name, $default = '', $size = 8 ) {
+    echo '<input type="text" id="' . $name . '" name="' . $name . '" value="' . $default . '" size="' . $size . '">';
+}
+
 
 /**
  * Returns the installation default timezone. The method first checks for a WP
@@ -220,6 +224,16 @@ function wcs3_validate_color( $data ) {
 	else {
 		return FALSE;
 	}
+}
+
+function wcs3_validate_is_numeric( $data ) {
+    if ( is_numeric( $data ) ) {
+        $num = intval( $data );
+        if ( $num !== 0 ) {
+            return sanitize_text_field( $data );
+        }
+    }
+    return FALSE;
 }
 
 /**

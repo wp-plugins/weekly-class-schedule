@@ -68,7 +68,7 @@ function wcs3_standard_shortcode( $atts ) {
 	}
 	
 	$output .= '</div>';
-	$output = apply_filters( 'wcs3_post_render', $output, $style, $classes, $location, $weekdays );
+	$output = apply_filters( 'wcs3_post_render', $output, $style, $location, $weekdays, $mode );
 	
 	// Only load front end scripts and styles if it's our shortcode
 	add_action('wp_footer', 'wcs3_localize_front_end_scripts');
