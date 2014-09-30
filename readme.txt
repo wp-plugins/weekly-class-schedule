@@ -3,7 +3,7 @@ Contributors: ty_pwd
 Tags: schedule, weekly, class schedule
 Requires at least: 3.0
 Tested up to: 4.0
-Stable tag: 3.11
+Stable tag: 3.12
 Donate link: http://pulsarwebdesign.com/weekly-class-schedule/
 License: GPLv2 or later
 
