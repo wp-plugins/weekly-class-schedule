@@ -28,6 +28,7 @@ Under the "Schedule" tab you will find the "Import/Update" page. Go there and cl
 * Supports multiple classrooms/schedules.
 * Switchable "Instructor collision detection" and "Location collision detection".
 * Display class and instructor details directly on the schedule using qTip2.
+* For additional features, check out the new [Expansion Pack](http://pulsarwebdesign.com/downloads/weekly-class-schedule-expansion-pack-1).
 
 = Weekly Class Schedule Needs Your Support =
 
