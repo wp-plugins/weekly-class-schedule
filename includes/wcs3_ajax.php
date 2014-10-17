@@ -86,6 +86,7 @@ function wcs3_add_or_update_schedule_entry_callback() {
     if ( $_POST['notes'] != NULL) {
         if ( $wcs3_options['allow_html_in_notes'] == 'yes' ) {
             $notes = stripslashes_deep($_POST['notes']);
+            $notes = stripslashes_deep($notes);
         }
         else {
             global $wcs3_allowed_html;

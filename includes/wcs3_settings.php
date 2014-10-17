@@ -94,9 +94,9 @@ function wcs3_standard_settings_page_callback() {
             <tr>
                 <th>
                     <?php _e( 'Class Details Template', 'wcs3' ); ?>
-                    <div class="wcs3-description"><?php _e( 'Use placholders to design the way the class details appear in the schedule. Certain HTML tags are allowed (to customize edit $wcs3_allowed_html in wcs.php).', 'wcs3' ); ?></div>
+                    <div class="wcs3-description"><?php _e( 'Use placheolders to design the way the class details appear in the schedule. Certain HTML tags are allowed (to customize edit $wcs3_allowed_html in wcs.php).', 'wcs3' ); ?></div>
                     <br/>
-                    <div class="wcs3-description"><strong><?php _e( 'Available placholders:', 'wcs3'); ?></strong> [class], [instructor], [location], [start hour], [end hour], [notes].</div>
+                    <div class="wcs3-description"><strong><?php _e( 'Available placeholders:', 'wcs3'); ?></strong> [class], [instructor], [location], [start hour], [end hour], [notes].</div>
                 </th>
                 <td>
                     <textarea name="wcs3_details_template" cols="40" rows="6"><?php echo $wcs3_options['details_template']; ?></textarea>
