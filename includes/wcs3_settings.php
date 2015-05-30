@@ -51,9 +51,16 @@ function wcs3_standard_settings_page_callback() {
     <p>
         <?php _e( 'To display all the classes in a single schedule, simply enter the shortcode', 'wcs3'); ?><code>[wcs]</code>
         <?php _e( 'inside a page or a post.', 'wcs3 '); ?>
-        <?php _e( 'It\'s also possible to output the schedule as a list using the list layout:', 'wcs3' ); ?><code>[wcs layout=list]</code>
-        <?php _e( 'In order to display a single location, use the location attribute like this:', 'wcs3' ); ?><code>[wcs location="Classroom A"]</code>
-        <?php _e( 'Where "Classroom A" is the name of the location as it appears in the database.', 'wcs3' ); ?>
+        <?php _e( 'It\'s also possible to output the schedule as a list using the list layout:', 'wcs3' ); ?><code>[wcs layout=list]</code>.
+        <?php _e( 'In order to filter a schedule by a specific class, instructor, location, or any other combination of the three, use the class, instructor, and location attributes. For example:' ); ?>
+        <ul>
+            <li>
+                <div><code>[wcs location="Classroom A"]</code> (<?php _e( 'Only display "Classroom A"'); ?>)</div>
+                <div><code>[wcs instructor="John Doe"]</code> (<?php _e( 'Only display classes by "John Doe"'); ?>)</div>
+                <div><code>[wcs class="Yoga"]</code> (<?php _e( 'Only display "Yoga" classes'); ?>)</div>
+            </li>
+        </ul>
+
     </p>
     
     <p> 
