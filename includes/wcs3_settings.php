@@ -51,9 +51,16 @@ function wcs3_standard_settings_page_callback() {
     <p>
         <?php _e( 'To display all the classes in a single schedule, simply enter the shortcode', 'wcs3'); ?><code>[wcs]</code>
         <?php _e( 'inside a page or a post.', 'wcs3 '); ?>
-        <?php _e( 'It\'s also possible to output the schedule as a list using the list layout:', 'wcs3' ); ?><code>[wcs layout=list]</code>
-        <?php _e( 'In order to display a single location, use the location attribute like this:', 'wcs3' ); ?><code>[wcs location="Classroom A"]</code>
-        <?php _e( 'Where "Classroom A" is the name of the location as it appears in the database.', 'wcs3' ); ?>
+        <?php _e( 'It\'s also possible to output the schedule as a list using the list layout:', 'wcs3' ); ?><code>[wcs layout=list]</code>.
+        <?php _e( 'In order to filter a schedule by a specific class, instructor, location, or any other combination of the three, use the class, instructor, and location attributes. For example:' ); ?>
+        <ul>
+            <li>
+                <div><code>[wcs location="Classroom A"]</code> (<?php _e( 'Only display "Classroom A"'); ?>)</div>
+                <div><code>[wcs instructor="John Doe"]</code> (<?php _e( 'Only display classes by "John Doe"'); ?>)</div>
+                <div><code>[wcs class="Yoga"]</code> (<?php _e( 'Only display "Yoga" classes'); ?>)</div>
+            </li>
+        </ul>
+
     </p>
     
     <p> 
@@ -110,6 +117,19 @@ function wcs3_standard_settings_page_callback() {
                 <td><?php wcs3_bool_checkbox( 'wcs3_allow_html_in_notes', $wcs3_options['allow_html_in_notes'], __('Yes') ); ?></td>
             </tr>
         </table>
+
+        <?php if ( ! is_plugin_active( 'wcs-expansion-pack-1/wcs-ex1.php') ) : ?>
+            <div class="ex1-link-box">
+                <p>Check out the new <a href="http://pulsarwebdesign.com/downloads/weekly-class-schedule-expansion-pack-1" target="_blank">Expansion Pack</a> for additional features such as graphical representation of class duration, per class/instructor/location color customization, responsive layout, and more.</p>
+
+                <p>
+                    <img src="<?php echo WCS3_PLUGIN_URL; ?>/img/expansion-pack-1-graphic-624x315.jpg" alt="Expansion pack 1 graphic" />
+                </p>
+                <p style="text-align: center">
+                    <a class="button button-primary" href="http://pulsarwebdesign.com/downloads/weekly-class-schedule-expansion-pack-1" target="_blank">Check it out!</a>
+                </p>
+            </div>
+        <?php endif; ?>
         
         <h3> <?php _e( 'Appearance Settings', 'wcs3' ); ?></h3>
         <table class="form-table">
@@ -177,7 +197,7 @@ function wcs3_standard_settings_page_callback() {
                 <td><?php wcs3_colorpicker( 'wcs3_color_links', $wcs3_options['color_links'] ) ?></td>
             </tr>
         </table>
-        
+
         <?php submit_button( __( 'Save Settings' ) ); ?>
         <?php wp_nonce_field( 'wcs3_save_options', 'wcs3_options_nonce' ); ?>
     </form>

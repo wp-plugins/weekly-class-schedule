@@ -2,8 +2,8 @@
 Contributors: ty_pwd
 Tags: schedule, weekly, class schedule
 Requires at least: 3.0
-Tested up to: 4.0
-Stable tag: 3.12
+Tested up to: 4.2.2
+Stable tag: 3.13
 Donate link: http://pulsarwebdesign.com/weekly-class-schedule/
 License: GPLv2 or later
 
@@ -53,6 +53,9 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
 1. List Layout
 
 == Changelog ==
+= 3.13 =
+* Added ability to filter schedule by class and/or instructor
+
 = 3.12 =
 * Various tweaks and fixes.
 * Added support for expansion packs.
