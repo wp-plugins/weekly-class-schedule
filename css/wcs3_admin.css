@@ -84,3 +84,20 @@ td.wcs3-col-label {
 	border-radius: 5px;
 	border: 1px solid #aaa;
 }
+
+.ex1-link-box {
+	background-color: #D8D8D8;
+	max-width: 500px;
+	padding: 0 14px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	border-color: #aaa;
+	border-width: 1px;
+	border-style: solid;
+    -webkit-box-shadow: 0 0 5px 0 rgba(0,0,0,0.4);
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.4);
+}
+
+.ex1-link-box img {
+    max-width: 100%;
+}
