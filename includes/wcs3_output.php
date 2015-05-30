@@ -7,7 +7,7 @@
  * Standard [wcs] shortcode
  * 
  * Default:
- *     [wcs layout="normal" location="all"]
+ *     [wcs layout="normal" location="all" class="all" instructor="all"]
  */
 function wcs3_standard_shortcode( $atts ) {
     global $wcs3_js_data;
