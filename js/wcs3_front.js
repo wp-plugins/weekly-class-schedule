@@ -93,6 +93,9 @@ var WCS3_STD = {
 				// Got a child class, let's match color.
 				child_color = jQuery(childs).css('background-color');
 				jQuery(this).css('background-color', child_color);
+
+				// And add a contain-class class :)
+				jQuery(this).addClass('wcs3-active-cell');
 				
 			}
 		});

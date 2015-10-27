@@ -198,6 +198,20 @@ function wcs3_standard_settings_page_callback() {
             </tr>
         </table>
 
+        <?php if ( ! is_plugin_active( 'wcs-expansion-pack-2/wcs-ex2.php') ) : ?>
+            <div class="ex1-link-box" style="max-width: 420px;">
+                <p>Check out <a href="http://pulsarwebdesign.com/downloads/weekly-class-schedule-expansion-pack-2" target="_blank">Expansion Pack 2</a> for additional styling options such as shadows and border radius:</p>
+
+                <p style="text-align: center;">
+                    <img style="border: 1px solid #B7B7B7; border-radius: 7px;"
+                            src="<?php echo WCS3_PLUGIN_URL; ?>/img/wcs-ex2-demo.gif" alt="Expansion pack 2 graphic" />
+                </p>
+                <p style="text-align: center">
+                    <a class="button button-primary" href="http://pulsarwebdesign.com/downloads/weekly-class-schedule-expansion-pack-2" target="_blank">Check it out!</a>
+                </p>
+            </div>
+        <?php endif; ?>
+
         <?php submit_button( __( 'Save Settings' ) ); ?>
         <?php wp_nonce_field( 'wcs3_save_options', 'wcs3_options_nonce' ); ?>
     </form>
