@@ -315,7 +315,7 @@
 		// Add cancel editing button
 		if ($('#wcs3-cancel-editing').length == 0) {
 			cancel_button = '<div id="wcs3-cancel-editing-wrapper"><a href="#" id="wcs3-cancel-editing">' + WCS3_AJAX_OBJECT.cancel_editing + '</a></div>';
-			$('#wcs3-schedule-management-form-wrapper').append(cancel_button);
+			$('#wcs3-schedule-buttons-wrapper').append(cancel_button);
 			$('#wcs3-cancel-editing').click(function() {
 				exit_editing_mode();
 			})

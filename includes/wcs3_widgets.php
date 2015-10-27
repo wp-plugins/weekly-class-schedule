@@ -58,9 +58,11 @@ class WCS3_TodayClassesWidget extends WP_Widget {
 		$output .= '<ul class="wcs3-today-classes-widget-list">';
 		
 		foreach ( $schedule as $key => $entry ) {
-		    $start_hour = $entry['start_hour'];
-		    $class_name = $entry['class'];
-		    $output .= "<li>$start_hour - $class_name</li>";
+		    if ( isset( $entry['visible'] ) && $entry['visible'] == 'Visible' ) {
+				$start_hour = $entry['start_hour'];
+				$class_name = $entry['class'];
+				$output .= "<li>$start_hour - $class_name</li>";
+			}
 		}
 		
 		$output .= '</ul>';

@@ -2,8 +2,8 @@
 Contributors: ty_pwd
 Tags: schedule, weekly, class schedule
 Requires at least: 3.0
-Tested up to: 4.2.2
-Stable tag: 3.14
+Tested up to: 4.3.1
+Stable tag: 3.17
 Donate link: http://pulsarwebdesign.com/weekly-class-schedule/
 License: GPLv2 or later
 
@@ -28,7 +28,7 @@ Under the "Schedule" tab you will find the "Import/Update" page. Go there and cl
 * Supports multiple classrooms/schedules.
 * Switchable "Instructor collision detection" and "Location collision detection".
 * Display class and instructor details directly on the schedule using qTip2.
-* For additional features, check out the new [Expansion Pack](http://pulsarwebdesign.com/downloads/weekly-class-schedule-expansion-pack-1).
+* For additional features, check out [Expansion Pack 1](http://pulsarwebdesign.com/downloads/weekly-class-schedule-expansion-pack-1) and [Expansion Pack 2](http://pulsarwebdesign.com/downloads/weekly-class-schedule-expansion-pack-2).
 
 = Weekly Class Schedule Needs Your Support =
 
@@ -53,6 +53,15 @@ For a demonstration visit [wcs.pulsarwebdesign.com/schedule](http://wcs.pulsarwe
 1. List Layout
 
 == Changelog ==
+
+= 3.17 =
+* Fixed a small file_get_contents() bug
+
+= 3.16 =
+* Added CSS classes
+
+= 3.15 =
+* Bug fixes and other minor improvements
 
 = 3.14 =
 * Bug fixes
